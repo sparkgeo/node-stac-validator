@@ -1,22 +1,5 @@
-require('dotenv').config()
 const { get } = require('axios')
-
-// 1. Get the Stac versions
-
-// 2. Get the root file
-
-// 3. Validate the root file
-
-// 4. Recursion!
-
-const stacVersions = [
-  'v0.4.0',
-  'v0.4.1',
-  'v0.5.0',
-  'v0.5.1',
-  'v0.5.2',
-  'v0.6.0',
-]
+// Can be extended to include other urls
 const baseUrls = {
   cdn: {
     catalog: version => `https://cdn.staclint.com/${version}/catalog.json`,
@@ -24,8 +7,6 @@ const baseUrls = {
     collection: version =>
       `https://cdn.staclint.com/${version}/collection.json`,
   },
-  // TODO: Figure out how to crunch this into a function
-  // git: 'https://raw.githubusercontent.com/radiantearth/stac-spec/',
 }
 
 const catalogRequests = version => [
@@ -34,4 +15,12 @@ const catalogRequests = version => [
   get(baseUrls.cdn.collection(version)),
 ]
 
-Promise.all(catalogRequests('v0.6.0')).then(values => console.log(values))
+module.exports = async version => {
+  const stacStandardArray = await Promise.all(catalogRequests('v0.6.0'))
+
+  return {
+    catalog: stacStandardArray[0].data,
+    item: stacStandardArray[1].data,
+    collection: stacStandardArray[2].data,
+  }
+}
