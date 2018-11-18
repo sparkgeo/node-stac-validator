@@ -1,3 +1,5 @@
+// V 0.6 Standard for Collection
+
 module.exports = {
   $schema: 'http://json-schema.org/draft-06/schema#',
   id: 'collection.json#',
@@ -7,6 +9,7 @@ module.exports = {
   type: 'object',
   required: ['stac_version', 'id', 'description', 'license', 'extent', 'links'],
   additionalProperties: true,
+
   properties: {
     stac_version: {
       title: 'STAC version',

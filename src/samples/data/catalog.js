@@ -1,6 +1,7 @@
 module.exports = {
   name: 'CBERS4 MUX 057/122',
   description: 'CBERS4 MUX camera path 057 row 122 catalog',
+  stac_version: 'v0.6.0',
   links: [
     {
       rel: 'self',

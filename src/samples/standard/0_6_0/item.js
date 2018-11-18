@@ -1,17 +1,21 @@
+// V 0.6 standard for item
+
 module.exports = {
   $schema: 'http://json-schema.org/draft-06/schema#',
   id: 'item.json#',
   title: 'STAC Item',
-  type: 'object',
   description:
     'This object represents the metadata for an item in a SpatioTemporal Asset Catalog.',
+  type: 'object',
+  required: ['id', 'type', 'links', 'assets', 'stac_version'],
   additionalProperties: true,
+
   allOf: [
     {
       $ref: '#/definitions/core',
     },
   ],
-  definitions: {
+  properties: {
     core: {
       allOf: [
         {
