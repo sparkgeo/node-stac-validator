@@ -1,16 +1,17 @@
 {
-  "name": "node-stacvalidator",
+  "name": "stac-validator",
+  "author": "Sparkgeo",
+  "repository": {"type": "github", "url": "https://github.com/sparkgeo/node-stacvalidator"},
   "version": "0.0.1",
-  "description": "A Node-based Version of stac-validator",
+  "description": "a node implementation of stac-validator",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
     "prettier": "prettier -- --write 'src/**/*.js'",
-    "lint": "node_modules/.bin/eslint . --fix --ext .js",
+    "lint": "node_modules/.bin/eslint src/ --fix --ext .js",
     "test": "jest src",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage src"
   },
-  "author": "Brian Bancroft",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
