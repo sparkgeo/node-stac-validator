@@ -8,9 +8,10 @@
   },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
-  "plugins": ["import", "promise", "standard"],
+  "plugins": ["import", "jest", "promise", "standard"],
   "globals": {
     "Option": true,
     "document": true,
@@ -358,11 +359,7 @@
     ],
     "yield-star-spacing": ["error", "both"],
     "yoda": ["error", "never"],
-    "import/export": "error",
-    "import/first": "error",
-    "import/no-duplicates": "error",
-    "import/no-named-default": "error",
-    "import/no-webpack-loader-syntax": "error",
+
     "promise/param-names": "error",
     "standard/array-bracket-even-spacing": ["error", "either"],
     "standard/computed-property-even-spacing": ["error", "even"],
