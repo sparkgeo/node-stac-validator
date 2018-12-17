@@ -1,6 +1,5 @@
-;(async () => {
+;(async() => {
   require('dotenv').config()
-  const { stacStandard } = require('./helpers')
 
   // 1. Get the Stac versions
 
@@ -10,6 +9,7 @@
 
   // 4. Recursion!
 
+  // eslint-disable-next-line
   const stacVersions = [
     'v0.4.0',
     'v0.4.1',
@@ -18,7 +18,6 @@
     'v0.5.2',
     'v0.6.0',
   ]
-  // const standard = await stacStandard({version: 'v0.6.0'})
   const { standards } = require('./samples')
   let errors = []
 
@@ -34,7 +33,7 @@
 
   // Determine whether file has stac_version element
   // TODO determine whether stac version is an approved one
-  if (!'stac_version' in data) {
+  if (!('stac_version' in data)) {
     // return fail
   }
 
@@ -48,9 +47,9 @@
     stacElements.includes(requiredElement)
       ? null
       : {
-          error: 'missing an element here...',
-          requiredElement,
-        }
+        error: 'missing an element here...',
+        requiredElement,
+      }
 
   // Validate existence of required elements
   console.log('standard -> ', standard)
