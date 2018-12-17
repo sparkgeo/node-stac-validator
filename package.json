@@ -2,7 +2,7 @@
   "name": "stac-validator",
   "author": "Sparkgeo",
   "repository": {"type": "github", "url": "https://github.com/sparkgeo/node-stacvalidator"},
-  "version": "0.0.1",
+  "version": "0.6.0",
   "description": "a node implementation of stac-validator",
   "main": "index.js",
   "scripts": {
