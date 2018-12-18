@@ -3,6 +3,14 @@ const verifyItem = require('./verify-item')
 console.log(verifyItem)
 
 describe('item STAC Verification for V0.6.0', () => {
+  describe('calling the method', () => {
+    it('must contain a JS stac object "asset"', () => {})
+    it('can permit a "version" parameter', () => {})
+    describe('when there is no version parameter in use', () => {
+      it('will default to the latest STAC version', () => {})
+    })
+  })
+
   describe('Base elements of the STAC item', () => {
     it('must contain an "id" attribute"', () => {})
     it('must contain a "type" attribute', () => {})

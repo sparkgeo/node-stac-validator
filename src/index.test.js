@@ -12,16 +12,39 @@ describe("The testing suite's functionality", () => {
 })
 
 describe('The entry point', () => {
-  it('has a method "validateFromUrl"', () => {})
-  it('has a method "validateFromJson"', () => {})
+  it('has a method "validateFromUrl"', () => {
+    const response = validateFromUrl()
+    expect(typeof response).toEqual('object')
+  })
+  it('has a method "validateFromJson"', () => {
+    const response = validateFromJson()
+    expect(typeof response).toEqual('object')
+  })
 
   describe('the VALIDATE FROM URL method', () => {
-    it('must have a "url" parameter', () => {})
+    it('must have a "url" parameter', () => {
+      const { success } = validateFromUrl({ type: 'collection', dig: false })
+      expect(success).toEqual(false)
+    })
+
     it('accepts a "dig" parameter', () => {})
-    it('has a type parameter', () => {})
+    it('accepts a "version" parameter', () => {})
+
+    it('must have a "type" parameter', () => {
+      const { success } = validateFromUrl({ url: '...' })
+      expect(success).toEqual(false)
+    })
+
     describe('The URL parameter', () => {
-      it('collects the data if present', () => {})
-      it('gracefully fails if file not found', () => {})
+      it('succeeds if a valid stac file is present', () => {
+        const url =
+          'https://raw.githubusercontent.com/radiantearth/stac-spec/master/item-spec/examples/digitalglobe-sample.json'
+        const type = 'item'
+        const { success } = validateFromUrl({ type, url })
+        expect(success).toEqual(true)
+      })
+
+      it('gracefully fails if the url does not point to a valid asset', () => {})
       it('determines the version and asset type from the file', () => {})
       it('gracefully fails if the version does not match up', () => {})
     })
@@ -34,14 +57,24 @@ describe('The entry point', () => {
       it('is a string', () => {})
       it('provides an error if it is not one of "collection", "item", "catalog"', () => {})
     })
+
+    describe('the version parameter', () => {
+      it('defaults to the latest version when blank')
+    })
   })
   describe('the VALIDATE FROM JSON method', () => {
     it('accepts a "item" parameter', () => {})
     it('accepts a "collection", parameter', () => {})
     it('accepts a "catalog" parameter', () => {})
     it('accepts a "dig" parameter', () => {})
+    it('accepts a "version" parameter', () => {})
+
     it('gracefully fails if one of "item", "collection", or "catalog" not present', () => {})
     it('gracefully failes when more of one of "item", "collection", or "catalog" is present', () => {})
+
+    describe('the version parameter', () => {
+      it('defaults to the latest version when blank')
+    })
 
     describe('when using the ITEM attribute', () => {
       describe('when using a valid item', () => {
