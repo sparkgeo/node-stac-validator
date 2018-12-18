@@ -73,7 +73,8 @@ describe('The entry point', () => {
     it('gracefully failes when more of one of "item", "collection", or "catalog" is present', () => {})
 
     describe('the version parameter', () => {
-      it('defaults to the latest version when blank')
+      it('defaults to the latest version when blank', () => {})
+      it('responds with an error if it fails to match a known version', () => {})
     })
 
     describe('when using the ITEM attribute', () => {
