@@ -9,6 +9,10 @@ Validates a spatial temporal catalog asset based on the specs laid out by [Radia
 - The response should grow over time as more of the response comes in, in order to support streaming (future goal)
 - An input should either include a url or a json object
 
+## Versions
+
+In order to denote compatability with the Stac specification, the first stable version will be 0.6.0, which is the latest version for STAC.
+
 ## Intended Usage
 
 This will be subject to change until this is released on NPM
@@ -62,6 +66,9 @@ A successful response returns an object with a `success` boolean, as well as a `
 
 A failure response shares the `success` and `verified_files` attributes. In addition, it adds a new attribute called `errors`. The errors object is flat, meaning that there should be no nester arrays of objects present.
 
+The errors object is subject to change until the first stable release.
+
+
 ```js
   {
     success: false,
@@ -76,3 +83,20 @@ A failure response shares the `success` and `verified_files` attributes. In addi
   }
 ```
 
+## TODO's
+
+the following is the progress of this progress. Because, at this point, it is a one-man show, I'm documenting everything here.
+
+- [x] Initial Building
+- [x] Mock integration tests from requirements
+- [x] Set up and document entry point
+- [ ] Build verification function for "catalog" assets
+- [ ] Build verification function for "collection" assets
+- [ ] Build verification function for "item" assets
+- [ ] Pull common functions of three into helpers
+- [ ] Refactor common error messages into helpers
+- [ ] Build unit tests for helpers
+- [ ] Integrate with CircleCI
+- [ ] Publish into NPM on release
+- [ ] Enforce Git Flow for versioning
+- [ ] Use Circle CI for CD into NPM
