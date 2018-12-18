@@ -55,10 +55,6 @@ A successful response returns an object with a `success` boolean, as well as a `
 ```js
   {
     success: true,
-    verified_files: [{
-      type: 'remote', // OPTIONS: remote / local // TODO: Better naming..?
-      url: '//s3.amazonaws.com/...', // OPTIONAL
-    }, {...}]
   }
 ```
 
@@ -69,10 +65,6 @@ A failure response shares the `success` and `verified_files` attributes. In addi
 ```js
   {
     success: false,
-    verified_files: [{
-      type: 'remote',
-      url: '...',
-    }, {...}],
     errors: [
       {
         type: '',
