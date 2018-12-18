@@ -1,5 +1,5 @@
-const index = require('./index')
-console.log(index)
+// eslint-disable-next-line
+const { validateFromUrl, validateFromJson } = require('./index')
 
 describe("The testing suite's functionality", () => {
   const expected = true
@@ -18,6 +18,7 @@ describe('The entry point', () => {
   describe('the VALIDATE FROM URL method', () => {
     it('must have a "url" parameter', () => {})
     it('accepts a "dig" parameter', () => {})
+    it('has a type parameter', () => {})
     describe('The URL parameter', () => {
       it('collects the data if present', () => {})
       it('gracefully fails if file not found', () => {})
@@ -28,6 +29,10 @@ describe('The entry point', () => {
       it('defaults to false if not provided', () => {})
       it('validates nested catalogs, collections or items if true', () => {})
       it('ignores nested catalogs, collections, or items if set to false', () => {})
+    })
+    describe('The TYPE parameter', () => {
+      it('is a string', () => {})
+      it('provides an error if it is not one of "collection", "item", "catalog"', () => {})
     })
   })
   describe('the VALIDATE FROM JSON method', () => {
