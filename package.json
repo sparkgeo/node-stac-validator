@@ -1,7 +1,10 @@
 {
   "name": "stac-validator",
   "author": "Sparkgeo",
-  "repository": {"type": "github", "url": "https://github.com/sparkgeo/node-stacvalidator"},
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/sparkgeo/node-stacvalidator"
+  },
   "version": "0.6.0",
   "description": "a node implementation of stac-validator",
   "main": "index.js",
@@ -18,12 +21,14 @@
     "ramda": "^0.26.1"
   },
   "devDependencies": {
+    "eslint": "^5.10.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.1.2",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^1.2.1",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "prettier": "^1.15.3"
   },
   "husky": {
     "hooks": {
