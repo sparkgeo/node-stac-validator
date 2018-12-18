@@ -24,12 +24,23 @@ const validateFromUrl = async ({ url, type, version, dig } = {}) => {
   // Ensure basic parameters are valid before linting
   if (!url) return errorResponses.missingUrl
   if (!type) return errorResponses.missingTypeAttribute
-  head(url).catch(e => {
+  await head(url).catch(e => {
     return errorResponses.cannotConnectToEntryAsset(url)
   })
-  const { data: asset } = await get(url)
+  const { data: asset } = await get(url).catch(e => {
+    return {
+      success: false,
+      message: 'unknown error',
+      content: e,
+    }
+  })
 
-  return verifyAsset(type)({ asset, location, useRecursion, useVersion })
+  return verifyAsset(type)({
+    asset,
+    location,
+    useRecursion,
+    useVersion,
+  })
 }
 
 module.exports = {

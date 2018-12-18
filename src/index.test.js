@@ -12,35 +12,38 @@ describe("The testing suite's functionality", () => {
 })
 
 describe('The entry point', () => {
-  it('has a method "validateFromUrl"', () => {
-    const response = validateFromUrl()
+  it('has a method "validateFromUrl"', async () => {
+    const response = await validateFromUrl()
     expect(typeof response).toEqual('object')
   })
-  it('has a method "validateFromJson"', () => {
-    const response = validateFromJson()
+  it('has a method "validateFromJson"', async () => {
+    const response = await validateFromJson()
     expect(typeof response).toEqual('object')
   })
 
   describe('the VALIDATE FROM URL method', () => {
-    it('must have a "url" parameter', () => {
-      const { success } = validateFromUrl({ type: 'collection', dig: false })
+    it('must have a "url" parameter', async () => {
+      const { success } = await validateFromUrl({
+        type: 'collection',
+        dig: false,
+      })
       expect(success).toEqual(false)
     })
 
     it('accepts a "dig" parameter', () => {})
     it('accepts a "version" parameter', () => {})
 
-    it('must have a "type" parameter', () => {
-      const { success } = validateFromUrl({ url: '...' })
+    it('must have a "type" parameter', async () => {
+      const { success } = await validateFromUrl({ url: '...' })
       expect(success).toEqual(false)
     })
 
     describe('The URL parameter', () => {
-      it('succeeds if a valid stac file is present', () => {
+      it('succeeds if a valid stac file is present', async () => {
         const url =
           'https://raw.githubusercontent.com/radiantearth/stac-spec/master/item-spec/examples/digitalglobe-sample.json'
         const type = 'item'
-        const { success } = validateFromUrl({ type, url })
+        const { success } = await validateFromUrl({ type, url })
         expect(success).toEqual(true)
       })
 
@@ -59,7 +62,7 @@ describe('The entry point', () => {
     })
 
     describe('the version parameter', () => {
-      it('defaults to the latest version when blank')
+      it('defaults to the latest version when blank', () => {})
     })
   })
   describe('the VALIDATE FROM JSON method', () => {
