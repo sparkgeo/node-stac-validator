@@ -1,1 +1,3 @@
-module.exports = {}
+const verifyCatalog = () => {}
+
+module.exports = verifyCatalog

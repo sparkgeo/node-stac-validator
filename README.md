@@ -21,14 +21,14 @@ Validates a spatial temporal catalog asset based on the specs laid out by [Radia
 This will be subject to change until this is released on NPM
 
 ```js
-import { validateFromUrl, validateFromJson } from '@sparkgeo/stac-validator'
+    import { validateFromUrl, validateFromJson } from '@sparkgeo/stac-validator'
 
-const catalog = { ... } // stac catalog
-const collection = { ... } // stac collection
-const item = { ... } // stac item
+    const catalog = { ... } // stac catalog
+    const collection = { ... } // stac collection
+    const item = { ... } // stac item
 
-const responseFromUrl = validateStacFromUrl({url: 'https://...', dig: true})
-const responseFromJsonItem = validate({item, dig: false})
-const responseFromJsonCollection = validate({collection, dig: false})
-const responseFromJsonCatalog = validate({collection, dig: false})
+    const responseFromUrl = validateStacFromUrl({url: 'https://...', dig: true})
+    const responseFromJsonItem = validateFromJson({item, dig: false})
+    const responseFromJsonCollection = validateFromJson({collection, dig: false})
+    const responseFromJsonCatalog = validateFromJson({catalog, dig: false})
 ```
