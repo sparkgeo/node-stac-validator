@@ -2,58 +2,61 @@
 
 exports.missingUrl = {
   success: false,
-  verified_files: [],
   errors: [
     {
-      type: 'remote',
-      category: 'unknown',
-      errors: ['missing url'],
+      location: 'unknown',
+      message: 'missing url',
     },
   ],
 }
-exports.missingTypeParameter = {
+
+exports.cannotConnectToEntryAsset = url => ({
   success: false,
-  verified_files: [],
   errors: [
     {
-      type: 'json',
-      category: 'unknown',
-      errors: ['missing one of "item", "catalog", or "collection" parameters'],
+      location: url,
+      message: 'cannot connect to url',
+    },
+  ],
+})
+
+exports.missingAsset = {
+  success: false,
+  errors: [
+    {
+      location: 'unknown',
+      message: 'missing the main asset',
     },
   ],
 }
 
 exports.missingTypeAttribute = {
   success: false,
-  verified_files: [],
   errors: [
     {
-      type: 'remote',
-      category: 'unknown',
-      errors: ['missing one of "item", "catalog", or "collection" attributes'],
-    },
-  ],
-}
-exports.unclearTypeAttribute = {
-  success: false,
-  verified_files: [],
-  errors: [
-    {
-      type: 'remote',
-      category: 'unknown',
-      errors: ['type must be one of "item", "catalog", or "collection"'],
+      location: 'unknown',
+      message: 'missing one of "item", "catalog", or "collection" attributes',
     },
   ],
 }
 
-exports.extraTypeAttribute = {
+// eslint-disable-next-line
+exports.unclearTypeAttribute = ({} = {}) => ({
   success: false,
-  verified_files: [],
   errors: [
     {
-      type: 'remote',
-      category: 'unknown',
-      errors: ['Can only have one of "item", "catalog", or "collection"'],
+      location: 'unknown',
+      message: 'type must be one of "item", "catalog", or "collection"',
+    },
+  ],
+})
+
+exports.extraTypeAttribute = {
+  success: false,
+  errors: [
+    {
+      location: 'unknown',
+      message: 'Can only have one of "item", "catalog", or "collection"',
     },
   ],
 }

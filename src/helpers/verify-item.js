@@ -1,4 +1,9 @@
-const verifyItem = async ({ asset, version } = {}) => {
+const verifyItem = async ({
+  asset,
+  location,
+  useRecursion,
+  useVersion,
+} = {}) => {
   const errors = []
 
   return errors.length > 0

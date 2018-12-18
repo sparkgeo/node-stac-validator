@@ -1,4 +1,9 @@
-const verifyCatalog = async ({ asset } = {}) => {
+const verifyCatalog = async ({
+  asset,
+  location,
+  useRecursion,
+  useVersion,
+} = {}) => {
   const errors = []
 
   return errors.length > 0
