@@ -10,14 +10,11 @@ At this point, there needs to be consistent responses that contain the following
 - top level element is an array of objects
 - response is flat regardless if content is nested
 
-
-
 ## Examples
 
 ### Success
 
 A successful response returns an object with a `success` boolean, as well as a `verified_files`, which provides a series of responses.
-
 
 ```js
   {
