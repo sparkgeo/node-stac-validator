@@ -6,23 +6,22 @@ const verifyCollection = async ({
 } = {}) => {
   const errors = []
 
+  const requiredKeys = ['stac_version', 'id', 'description']
   const mainKeys = Object.keys(asset)
 
-  if (mainKeys.indexOf('stac_version') === -1) {
-    errors.push({
-      type: 'Missing element',
-      message: 'The "stac_version" element is missing',
-      url: location,
+  const requiredKeyErrors = requiredKeys
+    .map(i => {
+      if (mainKeys.indexOf(i) === -1) {
+        return {
+          type: 'Missing element',
+          message: `The "${i}" element is missing`,
+          url: location,
+        }
+      }
     })
-  }
+    .filter(v => v)
 
-  if (mainKeys.indexOf('id') === -1) {
-    errors.push({
-      type: 'Missing element',
-      message: 'The "id" element is missing',
-      url: location,
-    })
-  }
+  errors.push(...requiredKeyErrors)
 
   return errors.length > 0
     ? {

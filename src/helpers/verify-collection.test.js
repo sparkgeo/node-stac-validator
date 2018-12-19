@@ -51,7 +51,28 @@ describe('collection STAC Verification for V0.6.0', () => {
 
       expect(messageIndex).not.toEqual(-1)
     })
-    it('must include a "description" key with a string value', () => {})
+
+    it('must include a "description" key with a string value', async () => {
+      const asset = collection({
+        id: true,
+        license: true,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "description" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
+    })
+
     it('must include a "license" key with a string value', () => {})
     it('must include an "extent" key that contains an object', () => {})
     it('must include a "links" key that contains an an array of objects', () => {})
