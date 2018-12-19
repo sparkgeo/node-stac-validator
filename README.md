@@ -75,7 +75,6 @@ The errors object is subject to change until the first stable release.
     errors: [
       {
         type: '',
-        category: '',
         message: '',
         url: '',
       }

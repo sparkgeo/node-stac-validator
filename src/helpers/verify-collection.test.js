@@ -1,37 +1,34 @@
 const verifyCollection = require('./verify-collection', () => {})
+// eslint-disable-next-line
+const { collection } = require('../../factories')
 
 console.log(verifyCollection)
 
 describe('collection STAC Verification for V0.6.0', () => {
   describe('Base elements of the STAC collection', () => {
     it('must include the "stac_version" element', async () => {
-      const asset = {
-        id: '123',
-        description: 'bob',
-        license: 'bob',
-        extent: {
-          spatial: [1, 2, 3, 4],
-          temporal: null,
-        },
-        links: [
-          {
-            href: 'test',
-          },
-        ],
-      }
+      const asset = collection({
+        id: true,
+        description: true,
+        license: true,
+        extent: true,
+      })
 
       const location = 'json'
       const useRecursion = false
       const useVersion = 'v0.6.0'
 
-      const response = await verifyCollection({
+      const { errors } = await verifyCollection({
         asset,
         location,
         useRecursion,
         useVersion,
       })
 
-      expect(response.success).toEqual(false)
+      const message = 'The "stac_version" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
     })
     it('must include an "id" field', () => {})
     it('must include a "description" key with a string value', () => {})
