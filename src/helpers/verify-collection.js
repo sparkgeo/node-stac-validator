@@ -1,3 +1,5 @@
+const { difference } = require('lodash')
+
 const verifyCollection = async ({
   asset,
   location,
@@ -6,6 +8,7 @@ const verifyCollection = async ({
 } = {}) => {
   const errors = []
 
+  // Ensure required keys are present
   const requiredKeys = [
     'stac_version',
     'id',
@@ -14,11 +17,11 @@ const verifyCollection = async ({
     'extent',
     'links',
   ]
-  const mainKeys = Object.keys(asset)
+  const assetKeys = Object.keys(asset)
 
   const requiredKeyErrors = requiredKeys
     .map(i => {
-      if (mainKeys.indexOf(i) === -1) {
+      if (assetKeys.indexOf(i) === -1) {
         return {
           type: 'Missing element',
           message: `The "${i}" element is missing`,
@@ -29,6 +32,31 @@ const verifyCollection = async ({
     .filter(v => v)
 
   errors.push(...requiredKeyErrors)
+
+  // Ensure there are no extra keys
+  const allowedKeys = [
+    'stac_version',
+    'id',
+    'description',
+    'license',
+    'extent',
+    'links',
+    'keywords',
+    'version',
+    'providers',
+  ]
+
+  const arrayDiff = difference(assetKeys, allowedKeys)
+
+  if (arrayDiff.length > 0) {
+    errors.push(
+      ...arrayDiff.map(i => ({
+        type: 'Extra unpermitted element',
+        message: `The element "${i} is not permitted within a collection`,
+        url: location,
+      }))
+    )
+  }
 
   return errors.length > 0
     ? {

@@ -134,7 +134,27 @@ describe('collection STAC Verification for V0.6.0', () => {
 
       expect(messageIndex).not.toEqual(-1)
     })
-    it('must have no other elements either than the above, or "keywords", "version", "providers"', async () => {})
+
+    it('must have no other elements either than the above, or "keywords", "version", "providers"', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        stac_version: true,
+        license: true,
+        extent: true,
+        links: true,
+        extraElement: true,
+      })
+
+      const { success } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      expect(success).toEqual(false)
+    })
   })
 
   describe('the ID field', () => {
