@@ -16,6 +16,14 @@ const verifyCollection = async ({
     })
   }
 
+  if (mainKeys.indexOf('id') === -1) {
+    errors.push({
+      type: 'Missing element',
+      message: 'The "id" element is missing',
+      url: location,
+    })
+  }
+
   return errors.length > 0
     ? {
       success: false,

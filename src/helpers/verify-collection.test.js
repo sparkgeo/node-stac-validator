@@ -4,6 +4,10 @@ const { collection } = require('../../factories')
 
 console.log(verifyCollection)
 
+const location = 'json'
+const useRecursion = false
+const useVersion = 'v0.6.0'
+
 describe('collection STAC Verification for V0.6.0', () => {
   describe('Base elements of the STAC collection', () => {
     it('must include the "stac_version" element', async () => {
@@ -13,10 +17,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         license: true,
         extent: true,
       })
-
-      const location = 'json'
-      const useRecursion = false
-      const useVersion = 'v0.6.0'
 
       const { errors } = await verifyCollection({
         asset,
@@ -30,7 +30,27 @@ describe('collection STAC Verification for V0.6.0', () => {
 
       expect(messageIndex).not.toEqual(-1)
     })
-    it('must include an "id" field', () => {})
+
+    it('must include an "id" field', async () => {
+      const asset = collection({
+        description: true,
+        license: true,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "id" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
+    })
     it('must include a "description" key with a string value', () => {})
     it('must include a "license" key with a string value', () => {})
     it('must include an "extent" key that contains an object', () => {})
