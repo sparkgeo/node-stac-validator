@@ -4,7 +4,35 @@ console.log(verifyCollection)
 
 describe('collection STAC Verification for V0.6.0', () => {
   describe('Base elements of the STAC collection', () => {
-    it('must include the "stac_version" element', () => {})
+    it('must include the "stac_version" element', async () => {
+      const asset = {
+        id: '123',
+        description: 'bob',
+        license: 'bob',
+        extent: {
+          spatial: [1, 2, 3, 4],
+          temporal: null,
+        },
+        links: [
+          {
+            href: 'test',
+          },
+        ],
+      }
+
+      const location = 'json'
+      const useRecursion = false
+      const useVersion = 'v0.6.0'
+
+      const response = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      expect(response.success).toEqual(false)
+    })
     it('must include an "id" field', () => {})
     it('must include a "description" key with a string value', () => {})
     it('must include a "license" key with a string value', () => {})

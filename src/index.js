@@ -17,7 +17,7 @@ const validateFromJson = ({ asset, type, version, dig } = {}) => {
 const validateFromUrl = async ({ url, type, version, dig } = {}) => {
   // eslint-disable-next-line
   const useRecursion = dig || false
-  const useVersion = version || 'v0_6_0'
+  const useVersion = version || 'v0.6.0'
 
   const location = url
 
