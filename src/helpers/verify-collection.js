@@ -6,7 +6,14 @@ const verifyCollection = async ({
 } = {}) => {
   const errors = []
 
-  const requiredKeys = ['stac_version', 'id', 'description']
+  const requiredKeys = [
+    'stac_version',
+    'id',
+    'description',
+    'license',
+    'extent',
+    'links',
+  ]
   const mainKeys = Object.keys(asset)
 
   const requiredKeyErrors = requiredKeys

@@ -2,8 +2,7 @@ const verifyCollection = require('./verify-collection', () => {})
 // eslint-disable-next-line
 const { collection } = require('../../factories')
 
-console.log(verifyCollection)
-
+// TODO: Move to factories...
 const location = 'json'
 const useRecursion = false
 const useVersion = 'v0.6.0'
@@ -73,37 +72,96 @@ describe('collection STAC Verification for V0.6.0', () => {
       expect(messageIndex).not.toEqual(-1)
     })
 
-    it('must include a "license" key with a string value', () => {})
-    it('must include an "extent" key that contains an object', () => {})
-    it('must include a "links" key that contains an an array of objects', () => {})
-    it('must have no other elements either than the above, or "keywords", "version", "providers"', () => {})
+    it('must include a "license" key', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "license" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
+    })
+
+    it('must include an "extent" key that contains an object', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        license: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "extent" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
+    })
+
+    it('must include a "links" key', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "links" element is missing'
+      const messageIndex = errors.map(i => i.message).indexOf(message)
+
+      expect(messageIndex).not.toEqual(-1)
+    })
+    it('must have no other elements either than the above, or "keywords", "version", "providers"', async () => {})
   })
 
   describe('the ID field', () => {
-    it('must be able to detect duplicate IDs for collections', () => {})
+    it('must be able to detect duplicate IDs for collections', async () => {})
   })
 
   describe('The LICENSE element', () => {
-    it('must either be proprietary or in SPDX-compliant format', () => {})
+    it('must either be proprietary or in SPDX-compliant format', async () => {})
   })
 
   describe('The PROVIDERS element', () => {
-    it('must include a name key, with a string value', () => {})
-    it('must include no other keys than "description", "roles", "url", or "key"', () => {})
+    it('must include a name key, with a string value', async () => {})
+    it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
 
     describe('the ROLES element', () => {
-      it('must be an array of strings', () => {})
+      it('must be an array of strings', async () => {})
     })
 
     describe('the URL element', () => {
-      it('must be a string', () => {})
-      it('must detect a broken link', () => {})
+      it('must be a string', async () => {})
+      it('must detect a broken link', async () => {})
     })
   })
 
   describe('The EXTENT element', () => {
-    it('must contain a spatial element, which is an array', () => {})
-    it('must contain a temporal element, which is an array', () => {})
+    it('must contain a spatial element, which is an array', async () => {})
+    it('must contain a temporal element, which is an array', async () => {})
 
     describe('the SPATIAL element', () => {
       it('must be an array', () => {})
