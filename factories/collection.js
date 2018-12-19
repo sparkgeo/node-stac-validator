@@ -6,10 +6,11 @@ const collection = ({
   license,
   extent,
   stac_version,
-  // links,
-  // keywords,
-  // version,
-  // providers,
+  links,
+  keywords,
+  version,
+  providers,
+  extraElement,
 } = {}) => {
   const asset = {}
 
@@ -53,13 +54,41 @@ const collection = ({
     }
   }
 
-  // if (url) {
-  //   if (url === true) {
-  //     asset.url = internet.url()
-  //   } else {
-  //     asset.url = url
-  //   }
-  // }
+  if (links) {
+    if (links === true) {
+      asset.links = []
+    } else {
+      asset.links = links
+    }
+  }
+
+  if (keywords) {
+    if (keywords === true) {
+      asset.keywords = []
+    } else {
+      asset.keywords = keywords
+    }
+  }
+
+  if (version) {
+    if (version === true) {
+      asset.version = lorem.word()
+    } else {
+      asset.version = version
+    }
+  }
+
+  if (providers) {
+    if (providers === true) {
+      asset.providers = []
+    } else {
+      asset.providers = providers
+    }
+  }
+
+  if (extraElement) {
+    asset[lorem.word()] = lorem.word()
+  }
 
   return asset
 }
