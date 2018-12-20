@@ -46,6 +46,32 @@ const verifyCollection = async ({
     'providers',
   ]
 
+  const mustBeStringKeys = ['id', 'license']
+
+  const mustBeStringKeysErrors = mustBeStringKeys.map(i => {
+    if (asset[i] && typeof asset[i] !== 'string') {
+      return {
+        type: 'Incorrect element type',
+        message: `The "${i}" element must be a string`,
+        url: location,
+      }
+    }
+  })
+
+  errors.push(...mustBeStringKeysErrors)
+
+  const mustBeArrayKeys = []
+
+  mustBeArrayKeys.map(i => {
+    if (asset[i] && !Array.isArray(asset[i])) {
+      return {
+        type: 'Incorrect element type',
+        message: `The "${i}" element must be an array`,
+        url: location,
+      }
+    }
+  })
+
   const arrayDiff = difference(assetKeys, allowedKeys)
 
   if (arrayDiff.length > 0) {

@@ -25,7 +25,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "stac_version" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -46,7 +55,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "id" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -67,7 +85,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "description" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -88,7 +115,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "license" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -109,7 +145,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "extent" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -130,7 +175,16 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
 
       const message = 'The "links" element is missing'
-      const messageIndex = errors.map(i => i.message).indexOf(message)
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
 
       expect(messageIndex).not.toEqual(-1)
     })
@@ -158,10 +212,69 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('the ID field', () => {
+    it('must be a string', async () => {
+      const asset = collection({
+        id: 123,
+        description: true,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "id" element must be a string'
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
+
+      expect(messageIndex).not.toEqual(-1)
+    })
     it('must be able to detect duplicate IDs for collections', async () => {})
   })
 
   describe('The LICENSE element', () => {
+    it('must be a string', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        license: 1234,
+        extent: true,
+        stac_version: true,
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "license" element must be a string'
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
+
+      expect(messageIndex).not.toEqual(-1)
+    })
     it('must either be proprietary or in SPDX-compliant format', async () => {})
   })
 
@@ -180,8 +293,8 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('The EXTENT element', () => {
-    it('must contain a spatial element, which is an array', async () => {})
-    it('must contain a temporal element, which is an array', async () => {})
+    it('must contain a spatial element', async () => {})
+    it('must contain a temporal element', async () => {})
 
     describe('the SPATIAL element', () => {
       it('must be an array', () => {})
