@@ -1,5 +1,40 @@
 const { difference } = require('lodash')
 
+const detectNotString = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    if (obj[i] && typeof obj[i] !== 'string') {
+      return {
+        type: 'Incorrect element type',
+        message: `The "${i}" element must be a string`,
+        url: location,
+      }
+    }
+  })
+
+const detectNotArray = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    if (obj[i] && !Array.isArray(obj[i])) {
+      return {
+        type: 'Incorrect element type',
+        message: `The "${i}" element must be an array`,
+        url: location,
+      }
+    }
+  })
+
+const detectMissingManditoryKeys = ({ keys, obj, location } = {}) =>
+  keys
+    .map(i => {
+      if (Object.keys(obj).indexOf(i) === -1) {
+        return {
+          type: 'Missing element',
+          message: `The "${i}" element is missing`,
+          url: location,
+        }
+      }
+    })
+    .filter(v => v)
+
 const verifyCollection = async ({
   asset,
   location,
@@ -17,19 +52,12 @@ const verifyCollection = async ({
     'extent',
     'links',
   ]
-  const assetKeys = Object.keys(asset)
 
-  const requiredKeyErrors = requiredKeys
-    .map(i => {
-      if (assetKeys.indexOf(i) === -1) {
-        return {
-          type: 'Missing element',
-          message: `The "${i}" element is missing`,
-          url: location,
-        }
-      }
-    })
-    .filter(v => v)
+  const requiredKeyErrors = detectMissingManditoryKeys({
+    obj: asset,
+    keys: requiredKeys,
+    location,
+  })
 
   errors.push(...requiredKeyErrors)
 
@@ -48,29 +76,24 @@ const verifyCollection = async ({
 
   const mustBeStringKeys = ['id', 'license']
 
-  const mustBeStringKeysErrors = mustBeStringKeys.map(i => {
-    if (asset[i] && typeof asset[i] !== 'string') {
-      return {
-        type: 'Incorrect element type',
-        message: `The "${i}" element must be a string`,
-        url: location,
-      }
-    }
+  const mustBeStringKeysErrors = detectNotString({
+    location,
+    keys: mustBeStringKeys,
+    obj: asset,
   })
 
   errors.push(...mustBeStringKeysErrors)
 
   const mustBeArrayKeys = []
 
-  mustBeArrayKeys.map(i => {
-    if (asset[i] && !Array.isArray(asset[i])) {
-      return {
-        type: 'Incorrect element type',
-        message: `The "${i}" element must be an array`,
-        url: location,
-      }
-    }
+  const mustBeArrayKeysErrrors = detectNotArray({
+    keys: mustBeArrayKeys,
+    obj: asset,
+    location,
   })
+
+  errors.push(...mustBeArrayKeysErrrors)
+  const assetKeys = Object.keys(asset)
 
   const arrayDiff = difference(assetKeys, allowedKeys)
 

@@ -279,11 +279,15 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('The PROVIDERS element', () => {
+    it('must be an object', async () => {})
     it('must include a name key, with a string value', async () => {})
     it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
 
     describe('the ROLES element', () => {
-      it('must be an array of strings', async () => {})
+      it('must be an array', async () => {})
+      describe('the array elements', () => {
+        it('must only contain strings', async () => {})
+      })
     })
 
     describe('the URL element', () => {
