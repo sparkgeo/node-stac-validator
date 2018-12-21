@@ -1,5 +1,5 @@
 const { head, get } = require('axios')
-const { errorResponses, verifyAsset } = require('./modules')
+const { verifyAsset } = require('./modules')
 const { errorResponses } = require('./helpers')
 
 const validateFromJson = ({ asset, type, version, dig } = {}) => {
