@@ -333,8 +333,9 @@ describe('collection STAC Verification for V0.6.0', () => {
       const asset = collection({
         id: true,
         description: true,
-        license: 1234,
+        license: true,
         extent: true,
+        links: true,
         stac_version: true,
         providers: {},
       })
@@ -367,7 +368,8 @@ describe('collection STAC Verification for V0.6.0', () => {
         const asset = collection({
           id: true,
           description: true,
-          license: 1234,
+          license: true,
+          links: true,
           extent: true,
           stac_version: true,
           providers: {
@@ -382,7 +384,7 @@ describe('collection STAC Verification for V0.6.0', () => {
           useVersion,
         })
 
-        const message = 'The "name" element in "providers" must be a string'
+        const message = 'The "name" element of "providers" must be a string'
         const messageIndex =
           errors.length > 0
             ? errors
@@ -394,8 +396,11 @@ describe('collection STAC Verification for V0.6.0', () => {
               .indexOf(message)
             : -1
 
+        console.log(errors)
+
         expect(messageIndex).not.toEqual(-1)
       })
+      it('must contain no extra keys', async () => {})
     })
 
     describe('the ROLES element', () => {

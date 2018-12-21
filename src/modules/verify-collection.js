@@ -14,6 +14,7 @@ const verifyCollection = async ({
   useVersion,
 } = {}) => {
   let errors = []
+  let parent
 
   // Ensure required keys are present
   const requiredKeys = [
@@ -93,13 +94,34 @@ const verifyCollection = async ({
   }
 
   // Inspect the providers element
-  // const { providers } = asset
-  // if (providers) {
-  //   const providerRequiredKeys = ['name']
-  //   const providerMustBeStringKeys = ['description', 'url']
-  //   const providerMustBeArrayKeys = ['roles']
-  //   const providerMustBeArrayOfStringKeys = ['roles']
-  // }
+  const { providers } = asset
+  if (providers) {
+    parent = 'providers'
+    const providerRequiredKeys = ['name']
+
+    const providerRequiredKeysErrors = ensureContainsMandatoryKeys({
+      keys: providerRequiredKeys,
+      obj: providers,
+      parent,
+      location,
+    })
+
+    errors.push(...providerRequiredKeysErrors)
+
+    const providerMustBeStringKeys = ['name', 'description', 'url']
+
+    const providerMustBeStringKeysErrors = ensureString({
+      keys: providerMustBeStringKeys,
+      obj: providers,
+      parent,
+      location,
+    })
+
+    errors.push(...providerMustBeStringKeysErrors)
+
+    // const providerMustBeArrayKeys = ['roles']
+    // const providerMustBeArrayOfStringKeys = ['roles']
+  }
 
   // Inspect the extent element
 

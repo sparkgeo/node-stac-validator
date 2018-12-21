@@ -1,9 +1,11 @@
-const ensureContainsMandatoryKeys = ({ keys, obj, location } = {}) =>
+const ensureContainsMandatoryKeys = ({ keys, obj, location, parent } = {}) =>
   keys.map(i => {
     if (Object.keys(obj).indexOf(i) === -1) {
       return {
         type: 'Missing element',
-        message: `The "${i}" element is missing`,
+        message: parent
+          ? `The "${i}" element in "${parent}" is missing`
+          : `The "${i}" element is missing`,
         url: location,
       }
     }
