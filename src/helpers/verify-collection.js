@@ -44,6 +44,38 @@ const detectMissingManditoryKeys = ({ keys, obj, location } = {}) =>
     }
   })
 
+// eslint-disable-next-line
+const detectNotArrayOfStrings = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    const arr = obj[i]
+    if (arr && Array.isArray(arr)) {
+      const types = [...new Set(arr.map(i => typeof i))]
+      if (types.length !== 1 || types[0] !== 'string') {
+        return {
+          type: 'Incorrect element type',
+          message: `The "${i}" element must be an array containing only strings`,
+          url: location,
+        }
+      }
+    }
+  })
+
+// eslint-disable-next-line
+const detectNotArrayOfNumbers = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    const arr = obj[i]
+    if (arr && Array.isArray(arr)) {
+      const types = [...new Set(arr.map(i => typeof i))]
+      if (types.length !== 1 || types[0] !== 'number') {
+        return {
+          type: 'Incorrect element type',
+          message: `The "${i}" element must be an array containing only numbers`,
+          url: location,
+        }
+      }
+    }
+  })
+
 const verifyCollection = async ({
   asset,
   location,
@@ -130,9 +162,13 @@ const verifyCollection = async ({
   }
 
   // Inspect the providers element
-  const { providers } = asset
-  if (providers) {
-  }
+  // const { providers } = asset
+  // if (providers) {
+  //   const providerRequiredKeys = ['name']
+  //   const providerMustBeStringKeys = ['description', 'url']
+  //   const providerMustBeArrayKeys = ['roles']
+  //   const providerMustBeArrayOfStringKeys = ['roles']
+  // }
 
   // Inspect the extent element
 
