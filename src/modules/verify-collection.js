@@ -1,80 +1,11 @@
 const { difference } = require('lodash')
 
-const detectNotString = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    if (obj[i] && typeof obj[i] !== 'string') {
-      return {
-        type: 'Incorrect element type',
-        message: `The "${i}" element must be a string`,
-        url: location,
-      }
-    }
-  })
-
-const detectNotArray = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    if (obj[i] && !Array.isArray(obj[i])) {
-      return {
-        type: 'Incorrect element type',
-        message: `The "${i}" element must be an array`,
-        url: location,
-      }
-    }
-  })
-
-const detectNotObject = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    if (obj[i] && (typeof obj[i] !== 'object' || Array.isArray(obj[i]))) {
-      return {
-        type: 'Incorrect element type',
-        message: `The "${i}" element must be an object`,
-        url: location,
-      }
-    }
-  })
-
-const detectMissingManditoryKeys = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    if (Object.keys(obj).indexOf(i) === -1) {
-      return {
-        type: 'Missing element',
-        message: `The "${i}" element is missing`,
-        url: location,
-      }
-    }
-  })
-
-// eslint-disable-next-line
-const detectNotArrayOfStrings = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    const arr = obj[i]
-    if (arr && Array.isArray(arr)) {
-      const types = [...new Set(arr.map(i => typeof i))]
-      if (types.length !== 1 || types[0] !== 'string') {
-        return {
-          type: 'Incorrect element type',
-          message: `The "${i}" element must be an array containing only strings`,
-          url: location,
-        }
-      }
-    }
-  })
-
-// eslint-disable-next-line
-const detectNotArrayOfNumbers = ({ keys, obj, location } = {}) =>
-  keys.map(i => {
-    const arr = obj[i]
-    if (arr && Array.isArray(arr)) {
-      const types = [...new Set(arr.map(i => typeof i))]
-      if (types.length !== 1 || types[0] !== 'number') {
-        return {
-          type: 'Incorrect element type',
-          message: `The "${i}" element must be an array containing only numbers`,
-          url: location,
-        }
-      }
-    }
-  })
+const {
+  ensureString,
+  ensureArray,
+  ensureObject,
+  ensureContainsMandatoryKeys,
+} = require('../helpers')
 
 const verifyCollection = async ({
   asset,
@@ -94,7 +25,7 @@ const verifyCollection = async ({
     'links',
   ]
 
-  const requiredKeyErrors = detectMissingManditoryKeys({
+  const requiredKeyErrors = ensureContainsMandatoryKeys({
     obj: asset,
     keys: requiredKeys,
     location,
@@ -117,7 +48,7 @@ const verifyCollection = async ({
 
   const mustBeStringKeys = ['id', 'license']
 
-  const mustBeStringKeysErrors = detectNotString({
+  const mustBeStringKeysErrors = ensureString({
     location,
     keys: mustBeStringKeys,
     obj: asset,
@@ -128,7 +59,7 @@ const verifyCollection = async ({
   // Elements must be arrays
   const mustBeArrayKeys = []
 
-  const mustBeArrayKeysErrrors = detectNotArray({
+  const mustBeArrayKeysErrrors = ensureArray({
     keys: mustBeArrayKeys,
     obj: asset,
     location,
@@ -139,7 +70,7 @@ const verifyCollection = async ({
   // Elements must be objects
   const mustBeObjectKeys = ['providers']
 
-  const mustBeObjectKeysErrors = detectNotObject({
+  const mustBeObjectKeysErrors = ensureObject({
     keys: mustBeObjectKeys,
     obj: asset,
     location,

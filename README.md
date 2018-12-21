@@ -99,3 +99,5 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [ ] Publish into NPM on release
 - [ ] Enforce Git Flow for versioning
 - [ ] Use Circle CI for CD into NPM
+- [ ] Build support for previous and newer versions either than 0.6.0
+
