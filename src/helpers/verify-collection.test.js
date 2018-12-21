@@ -329,8 +329,74 @@ describe('collection STAC Verification for V0.6.0', () => {
 
       expect(success).toEqual(true)
     })
-    it('must include a name key, with a string value', async () => {})
+    it('must include a name key', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        license: 1234,
+        extent: true,
+        stac_version: true,
+        providers: {},
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "name" element in "providers" is missing'
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
+
+      expect(messageIndex).not.toEqual(-1)
+    })
     it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
+
+    describe('The NAME element', () => {
+      it('must be a string', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: 1234,
+          extent: true,
+          stac_version: true,
+          providers: {
+            name: 123,
+          },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        const message = 'The "name" element in "providers" must be a string'
+        const messageIndex =
+          errors.length > 0
+            ? errors
+              .map(i => {
+                if (i) {
+                  return i.message
+                }
+              })
+              .indexOf(message)
+            : -1
+
+        expect(messageIndex).not.toEqual(-1)
+      })
+    })
 
     describe('the ROLES element', () => {
       it('must be an array', async () => {})

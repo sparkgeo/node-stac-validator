@@ -130,6 +130,9 @@ const verifyCollection = async ({
   }
 
   // Inspect the providers element
+  const { providers } = asset
+  if (providers) {
+  }
 
   // Inspect the extent element
 
