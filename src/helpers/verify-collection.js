@@ -22,18 +22,27 @@ const detectNotArray = ({ keys, obj, location } = {}) =>
     }
   })
 
-const detectMissingManditoryKeys = ({ keys, obj, location } = {}) =>
-  keys
-    .map(i => {
-      if (Object.keys(obj).indexOf(i) === -1) {
-        return {
-          type: 'Missing element',
-          message: `The "${i}" element is missing`,
-          url: location,
-        }
+const detectNotObject = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    if (obj[i] && (typeof obj[i] !== 'object' || Array.isArray(obj[i]))) {
+      return {
+        type: 'Incorrect element type',
+        message: `The "${i}" element must be an object`,
+        url: location,
       }
-    })
-    .filter(v => v)
+    }
+  })
+
+const detectMissingManditoryKeys = ({ keys, obj, location } = {}) =>
+  keys.map(i => {
+    if (Object.keys(obj).indexOf(i) === -1) {
+      return {
+        type: 'Missing element',
+        message: `The "${i}" element is missing`,
+        url: location,
+      }
+    }
+  })
 
 const verifyCollection = async ({
   asset,
@@ -41,7 +50,7 @@ const verifyCollection = async ({
   useRecursion,
   useVersion,
 } = {}) => {
-  const errors = []
+  let errors = []
 
   // Ensure required keys are present
   const requiredKeys = [
@@ -84,6 +93,7 @@ const verifyCollection = async ({
 
   errors.push(...mustBeStringKeysErrors)
 
+  // Elements must be arrays
   const mustBeArrayKeys = []
 
   const mustBeArrayKeysErrrors = detectNotArray({
@@ -93,8 +103,20 @@ const verifyCollection = async ({
   })
 
   errors.push(...mustBeArrayKeysErrrors)
-  const assetKeys = Object.keys(asset)
 
+  // Elements must be objects
+  const mustBeObjectKeys = ['providers']
+
+  const mustBeObjectKeysErrors = detectNotObject({
+    keys: mustBeObjectKeys,
+    obj: asset,
+    location,
+  })
+
+  errors.push(...mustBeObjectKeysErrors)
+
+  // Enforce only allowed keys
+  const assetKeys = Object.keys(asset)
   const arrayDiff = difference(assetKeys, allowedKeys)
 
   if (arrayDiff.length > 0) {
@@ -107,6 +129,13 @@ const verifyCollection = async ({
     )
   }
 
+  // Inspect the providers element
+
+  // Inspect the extent element
+
+  // Inspect the Links element
+
+  errors = errors.filter(i => i)
   return errors.length > 0
     ? {
       success: false,

@@ -129,7 +129,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       expect(messageIndex).not.toEqual(-1)
     })
 
-    it('must include an "extent" key that contains an object', async () => {
+    it('must include an "extent" key', async () => {
       const asset = collection({
         id: true,
         description: true,
@@ -279,7 +279,56 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('The PROVIDERS element', () => {
-    it('must be an object', async () => {})
+    it('must be an object', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        license: 1234,
+        extent: true,
+        stac_version: true,
+        providers: '123',
+      })
+
+      const { errors } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      const message = 'The "providers" element must be an object'
+      const messageIndex =
+        errors.length > 0
+          ? errors
+            .map(i => {
+              if (i) {
+                return i.message
+              }
+            })
+            .indexOf(message)
+          : -1
+
+      expect(messageIndex).not.toEqual(-1)
+    })
+    it('must be optional', async () => {
+      const asset = collection({
+        id: true,
+        description: true,
+        license: true,
+        extent: true,
+        links: true,
+        stac_version: true,
+      })
+
+      const { success } = await verifyCollection({
+        asset,
+        location,
+        useRecursion,
+        useVersion,
+      })
+
+      expect(success).toEqual(true)
+    })
     it('must include a name key, with a string value', async () => {})
     it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
 
@@ -297,6 +346,7 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('The EXTENT element', () => {
+    it('must be an object', async () => {})
     it('must contain a spatial element', async () => {})
     it('must contain a temporal element', async () => {})
 
