@@ -1,5 +1,6 @@
 const { head, get } = require('axios')
-const { errorResponses, verifyAsset } = require('./helpers')
+const { errorResponses, verifyAsset } = require('./modules')
+const { errorResponses } = require('./helpers')
 
 const validateFromJson = ({ asset, type, version, dig } = {}) => {
   // eslint-disable-next-line
