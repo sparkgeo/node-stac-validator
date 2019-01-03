@@ -396,8 +396,6 @@ describe('collection STAC Verification for V0.6.0', () => {
               .indexOf(message)
             : -1
 
-        console.log(errors)
-
         expect(messageIndex).not.toEqual(-1)
       })
       it('must contain no extra keys', async () => {})

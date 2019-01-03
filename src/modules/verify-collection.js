@@ -1,10 +1,9 @@
-const { difference } = require('lodash')
-
 const {
   ensureString,
   ensureArray,
   ensureObject,
   ensureContainsMandatoryKeys,
+  ensureContainsNoExtraKeys,
 } = require('../helpers')
 
 const verifyCollection = async ({
@@ -80,18 +79,13 @@ const verifyCollection = async ({
   errors.push(...mustBeObjectKeysErrors)
 
   // Enforce only allowed keys
-  const assetKeys = Object.keys(asset)
-  const arrayDiff = difference(assetKeys, allowedKeys)
+  const filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
+    asset,
+    location,
+    allowedKeys,
+  })
 
-  if (arrayDiff.length > 0) {
-    errors.push(
-      ...arrayDiff.map(i => ({
-        type: 'Extra unpermitted element',
-        message: `The element "${i} is not permitted within a collection`,
-        url: location,
-      }))
-    )
-  }
+  errors.push(...filterUnpermittedElementsErrors)
 
   // Inspect the providers element
   const { providers } = asset
