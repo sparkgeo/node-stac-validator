@@ -18,4 +18,4 @@ const ensureContainsNoExtraKeys = ({ allowedKeys, asset, location } = {}) => {
   return errors
 }
 
-export default ensureContainsNoExtraKeys
+module.exports = ensureContainsNoExtraKeys

@@ -87,12 +87,13 @@ const verifyCollection = async ({
 
   errors.push(...filterUnpermittedElementsErrors)
 
-  // Inspect the providers element
+  // ! Inspect the providers element
   const { providers } = asset
   if (providers) {
     parent = 'providers'
     const providerRequiredKeys = ['name']
 
+    // Ensure mandatory keys are provided
     const providerRequiredKeysErrors = ensureContainsMandatoryKeys({
       keys: providerRequiredKeys,
       obj: providers,
@@ -102,6 +103,7 @@ const verifyCollection = async ({
 
     errors.push(...providerRequiredKeysErrors)
 
+    // Ensure certain keys are strings
     const providerMustBeStringKeys = ['name', 'description', 'url']
 
     const providerMustBeStringKeysErrors = ensureString({
@@ -112,6 +114,17 @@ const verifyCollection = async ({
     })
 
     errors.push(...providerMustBeStringKeysErrors)
+
+    // Filter for allowed keys in provider
+    const providerAllowedKeys = ['name', 'description', 'roles', 'url']
+
+    const filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
+      asset: providers,
+      location,
+      allowedKeys: providerAllowedKeys,
+    })
+
+    errors.push(...filterUnpermittedElementsErrors)
 
     // const providerMustBeArrayKeys = ['roles']
     // const providerMustBeArrayOfStringKeys = ['roles']

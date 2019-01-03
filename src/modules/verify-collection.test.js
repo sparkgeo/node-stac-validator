@@ -364,41 +364,100 @@ describe('collection STAC Verification for V0.6.0', () => {
     it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
 
     describe('The NAME element', () => {
-      it('must be a string', async () => {
-        const asset = collection({
-          id: true,
-          description: true,
-          license: true,
-          links: true,
-          extent: true,
-          stac_version: true,
-          providers: {
-            name: 123,
-          },
+      describe('must be a string', () => {
+        it('it returns an error when name is a number', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 123,
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).not.toEqual(undefined)
         })
 
-        const { errors } = await verifyCollection({
-          asset,
-          location,
-          useRecursion,
-          useVersion,
+        it('it returns no errors when name is a string', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 'name',
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).toEqual(undefined)
         })
-
-        const message = 'The "name" element of "providers" must be a string'
-        const messageIndex =
-          errors.length > 0
-            ? errors
-              .map(i => {
-                if (i) {
-                  return i.message
-                }
-              })
-              .indexOf(message)
-            : -1
-
-        expect(messageIndex).not.toEqual(-1)
       })
-      it('must contain no extra keys', async () => {})
+      describe('The providers object must contain only "name", "description", "roles", and "url"', () => {
+        it('returns an error when there is an extra key', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 'name',
+              fail: true,
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).not.toEqual(undefined)
+        })
+        it('returns no errors when it lacks an extra key', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 'name',
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).toEqual(undefined)
+        })
+      })
     })
 
     describe('the ROLES element', () => {
