@@ -717,41 +717,144 @@ describe('collection STAC Verification for V0.6.0', () => {
           ],
         })
 
-        const { errors } = await verifyCollection({
+        const { success } = await verifyCollection({
           asset,
           location,
           useRecursion,
           useVersion,
         })
 
-        expect(errors).toEqual(undefined)
+        expect(success).toEqual(true)
       })
     })
 
-    it('must contain a spatial element', async () => {})
-    it('must contain a temporal element', async () => {})
+    describe('must contain a spatial element', () => {
+      it('passes when it element is present', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: true,
+          stac_version: true,
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(true)
+      })
+      it('fails when the element is missing', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: {
+            temporal: '0',
+          },
+          stac_version: true,
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+        expect(success).toEqual(false)
+      })
+    })
+
+    describe('must contain a temporal element', () => {
+      it('passes when it element is present', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: true,
+          stac_version: true,
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(true)
+      })
+      it('fails when the element is missing', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: {
+            spatial: [0, 0, 1, 1],
+          },
+          stac_version: true,
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(false)
+      })
+    })
 
     describe('the SPATIAL element', () => {
-      it('must be an array', () => {})
-      it('must contain four or six numbers', () => {})
-      describe('the FIRST number', () => {
-        it('must be a valid longitude', () => {})
+      describe('must be an array', () => {
+        it('passes when it is an array', async () => {})
+        it('fails when it is not an array', async () => {})
       })
-      describe('the SECOND number', () => {
-        it('must be a valid lattitude', () => {})
-      })
-      describe('the THIRD number', () => {
-        it('must be a valid longitude', () => {})
-        it('must be greater than the first number', () => {})
-      })
-      describe('the FOURTH number', () => {
-        it('must be a valid latitude', () => {})
-        it('must be greater than the second number', () => {})
+      describe('must contain four or six elements', () => {
+        it('passes when it contains four elements', async () => {})
+        it('passes when it contains six elements', async () => {})
+        it('fails when it contains any other number of elements', async () => {})
+        describe('each element should be a number', () => {
+          it('passes when each element is a number', async () => {})
+          it('fails when each element is not a number', async () => {})
+        })
       })
     })
     describe('the TEMPORAL element', () => {
       describe('each value', () => {
-        it('must be a null or a valid timestring or null', () => {})
+        describe('must be a null or a valid timestring or null', () => {})
       })
     })
   })
