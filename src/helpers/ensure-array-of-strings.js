@@ -1,6 +1,6 @@
-const ensureArrayOfStrings = ({ keys, obj, location, parent } = {}) =>
+const ensureArrayOfStrings = ({ keys, asset, location, parent } = {}) =>
   keys.map(i => {
-    const arr = obj[i]
+    const arr = asset[i]
     if (arr && Array.isArray(arr)) {
       const types = [...new Set(arr.map(i => typeof i))]
       if (types.length !== 1 || types[0] !== 'string') {

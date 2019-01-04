@@ -4,14 +4,14 @@ const { ensureString } = require('.')
 describe('Ensure String helper', () => {
   it('returns an object if there is no string', async () => {
     const keys = ['a']
-    const obj = {
+    const asset = {
       a: 123,
     }
     const location = lorem.word()
 
     const response = ensureString({
       keys,
-      obj,
+      asset,
       location,
     })
     expect(typeof response[0]).toEqual('object')
@@ -19,14 +19,14 @@ describe('Ensure String helper', () => {
 
   it('returns nothing if there is a string contained in the right place', async () => {
     const keys = ['a']
-    const obj = {
+    const asset = {
       a: '123',
     }
     const location = lorem.word()
 
     const response = ensureString({
       keys,
-      obj,
+      asset,
       location,
     })
     expect(response).toEqual([undefined])
@@ -34,14 +34,14 @@ describe('Ensure String helper', () => {
 
   it('returns a message of "The "X" element must be a string"', async () => {
     const keys = ['a']
-    const obj = {
+    const asset = {
       a: 123,
     }
     const location = lorem.word()
 
     const response = ensureString({
       keys,
-      obj,
+      asset,
       location,
     })
     expect(response[0].message).toEqual('The "a" element must be a string')
@@ -51,14 +51,14 @@ describe('Ensure String helper', () => {
     it('returns a message of "The "X" element of "Y" must be a string"', async () => {
       const keys = ['x']
       const parent = 'y'
-      const obj = {
+      const asset = {
         x: 123,
       }
       const location = lorem.word()
 
       const response = ensureString({
         keys,
-        obj,
+        asset,
         location,
         parent,
       })

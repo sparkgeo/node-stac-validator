@@ -1,6 +1,6 @@
-const ensureContainsMandatoryKeys = ({ keys, obj, location, parent } = {}) =>
+const ensureContainsMandatoryKeys = ({ keys, asset, location, parent } = {}) =>
   keys.map(i => {
-    if (Object.keys(obj).indexOf(i) === -1) {
+    if (Object.keys(asset).indexOf(i) === -1) {
       return {
         type: 'Missing element',
         message: parent

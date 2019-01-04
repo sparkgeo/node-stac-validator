@@ -27,7 +27,7 @@ const verifyCollection = async ({
   ]
 
   const requiredKeyErrors = ensureContainsMandatoryKeys({
-    obj: asset,
+    asset: asset,
     keys: requiredKeys,
     location,
   })
@@ -52,7 +52,7 @@ const verifyCollection = async ({
   const mustBeStringKeysErrors = ensureString({
     location,
     keys: mustBeStringKeys,
-    obj: asset,
+    asset: asset,
   })
 
   errors.push(...mustBeStringKeysErrors)
@@ -62,7 +62,7 @@ const verifyCollection = async ({
 
   const mustBeArrayKeysErrrors = ensureArray({
     keys: mustBeArrayKeys,
-    obj: asset,
+    asset: asset,
     location,
   })
 
@@ -73,7 +73,7 @@ const verifyCollection = async ({
 
   const mustBeObjectKeysErrors = ensureObject({
     keys: mustBeObjectKeys,
-    obj: asset,
+    asset: asset,
     location,
   })
 
@@ -97,7 +97,7 @@ const verifyCollection = async ({
     // Ensure mandatory keys are provided
     const providerRequiredKeysErrors = ensureContainsMandatoryKeys({
       keys: providerRequiredKeys,
-      obj: providers,
+      asset: providers,
       parent,
       location,
     })
@@ -109,7 +109,7 @@ const verifyCollection = async ({
 
     const providerMustBeStringKeysErrors = ensureString({
       keys: providerMustBeStringKeys,
-      obj: providers,
+      asset: providers,
       parent,
       location,
     })
@@ -130,7 +130,7 @@ const verifyCollection = async ({
     // Verify that an element is an array
     const providerMustBeArrayKeys = ['roles']
     const providerMustBeArrayErrors = ensureArray({
-      obj: providers,
+      asset: providers,
       keys: providerMustBeArrayKeys,
       location,
     })
@@ -140,7 +140,7 @@ const verifyCollection = async ({
     const providerMustBeArrayOfStringKeys = ['roles']
 
     const providerMustBeArrayOfStringErrors = ensureArrayOfStrings({
-      obj: providers,
+      asset: providers,
       keys: providerMustBeArrayOfStringKeys,
       location,
     })

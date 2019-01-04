@@ -1,6 +1,6 @@
-const ensureString = ({ keys, obj, location, parent } = {}) =>
+const ensureString = ({ keys, asset, location, parent } = {}) =>
   keys.map(i => {
-    if (obj[i] && typeof obj[i] !== 'string') {
+    if (asset[i] && typeof asset[i] !== 'string') {
       return {
         type: 'Incorrect element type',
         message: parent

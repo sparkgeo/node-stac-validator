@@ -1,6 +1,6 @@
-const ensureArray = ({ keys, obj, location, parent } = {}) =>
+const ensureArray = ({ keys, asset, location, parent } = {}) =>
   keys.map(i => {
-    if (obj[i] && !Array.isArray(obj[i])) {
+    if (asset[i] && !Array.isArray(asset[i])) {
       return {
         type: 'Incorrect element type',
         message: parent
