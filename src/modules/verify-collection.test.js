@@ -1015,7 +1015,6 @@ describe('collection STAC Verification for V0.6.0', () => {
               ],
             })
 
-
             const { success } = await verifyCollection({
               asset,
               location,
