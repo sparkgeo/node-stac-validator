@@ -11,7 +11,22 @@ const {
 const {
   verifyProvidersObject,
   verifyExtentObject,
+  // verifyLinksArray,
 } = require('./common-objects')
+
+// const verifyLinksArray = ({ asset, location, parent } = {}) => {
+//   // Must contain href and rel elements
+
+//   // Contains no other elements than 'href', 'rel', 'type', or 'title'
+
+//   // The href element must be a valid url
+
+//   const { rel } = asset
+//   if (rel) {
+//     // must contain a self element
+//     // must not have any element but "self", "root", "parent", "child", "item", "license", "derived_from"
+//   }
+// }
 
 const verifyCollection = async ({
   asset,
@@ -65,7 +80,7 @@ const verifyCollection = async ({
   })
 
   // Elements must be arrays
-  const mustBeArrayKeys = ['providers']
+  const mustBeArrayKeys = ['providers', 'links']
 
   mustBeArrayKeysErrrors = ensureArray({
     keys: mustBeArrayKeys,

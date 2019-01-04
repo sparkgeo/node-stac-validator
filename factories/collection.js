@@ -1,5 +1,6 @@
 const { lorem, random } = require('faker')
 
+// This method will provide a collection object that will pass tests when no params are provided
 const collection = ({
   id,
   description,
@@ -13,90 +14,32 @@ const collection = ({
   extraElement,
 } = {}) => {
   const asset = {}
-
-  if (id) {
-    if (id === true) {
-      asset.id = random.uuid()
-    } else {
-      asset.id = id
+  if (id !== false) asset.id = id || random.uuid()
+  if (stac_version !== false) asset.stac_version = stac_version || 'v0.6.0'
+  if (description !== false) asset.description = description || lorem.sentence()
+  if (license !== false) asset.license = license || lorem.paragraph()
+  if (extent !== false) {
+    asset.extent = extent || {
+      spatial: [0, 0, 1, 1],
+      temporal: ['2009-01-01T00:00:00Z', null],
     }
   }
-
-  if (stac_version) {
-    if (stac_version === true) {
-      asset.stac_version = 'v0.6.0'
-    } else {
-      asset.stac_version = stac_version
-    }
+  if (keywords !== false) asset.keywords = keywords || []
+  if (version !== false) asset.version = version || lorem.word()
+  if (providers !== false) {
+    asset.providers = providers || [{ name: lorem.sentence() }]
   }
-
-  if (description) {
-    if (description === true) {
-      asset.description = lorem.sentence()
-    } else {
-      asset.description = description
-    }
-  }
-
-  if (license) {
-    if (license === true) {
-      asset.license = lorem.paragraph()
-    } else {
-      asset.license = license
-    }
-  }
-
-  if (extent) {
-    if (extent === true) {
-      asset.extent = {
-        spatial: [0, 0, 1, 1],
-        temporal: ['2009-01-01T00:00:00Z', null],
-      }
-    } else if (typeof extent === 'string') {
-      asset.extent = [extent]
-    } else {
-      asset.extent = extent
-    }
-  }
-
-  if (links) {
-    if (links === true) {
-      asset.links = []
-    } else {
-      asset.links = links
-    }
-  }
-
-  if (keywords) {
-    if (keywords === true) {
-      asset.keywords = []
-    } else {
-      asset.keywords = keywords
-    }
-  }
-
-  if (version) {
-    if (version === true) {
-      asset.version = lorem.word()
-    } else {
-      asset.version = version
-    }
-  }
-
-  if (providers) {
-    if (providers === true) {
-      asset.providers = [
-        {
-          name: 'hello world',
-        },
-      ]
-    } else {
-      asset.providers = providers
-    }
-  }
-
   if (extraElement) {
     asset[lorem.word()] = lorem.word()
+  }
+  if (links !== false) {
+    asset.links = links || [
+      {
+        rel: 'self',
+        href:
+          'https://storage.cloud.google.com/earthengine-test/catalog/COPERNICUS_S2.json',
+      },
+    ]
   }
 
   return asset
