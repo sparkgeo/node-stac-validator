@@ -1,6 +1,7 @@
 const {
   ensureString,
   ensureArray,
+  ensureArrayOfStrings,
   ensureObject,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
@@ -126,8 +127,25 @@ const verifyCollection = async ({
 
     errors.push(...filterUnpermittedElementsErrors)
 
-    // const providerMustBeArrayKeys = ['roles']
-    // const providerMustBeArrayOfStringKeys = ['roles']
+    // Verify that an element is an array
+    const providerMustBeArrayKeys = ['roles']
+    const providerMustBeArrayErrors = ensureArray({
+      obj: providers,
+      keys: providerMustBeArrayKeys,
+      location,
+    })
+
+    errors.push(...providerMustBeArrayErrors)
+
+    const providerMustBeArrayOfStringKeys = ['roles']
+
+    const providerMustBeArrayOfStringErrors = ensureArrayOfStrings({
+      obj: providers,
+      keys: providerMustBeArrayOfStringKeys,
+      location,
+    })
+
+    errors.push(...providerMustBeArrayOfStringErrors)
   }
 
   // Inspect the extent element

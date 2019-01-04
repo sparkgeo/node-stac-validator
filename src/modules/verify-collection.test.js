@@ -461,9 +461,104 @@ describe('collection STAC Verification for V0.6.0', () => {
     })
 
     describe('the ROLES element', () => {
-      it('must be an array', async () => {})
+      describe('must be an array', () => {
+        it('returns errors when it is not an array', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 'name',
+              roles: 1234,
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).not.toEqual(undefined)
+        })
+
+        it('returns no errors when it is an array', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: {
+              name: 'name',
+              roles: ['test'],
+            },
+          })
+
+          const { errors } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(errors).toEqual(undefined)
+        })
+      })
       describe('the array elements', () => {
-        it('must only contain strings', async () => {})
+        describe('must only contain strings', () => {
+          it('returns an error if any element is not a string', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: true,
+              stac_version: true,
+              providers: {
+                name: 'name',
+                roles: ['test', true, 12345],
+              },
+            })
+
+            const { errors } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(errors).not.toEqual(undefined)
+          })
+          it('returns no errors if the array only contains strings', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: true,
+              stac_version: true,
+              providers: {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            })
+
+            const { errors } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(errors).toEqual(undefined)
+          })
+        })
       })
     })
 
