@@ -1,12 +1,14 @@
+const { flatten } = require('lodash')
+
 const {
   ensureString,
   ensureArray,
-  ensureArrayOfStrings,
   ensureObject,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
-  ensureWorkingLink,
 } = require('../helpers')
+
+const { verifyProvidersObject } = require('./common-objects')
 
 const verifyCollection = async ({
   asset,
@@ -14,8 +16,12 @@ const verifyCollection = async ({
   useRecursion,
   useVersion,
 } = {}) => {
-  let errors = []
-  let parent
+  let requiredKeyErrors = []
+  let mustBeStringKeysErrors = []
+  let mustBeArrayKeysErrrors = []
+  let mustBeObjectKeysErrors = []
+  let filterUnpermittedElementsErrors = []
+  let providersErrors = []
 
   // Ensure required keys are present
   const requiredKeys = [
@@ -27,13 +33,11 @@ const verifyCollection = async ({
     'links',
   ]
 
-  const requiredKeyErrors = ensureContainsMandatoryKeys({
+  requiredKeyErrors = ensureContainsMandatoryKeys({
     asset: asset,
     keys: requiredKeys,
     location,
   })
-
-  errors.push(...requiredKeyErrors)
 
   // Ensure there are no extra keys
   const allowedKeys = [
@@ -50,112 +54,49 @@ const verifyCollection = async ({
 
   const mustBeStringKeys = ['id', 'license']
 
-  const mustBeStringKeysErrors = ensureString({
+  mustBeStringKeysErrors = ensureString({
     location,
     keys: mustBeStringKeys,
     asset: asset,
   })
 
-  errors.push(...mustBeStringKeysErrors)
-
   // Elements must be arrays
-  const mustBeArrayKeys = []
+  const mustBeArrayKeys = ['providers']
 
-  const mustBeArrayKeysErrrors = ensureArray({
+  mustBeArrayKeysErrrors = ensureArray({
     keys: mustBeArrayKeys,
     asset: asset,
     location,
   })
 
-  errors.push(...mustBeArrayKeysErrrors)
-
   // Elements must be objects
-  const mustBeObjectKeys = ['providers', 'extent']
+  const mustBeObjectKeys = ['extent']
 
-  const mustBeObjectKeysErrors = ensureObject({
+  mustBeObjectKeysErrors = ensureObject({
     keys: mustBeObjectKeys,
     asset: asset,
     location,
   })
 
-  errors.push(...mustBeObjectKeysErrors)
-
   // Enforce only allowed keys
-  const filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
+  filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
     asset,
     location,
     allowedKeys,
   })
 
-  errors.push(...filterUnpermittedElementsErrors)
-
-  // ! FAIL: The providers element must be an array of objects
   const { providers } = asset
-  if (providers) {
-    parent = 'providers'
-    const providerRequiredKeys = ['name']
+  if (providers && Array.isArray(providers)) {
+    const providerErrorsPromise = Promise.all(
+      providers.map(element =>
+        verifyProvidersObject({
+          asset: element,
+          location,
+        })
+      )
+    ).then(results => flatten(results))
 
-    // Ensure mandatory keys are provided
-    const providerRequiredKeysErrors = ensureContainsMandatoryKeys({
-      keys: providerRequiredKeys,
-      asset: providers,
-      parent,
-      location,
-    })
-
-    errors.push(...providerRequiredKeysErrors)
-
-    // Ensure certain keys are strings
-    const providerMustBeStringKeys = ['name', 'description', 'url']
-
-    const providerMustBeStringKeysErrors = ensureString({
-      keys: providerMustBeStringKeys,
-      asset: providers,
-      parent,
-      location,
-    })
-
-    errors.push(...providerMustBeStringKeysErrors)
-
-    // Filter for allowed keys in provider
-    const providerAllowedKeys = ['name', 'description', 'roles', 'url']
-
-    const filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
-      asset: providers,
-      location,
-      allowedKeys: providerAllowedKeys,
-    })
-
-    errors.push(...filterUnpermittedElementsErrors)
-
-    // Verify that an element is an array
-    const providerMustBeArrayKeys = ['roles']
-    const providerMustBeArrayErrors = ensureArray({
-      asset: providers,
-      keys: providerMustBeArrayKeys,
-      location,
-    })
-
-    errors.push(...providerMustBeArrayErrors)
-
-    const providerMustBeArrayOfStringKeys = ['roles']
-
-    const providerMustBeArrayOfStringErrors = ensureArrayOfStrings({
-      asset: providers,
-      keys: providerMustBeArrayOfStringKeys,
-      location,
-    })
-
-    errors.push(...providerMustBeArrayOfStringErrors)
-
-    // Verify the url element in providers
-    if (providers.url) {
-      const workingUrlError = await ensureWorkingLink({
-        link: providers.url,
-        location,
-      })
-      errors.push(workingUrlError)
-    }
+    providersErrors = await providerErrorsPromise
   }
 
   // Inspect the extent element
@@ -167,9 +108,16 @@ const verifyCollection = async ({
   const { links } = asset
   if (links) {
   }
-  // ! Post cleanup. Clean output array of undefined's
 
-  errors = errors.filter(i => i)
+  // Clean outputs of undefined or nulls
+  const errors = [
+    ...requiredKeyErrors,
+    ...mustBeStringKeysErrors,
+    ...mustBeArrayKeysErrrors,
+    ...mustBeObjectKeysErrors,
+    ...filterUnpermittedElementsErrors,
+    ...providersErrors,
+  ].filter(i => i)
 
   return errors.length > 0
     ? {

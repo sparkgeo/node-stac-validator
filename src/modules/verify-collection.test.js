@@ -278,40 +278,52 @@ describe('collection STAC Verification for V0.6.0', () => {
     it('must either be proprietary or in SPDX-compliant format', async () => {})
   })
 
-  // ! FAIL: The providers element must be an array of objects
   describe('The PROVIDERS element', () => {
-    it('must be an object', async () => {
-      const asset = collection({
-        id: true,
-        description: true,
-        license: 1234,
-        extent: true,
-        stac_version: true,
-        providers: '123',
+    describe('it must be an array', () => {
+      it('provides a failure when not an array', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: 1234,
+          extent: true,
+          stac_version: true,
+          providers: { foo: 'bar' },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).not.toEqual(undefined)
       })
+      it('passes when is an array', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          extent: true,
+          links: true,
+          stac_version: true,
+          providers: true,
+        })
 
-      const { errors } = await verifyCollection({
-        asset,
-        location,
-        useRecursion,
-        useVersion,
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).toEqual(undefined)
       })
-
-      const message = 'The "providers" element must be an object'
-      const messageIndex =
-        errors.length > 0
-          ? errors
-            .map(i => {
-              if (i) {
-                return i.message
-              }
-            })
-            .indexOf(message)
-          : -1
-
-      expect(messageIndex).not.toEqual(-1)
     })
-    it('must be optional', async () => {
+    describe('it must only contain objects', () => {})
+    describe('it indicates which object in the array fails', () => {})
+
+    it("doesn't give an error when is not provided", async () => {
       const asset = collection({
         id: true,
         description: true,
@@ -330,38 +342,32 @@ describe('collection STAC Verification for V0.6.0', () => {
 
       expect(success).toEqual(true)
     })
-    it('must include a name key', async () => {
-      const asset = collection({
-        id: true,
-        description: true,
-        license: true,
-        extent: true,
-        links: true,
-        stac_version: true,
-        providers: {},
+
+    describe('must include a name key', () => {
+      it('gives an error if missing', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          extent: true,
+          links: true,
+          stac_version: true,
+          providers: [{}],
+        })
+
+        console.log('asset -> ', asset)
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(false)
       })
-
-      const { errors } = await verifyCollection({
-        asset,
-        location,
-        useRecursion,
-        useVersion,
-      })
-
-      const message = 'The "name" element in "providers" is missing'
-      const messageIndex =
-        errors.length > 0
-          ? errors
-            .map(i => {
-              if (i) {
-                return i.message
-              }
-            })
-            .indexOf(message)
-          : -1
-
-      expect(messageIndex).not.toEqual(-1)
     })
+
     it('must include no other keys than "description", "roles", "url", or "key"', async () => {})
 
     describe('The NAME element', () => {
@@ -374,9 +380,11 @@ describe('collection STAC Verification for V0.6.0', () => {
             links: true,
             extent: true,
             stac_version: true,
-            providers: {
-              name: 123,
-            },
+            providers: [
+              {
+                name: 123,
+              },
+            ],
           })
 
           const { errors } = await verifyCollection({
@@ -397,9 +405,11 @@ describe('collection STAC Verification for V0.6.0', () => {
             links: true,
             extent: true,
             stac_version: true,
-            providers: {
-              name: 'name',
-            },
+            providers: [
+              {
+                name: 'name',
+              },
+            ],
           })
 
           const { errors } = await verifyCollection({
@@ -412,7 +422,8 @@ describe('collection STAC Verification for V0.6.0', () => {
           expect(errors).toEqual(undefined)
         })
       })
-      describe('The providers object must contain only "name", "description", "roles", and "url"', () => {
+
+      describe('must contain only "name", "description", "roles", and "url"', () => {
         it('returns an error when there is an extra key', async () => {
           const asset = collection({
             id: true,
@@ -421,10 +432,12 @@ describe('collection STAC Verification for V0.6.0', () => {
             links: true,
             extent: true,
             stac_version: true,
-            providers: {
-              name: 'name',
-              fail: true,
-            },
+            providers: [
+              {
+                name: 'name',
+                fail: true,
+              },
+            ],
           })
 
           const { errors } = await verifyCollection({
@@ -444,9 +457,7 @@ describe('collection STAC Verification for V0.6.0', () => {
             links: true,
             extent: true,
             stac_version: true,
-            providers: {
-              name: 'name',
-            },
+            providers: true,
           })
 
           const { errors } = await verifyCollection({
@@ -495,10 +506,7 @@ describe('collection STAC Verification for V0.6.0', () => {
             links: true,
             extent: true,
             stac_version: true,
-            providers: {
-              name: 'name',
-              roles: ['test'],
-            },
+            providers: true,
           })
 
           const { errors } = await verifyCollection({
@@ -521,10 +529,12 @@ describe('collection STAC Verification for V0.6.0', () => {
               links: true,
               extent: true,
               stac_version: true,
-              providers: {
-                name: 'name',
-                roles: ['test', true, 12345],
-              },
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', true, 12345],
+                },
+              ],
             })
 
             const { errors } = await verifyCollection({
@@ -544,10 +554,12 @@ describe('collection STAC Verification for V0.6.0', () => {
               links: true,
               extent: true,
               stac_version: true,
-              providers: {
-                name: 'name',
-                roles: ['test', 'true', '12345'],
-              },
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
             })
 
             const { errors } = await verifyCollection({
@@ -572,11 +584,13 @@ describe('collection STAC Verification for V0.6.0', () => {
           links: true,
           extent: true,
           stac_version: true,
-          providers: {
-            name: 'name',
-            roles: ['test', 'true', '12345'],
-            url: 'http://httpbin.org',
-          },
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+              url: 'http://httpbin.org',
+            },
+          ],
         })
 
         const { errors } = await verifyCollection({
@@ -596,11 +610,13 @@ describe('collection STAC Verification for V0.6.0', () => {
           links: true,
           extent: true,
           stac_version: true,
-          providers: {
-            name: 'name',
-            roles: ['test', 'true', '12345'],
-            url: 'https://bob.bob',
-          },
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+              url: 'https://bob.bob',
+            },
+          ],
         })
 
         const { errors } = await verifyCollection({
@@ -625,10 +641,12 @@ describe('collection STAC Verification for V0.6.0', () => {
           links: true,
           extent: 123,
           stac_version: true,
-          providers: {
-            name: 'name',
-            roles: ['test', 'true', '12345'],
-          },
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
         })
 
         const { errors } = await verifyCollection({
@@ -649,10 +667,12 @@ describe('collection STAC Verification for V0.6.0', () => {
           links: true,
           extent: true,
           stac_version: true,
-          providers: {
-            name: 'name',
-            roles: ['test', 'true', '12345'],
-          },
+          providers: [
+            {
+              name: 'name',
+              roles: ['test', 'true', '12345'],
+            },
+          ],
         })
 
         const { errors } = await verifyCollection({

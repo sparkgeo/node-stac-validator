@@ -10,7 +10,7 @@ const ensureContainsNoExtraKeys = ({ allowedKeys, asset, location } = {}) => {
     errors.push(
       ...arrayDiff.map(i => ({
         type: 'Extra unpermitted element',
-        message: `The element "${i} is not permitted within a collection`,
+        message: `The element "${i}" is not permitted in its location`,
         url: location,
       }))
     )

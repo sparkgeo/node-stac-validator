@@ -83,7 +83,11 @@ const collection = ({
 
   if (providers) {
     if (providers === true) {
-      asset.providers = []
+      asset.providers = [
+        {
+          name: 'hello world',
+        },
+      ]
     } else {
       asset.providers = providers
     }
