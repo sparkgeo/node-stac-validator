@@ -19,7 +19,6 @@ const { collection } = require('../../factories')
 
 // TODO: Move to factories...
 const location = 'json'
-const useRecursion = false
 const useVersion = 'v0.6.0'
 
 describe('collection STAC Verification for V0.6.0', () => {
@@ -33,7 +32,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -63,7 +61,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -93,7 +90,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -121,7 +117,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { errors } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -148,7 +144,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { errors } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -175,7 +171,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { errors } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -203,7 +199,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { success } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -220,7 +216,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { errors } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -250,7 +246,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { errors } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -281,7 +277,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -293,7 +288,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -310,7 +304,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -323,7 +316,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -339,7 +331,7 @@ describe('collection STAC Verification for V0.6.0', () => {
       const { success } = await verifyCollection({
         asset,
         location,
-        useRecursion,
+
         useVersion,
       })
 
@@ -355,7 +347,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -379,7 +370,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -392,7 +382,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -414,7 +403,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -426,7 +414,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -448,7 +435,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -461,7 +447,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { errors } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -483,7 +468,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { errors } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -502,7 +486,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { errors } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -527,7 +510,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -547,7 +529,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -566,7 +547,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { errors } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -579,7 +559,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -594,7 +573,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -610,7 +588,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
         expect(success).toEqual(false)
@@ -624,7 +601,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -640,7 +616,6 @@ describe('collection STAC Verification for V0.6.0', () => {
         const { success } = await verifyCollection({
           asset,
           location,
-          useRecursion,
           useVersion,
         })
 
@@ -656,7 +631,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { success } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -674,7 +648,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { success } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -693,7 +666,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { success } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -710,7 +682,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { success } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -727,7 +698,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           const { success } = await verifyCollection({
             asset,
             location,
-            useRecursion,
             useVersion,
           })
 
@@ -746,7 +716,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { success } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -764,7 +733,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { success } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -782,7 +750,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { success } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -799,7 +766,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { success } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -816,7 +782,6 @@ describe('collection STAC Verification for V0.6.0', () => {
             const { success } = await verifyCollection({
               asset,
               location,
-              useRecursion,
               useVersion,
             })
 
@@ -829,21 +794,45 @@ describe('collection STAC Verification for V0.6.0', () => {
 
   describe('The LINKS element', () => {
     describe('must be an array', () => {
-      it('gives no error when it is an array', async () => {})
-      it('gives an error when it is an object', async () => {})
-    })
-    describe('must contain an "href" element', () => {})
-    describe('must contain a "rel" element', () => {})
-    describe('should contain no other element aside the above, or "type" and "title"', () => {})
-    describe('must contain no less than one rel element with value "self"', () => {})
+      it('passes when it is an array', async () => {
+        const asset = collection()
 
-    describe('The HREF element', () => {
-      describe('must be a string', () => {})
-      describe('must connect to an existing url', () => {})
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useVersion,
+        })
+
+        expect(success).toEqual(true)
+      })
+      it('fails when it is an object', async () => {
+        const asset = collection({
+          links: {},
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useVersion,
+        })
+
+        expect(success).toEqual(false)
+      })
     })
-    describe('the REL element', () => {
-      describe('must be a string', () => {})
-      describe('should only be a "self", "root", "parent", "child", "item", "license", "derived_from"', () => {})
+    describe('each element within', () => {
+      describe('must contain an "href" element', () => {})
+      describe('must contain a "rel" element', () => {})
+      describe('should contain no other element aside the above, or "type" and "title"', () => {})
+      describe('must contain no less than one rel element with value "self"', () => {})
+
+      describe('The HREF element', () => {
+        describe('must be a string', () => {})
+        describe('must connect to an existing url', () => {})
+      })
+      describe('the REL element', () => {
+        describe('must be a string', () => {})
+        describe('should only be a "self", "root", "parent", "child", "item", "license", "derived_from"', () => {})
+      })
     })
   })
 })
