@@ -1,3 +1,18 @@
+/* ACCEPTANCE TESTING
+
+The purpose of this test is to ensure that what I carry out is in accordance
+with the standard, as well as to ensure the scripts maintain their use
+when I switch from statically testing each object to testing each object
+in contrast to a JSON schema provided by radiant-earth.
+
+These tests are based on the interpretation of the following:
+https://github.com/radiantearth/stac-spec/blob/v0.6.0/collection-spec/collection-spec.md
+
+PATTERNS:
+
+describe (the element) -> describe (the sub element, repeated) -> describe (what it should do) -> it(will pass/will fail if...)
+
+*/
 const verifyCollection = require('./verify-collection', () => {})
 // eslint-disable-next-line
 const { collection } = require('../../factories')
@@ -895,18 +910,241 @@ describe('collection STAC Verification for V0.6.0', () => {
         })
       })
       describe('must contain four or six elements', () => {
-        it('passes when it contains four elements', async () => {})
-        it('passes when it contains six elements', async () => {})
-        it('fails when it contains any other number of elements', async () => {})
+        it('passes when it contains four elements', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: {
+              spatial: [1, 2, 3, 4],
+              temporal: [null, null],
+            },
+            stac_version: true,
+            providers: [
+              {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+        it('passes when it contains six elements', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: {
+              spatial: [1, 2, 3, 4, 5, 6],
+              temporal: [null, null],
+            },
+            stac_version: true,
+            providers: [
+              {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+        it('fails when it contains any other number of elements', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: {
+              spatial: [1, 2, 3, 4, 5, 6, 7],
+              temporal: [null, null],
+            },
+            stac_version: true,
+            providers: [
+              {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
+
         describe('each element should be a number', () => {
-          it('passes when each element is a number', async () => {})
-          it('fails when each element is not a number', async () => {})
+          it('passes when each element is a number', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: {
+                spatial: [1, 2, 3, 4, 5, 6],
+                temporal: [null, null],
+              },
+              stac_version: true,
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
+            })
+
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+
+          it('fails when each element is not a number', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: {
+                spatial: ['bob', 2, 3, 4, 5, 6],
+                temporal: [null, null],
+              },
+              stac_version: true,
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
         })
       })
     })
     describe('the TEMPORAL element', () => {
       describe('each value', () => {
-        describe('must be a null or a valid timestring or null', () => {})
+        describe('must be a valid timestring or null', () => {
+          it('passes when valid or null', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: {
+                spatial: [1, 2, 3, 4, 5, 6],
+                temporal: [null, null],
+              },
+              stac_version: true,
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('fails when it is not a string or a null', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: {
+                spatial: [1, 2, 3, 4, 5, 6],
+                temporal: [1, 2],
+              },
+              stac_version: true,
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
+          it('fails when not a valid timestring', async () => {
+            const asset = collection({
+              id: true,
+              description: true,
+              license: true,
+              links: true,
+              extent: {
+                spatial: [1, 2, 3, 4, 5, 6],
+                temporal: ['july 12 1932 I like hamburgers', null],
+              },
+              stac_version: true,
+              providers: [
+                {
+                  name: 'name',
+                  roles: ['test', 'true', '12345'],
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useRecursion,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
+        })
       })
     })
   })

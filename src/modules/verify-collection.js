@@ -7,6 +7,8 @@ const {
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
   ensureArrayLength,
+  ensureArrayOfNumbers,
+  ensureValidTime,
 } = require('../helpers')
 
 const {
@@ -16,9 +18,12 @@ const {
 
 const verifyExtentObject = ({ asset, location } = {}) => {
   let spatialLengthError, temporalLengthError
+  let spatialValuesErrors = []
+  let temporalContentErrors = []
+  const parent = 'extent'
+
   // Check that it contains required keys
   const requiredKeys = ['spatial', 'temporal']
-
   const requiredKeyErrors = ensureContainsMandatoryKeys({
     asset,
     keys: requiredKeys,
@@ -27,7 +32,6 @@ const verifyExtentObject = ({ asset, location } = {}) => {
 
   // Check that spatial and temporal elements are arrays
   const arrayKeys = ['spatial', 'temporal']
-
   const requiredArrayErrors = ensureArray({
     keys: arrayKeys,
     asset,
@@ -36,32 +40,59 @@ const verifyExtentObject = ({ asset, location } = {}) => {
 
   const { spatial, temporal } = asset
 
-  // Check that spatial array contains four or six elements
   if (spatial) {
+    // Check that spatial array contains four or six elements
     spatialLengthError = ensureArrayLength({
       asset: spatial,
       numElementsArr: [4, 6],
       location,
     })
+
+    // Ensure each element is a number
+    const mustBeArrayNumbersKeys = ['spatial']
+    spatialValuesErrors = ensureArrayOfNumbers({
+      asset,
+      location,
+      parent,
+      keys: mustBeArrayNumbersKeys,
+    })
   }
 
-  // Check that temporal array contains two elements
-  if (temporal) {
+  if (temporal && Array.isArray(temporal)) {
+    // Check that temporal array contains two elements
     temporalLengthError = ensureArrayLength({
       asset: temporal,
       numElements: 2,
       location,
     })
+
+    // Check that  elements are timestrings, or null
+    if (!temporalLengthError) {
+      temporalContentErrors = [
+        ensureValidTime({
+          asset: temporal[0],
+          location,
+          parent,
+        }),
+        ensureValidTime({
+          asset: temporal[1],
+          location,
+          parent,
+        }),
+      ]
+    }
   }
 
-  // Check that first element is timestring, or null
-  // check that second element is timestring, or null
-  return [
+  const errors = [
     ...requiredKeyErrors,
     ...requiredArrayErrors,
+    ...spatialValuesErrors,
+    ...temporalContentErrors,
     spatialLengthError,
     temporalLengthError,
   ]
+
+  return errors
 }
 
 const verifyCollection = async ({

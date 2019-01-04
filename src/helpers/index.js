@@ -8,12 +8,14 @@ const ensureArrayOfStrings = require('./ensure-array-of-strings')
 const ensureArrayOfNumbers = require('./ensure-array-of-numbers')
 const ensureWorkingLink = require('./ensure-working-link')
 const ensureArrayLength = require('./ensure-array-length')
+const ensureValidTime = require('./ensure-valid-time')
 
 module.exports = {
   errorResponses,
   ensureString,
   ensureArray,
   ensureObject,
+  ensureValidTime,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
   ensureArrayOfNumbers,
