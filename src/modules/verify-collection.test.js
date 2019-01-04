@@ -320,7 +320,51 @@ describe('collection STAC Verification for V0.6.0', () => {
         expect(errors).toEqual(undefined)
       })
     })
-    describe('it must only contain objects', () => {})
+
+    describe('it must only contain objects', () => {
+      it('fails when there is a non-object within', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          extent: true,
+          links: true,
+          stac_version: true,
+          providers: [true, { name: '123' }],
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(false)
+      })
+
+      it('passes when there is only objects', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          extent: true,
+          links: true,
+          stac_version: true,
+          providers: true,
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(success).toEqual(true)
+      })
+    })
+
     describe('it indicates which object in the array fails', () => {})
 
     it("doesn't give an error when is not provided", async () => {
@@ -354,8 +398,6 @@ describe('collection STAC Verification for V0.6.0', () => {
           stac_version: true,
           providers: [{}],
         })
-
-        console.log('asset -> ', asset)
 
         const { success } = await verifyCollection({
           asset,

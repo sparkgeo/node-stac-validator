@@ -1,6 +1,7 @@
 const {
   ensureString,
   ensureArray,
+  ensureObject,
   ensureArrayOfStrings,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
@@ -10,9 +11,16 @@ const {
 const verifyProvidersObject = async ({ asset, location } = {}) => {
   const parent = 'providers'
   const providerRequiredKeys = ['name']
-  const errors = []
+  let workingUrlError
 
-  // Ensure asset is an object
+  // Ensure asset is an object.
+  const topLevelCheck = ensureObject({
+    asset,
+    parent,
+    location,
+    checkAssetDirectly: true,
+  })
+  if (topLevelCheck) return [topLevelCheck]
 
   // Ensure mandatory keys are provided
   const providerRequiredKeysErrors = ensureContainsMandatoryKeys({
@@ -21,8 +29,6 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
     parent,
     location,
   })
-
-  errors.push(...providerRequiredKeysErrors)
 
   // Ensure certain keys are strings
   const providerMustBeStringKeys = ['name', 'description', 'url']
@@ -34,8 +40,6 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
     location,
   })
 
-  errors.push(...providerMustBeStringKeysErrors)
-
   // Filter for allowed keys in provider
   const providerAllowedKeys = ['name', 'description', 'roles', 'url']
 
@@ -45,8 +49,6 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
     allowedKeys: providerAllowedKeys,
   })
 
-  errors.push(...filterUnpermittedElementsErrors)
-
   // Verify that an element is an array
   const providerMustBeArrayKeys = ['roles']
   const providerMustBeArrayErrors = ensureArray({
@@ -55,8 +57,7 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
     location,
   })
 
-  errors.push(...providerMustBeArrayErrors)
-
+  // Verify there is an array of strings
   const providerMustBeArrayOfStringKeys = ['roles']
 
   const providerMustBeArrayOfStringErrors = ensureArrayOfStrings({
@@ -65,17 +66,22 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
     location,
   })
 
-  errors.push(...providerMustBeArrayOfStringErrors)
-
   // Verify the url element in providers
   if (asset.url) {
-    const workingUrlError = await ensureWorkingLink({
+    workingUrlError = await ensureWorkingLink({
       link: asset.url,
       location,
     })
-    errors.push(workingUrlError)
   }
-  return errors
+
+  return [
+    workingUrlError,
+    ...providerMustBeArrayOfStringErrors,
+    ...providerMustBeArrayErrors,
+    ...filterUnpermittedElementsErrors,
+    ...providerMustBeStringKeysErrors,
+    ...providerRequiredKeysErrors,
+  ]
 }
 
 module.exports = verifyProvidersObject
