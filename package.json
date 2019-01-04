@@ -10,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "prettier": "prettier -- --write -l 'src/**/*.js'",
+    "prettier": "prettier -- --write -l --loglevel error 'src/**/*.js'",
     "lint": "node_modules/.bin/eslint src/ --fix --ext .js",
     "test": "jest src",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage src"
