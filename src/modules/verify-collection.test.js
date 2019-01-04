@@ -839,8 +839,60 @@ describe('collection STAC Verification for V0.6.0', () => {
 
     describe('the SPATIAL element', () => {
       describe('must be an array', () => {
-        it('passes when it is an array', async () => {})
-        it('fails when it is not an array', async () => {})
+        it('passes when it is an array', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: true,
+            stac_version: true,
+            providers: [
+              {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+
+        it('fails when it is not an array', async () => {
+          const asset = collection({
+            id: true,
+            description: true,
+            license: true,
+            links: true,
+            extent: {
+              spatial: false,
+              temporal: 'bob',
+            },
+            stac_version: true,
+            providers: [
+              {
+                name: 'name',
+                roles: ['test', 'true', '12345'],
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useRecursion,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
       })
       describe('must contain four or six elements', () => {
         it('passes when it contains four elements', async () => {})

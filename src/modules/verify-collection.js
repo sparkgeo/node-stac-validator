@@ -8,7 +8,91 @@ const {
   ensureContainsNoExtraKeys,
 } = require('../helpers')
 
-const { verifyProvidersObject } = require('./common-objects')
+const {
+  verifyProvidersObject,
+  // verifyExtentObject,
+} = require('./common-objects')
+
+const verifyNumberElemenets = ({
+  asset,
+  parent,
+  location,
+  numElements,
+  numElementsArr,
+} = {}) => {
+  if (numElementsArr) {
+    for (const i in numElementsArr) {
+      if (asset.length === numElementsArr[i]) {
+        return
+      }
+    }
+    return {
+      type: 'Incorrect array length',
+      message: `The element ${parent} must be any of the following lengths: ${numElementsArr}`,
+      url: location,
+    }
+  } else if (numElements) {
+    if (asset.length !== numElements) {
+      return {
+        type: 'Incorrect array length',
+        message: `The element ${parent} must be the following length: ${numElements}`,
+        url: location,
+      }
+    }
+  } else {
+    console.log('ERROR: Must contain either numElements or numElementsArr')
+  }
+}
+
+const verifyExtentObject = ({ asset, location } = {}) => {
+  let spatialLengthError, temporalLengthError
+  // Check that it contains required keys
+  const requiredKeys = ['spatial', 'temporal']
+
+  const requiredKeyErrors = ensureContainsMandatoryKeys({
+    asset,
+    keys: requiredKeys,
+    location,
+  })
+
+  // Check that spatial and temporal elements are arrays
+  const arrayKeys = ['spatial', 'temporal']
+
+  const requiredArrayErrors = ensureArray({
+    keys: arrayKeys,
+    asset,
+    location,
+  })
+
+  const { spatial, temporal } = asset
+
+  // Check that spatial array contains four or six elements
+  if (spatial) {
+    spatialLengthError = verifyNumberElemenets({
+      asset: spatial,
+      numElementsArr: [4, 6],
+      location,
+    })
+  }
+
+  // Check that temporal array contains two elements
+  if (temporal) {
+    temporalLengthError = verifyNumberElemenets({
+      asset: temporal,
+      numElements: 2,
+      location,
+    })
+  }
+
+  // Check that first element is timestring, or null
+  // check that second element is timestring, or null
+  return [
+    ...requiredKeyErrors,
+    ...requiredArrayErrors,
+    spatialLengthError,
+    temporalLengthError,
+  ]
+}
 
 const verifyCollection = async ({
   asset,
@@ -22,6 +106,7 @@ const verifyCollection = async ({
   let mustBeObjectKeysErrors = []
   let filterUnpermittedElementsErrors = []
   let providersErrors = []
+  let extentErrors = []
 
   // Ensure required keys are present
   const requiredKeys = [
@@ -102,6 +187,10 @@ const verifyCollection = async ({
   // Inspect the extent element
   const { extent } = asset
   if (extent) {
+    extentErrors = verifyExtentObject({
+      asset: extent,
+      location,
+    })
   }
 
   // Inspect the Links element
@@ -117,6 +206,7 @@ const verifyCollection = async ({
     ...mustBeObjectKeysErrors,
     ...filterUnpermittedElementsErrors,
     ...providersErrors,
+    ...extentErrors,
   ].filter(i => i)
 
   return errors.length > 0

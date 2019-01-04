@@ -54,6 +54,8 @@ const collection = ({
       }
     } else if (typeof extent === 'string') {
       asset.extent = [extent]
+    } else {
+      asset.extent = extent
     }
   }
 
