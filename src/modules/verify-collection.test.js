@@ -563,8 +563,54 @@ describe('collection STAC Verification for V0.6.0', () => {
     })
 
     describe('the URL element', () => {
-      it('must be a string', async () => {})
-      it('must detect a broken link', async () => {})
+      it('returns no errors if the URL is valid', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: true,
+          stac_version: true,
+          providers: {
+            name: 'name',
+            roles: ['test', 'true', '12345'],
+            url: 'http://httpbin.org',
+          },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).toEqual(undefined)
+      })
+      it('returns an error if the URL is invalid', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: true,
+          stac_version: true,
+          providers: {
+            name: 'name',
+            roles: ['test', 'true', '12345'],
+            url: 'https://bob.bob',
+          },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).not.toEqual(undefined)
+      })
     })
   })
 

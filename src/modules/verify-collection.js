@@ -5,6 +5,7 @@ const {
   ensureObject,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
+  ensureWorkingLink,
 } = require('../helpers')
 
 const verifyCollection = async ({
@@ -146,11 +147,20 @@ const verifyCollection = async ({
     })
 
     errors.push(...providerMustBeArrayOfStringErrors)
+
+    // Verify the url element in providers
+    if (providers.url) {
+      const workingUrlError = await ensureWorkingLink({
+        link: providers.url,
+        location,
+      })
+      console.log(`Errors for ${providers.url} -> `, workingUrlError)
+      errors.push(workingUrlError)
+    }
   }
+  // Inspect the Links element
 
   // Inspect the extent element
-
-  // Inspect the Links element
 
   errors = errors.filter(i => i)
   return errors.length > 0
