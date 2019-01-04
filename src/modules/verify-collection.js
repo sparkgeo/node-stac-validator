@@ -70,7 +70,7 @@ const verifyCollection = async ({
   errors.push(...mustBeArrayKeysErrrors)
 
   // Elements must be objects
-  const mustBeObjectKeys = ['providers']
+  const mustBeObjectKeys = ['providers', 'extent']
 
   const mustBeObjectKeysErrors = ensureObject({
     keys: mustBeObjectKeys,
@@ -89,7 +89,7 @@ const verifyCollection = async ({
 
   errors.push(...filterUnpermittedElementsErrors)
 
-  // ! Inspect the providers element
+  // ! FAIL: The providers element must be an array of objects
   const { providers } = asset
   if (providers) {
     parent = 'providers'
@@ -154,15 +154,23 @@ const verifyCollection = async ({
         link: providers.url,
         location,
       })
-      console.log(`Errors for ${providers.url} -> `, workingUrlError)
       errors.push(workingUrlError)
     }
   }
-  // Inspect the Links element
 
   // Inspect the extent element
+  const { extent } = asset
+  if (extent) {
+  }
+
+  // Inspect the Links element
+  const { links } = asset
+  if (links) {
+  }
+  // ! Post cleanup. Clean output array of undefined's
 
   errors = errors.filter(i => i)
+
   return errors.length > 0
     ? {
       success: false,

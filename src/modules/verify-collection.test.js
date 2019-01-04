@@ -278,6 +278,7 @@ describe('collection STAC Verification for V0.6.0', () => {
     it('must either be proprietary or in SPDX-compliant format', async () => {})
   })
 
+  // ! FAIL: The providers element must be an array of objects
   describe('The PROVIDERS element', () => {
     it('must be an object', async () => {
       const asset = collection({
@@ -615,13 +616,62 @@ describe('collection STAC Verification for V0.6.0', () => {
   })
 
   describe('The EXTENT element', () => {
-    it('must be an object', async () => {})
+    describe('must be an object', () => {
+      it('returns an error when not an object', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: 123,
+          stac_version: true,
+          providers: {
+            name: 'name',
+            roles: ['test', 'true', '12345'],
+          },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).not.toEqual(undefined)
+      })
+
+      it('returns no error when is an object', async () => {
+        const asset = collection({
+          id: true,
+          description: true,
+          license: true,
+          links: true,
+          extent: true,
+          stac_version: true,
+          providers: {
+            name: 'name',
+            roles: ['test', 'true', '12345'],
+          },
+        })
+
+        const { errors } = await verifyCollection({
+          asset,
+          location,
+          useRecursion,
+          useVersion,
+        })
+
+        expect(errors).toEqual(undefined)
+      })
+    })
+
     it('must contain a spatial element', async () => {})
     it('must contain a temporal element', async () => {})
 
     describe('the SPATIAL element', () => {
       it('must be an array', () => {})
-      it('must contain four numbers', () => {})
+      it('must contain four or six numbers', () => {})
       describe('the FIRST number', () => {
         it('must be a valid longitude', () => {})
       })

@@ -48,7 +48,10 @@ const collection = ({
 
   if (extent) {
     if (extent === true) {
-      asset.extent = [0, 0, 1, 1]
+      asset.extent = {
+        spatial: [0, 0, 1, 1],
+        temporal: ['2009-01-01T00:00:00Z', null],
+      }
     } else if (typeof extent === 'string') {
       asset.extent = [extent]
     }
