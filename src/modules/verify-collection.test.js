@@ -13,6 +13,7 @@ PATTERNS:
 describe (the element) -> describe (the sub element, repeated) -> describe (what it should do) -> it(will pass/will fail if...)
 
 */
+const { lorem } = require('faker')
 const verifyCollection = require('./verify-collection', () => {})
 // eslint-disable-next-line
 const { collection } = require('../../factories')
@@ -808,6 +809,32 @@ describe('collection STAC Verification for V0.6.0', () => {
       it('fails when it is an object', async () => {
         const asset = collection({
           links: {},
+        })
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useVersion,
+        })
+
+        expect(success).toEqual(false)
+      })
+    })
+    describe('must be an array of objects', () => {
+      it('passes when is an array of objects', async () => {
+        const asset = collection()
+
+        const { success } = await verifyCollection({
+          asset,
+          location,
+          useVersion,
+        })
+
+        expect(success).toEqual(true)
+      })
+      it('fails when it is an array of strings', async () => {
+        const asset = collection({
+          links: [lorem.word(), lorem.word()],
         })
 
         const { success } = await verifyCollection({

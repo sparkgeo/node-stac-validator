@@ -4,6 +4,7 @@ const {
   ensureString,
   ensureArray,
   ensureObject,
+  ensureArrayOfObjects,
   ensureContainsMandatoryKeys,
   ensureContainsNoExtraKeys,
 } = require('../helpers')
@@ -13,20 +14,6 @@ const {
   verifyExtentObject,
   // verifyLinksArray,
 } = require('./common-objects')
-
-// const verifyLinksArray = ({ asset, location, parent } = {}) => {
-//   // Must contain href and rel elements
-
-//   // Contains no other elements than 'href', 'rel', 'type', or 'title'
-
-//   // The href element must be a valid url
-
-//   const { rel } = asset
-//   if (rel) {
-//     // must contain a self element
-//     // must not have any element but "self", "root", "parent", "child", "item", "license", "derived_from"
-//   }
-// }
 
 const verifyCollection = async ({
   asset,
@@ -38,6 +25,7 @@ const verifyCollection = async ({
   let mustBeStringKeysErrors = []
   let mustBeArrayKeysErrrors = []
   let mustBeObjectKeysErrors = []
+  let mustBeArrayOfObjectKeysErrors = []
   let filterUnpermittedElementsErrors = []
   let providersErrors = []
   let extentErrors = []
@@ -97,6 +85,13 @@ const verifyCollection = async ({
     location,
   })
 
+  const mustBeArrayOfObjectKeys = ['links']
+  mustBeObjectKeysErrors = ensureArrayOfObjects({
+    keys: mustBeArrayOfObjectKeys,
+    asset: asset,
+    location,
+  })
+
   // Enforce only allowed keys
   filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
     asset,
@@ -138,6 +133,7 @@ const verifyCollection = async ({
     ...mustBeStringKeysErrors,
     ...mustBeArrayKeysErrrors,
     ...mustBeObjectKeysErrors,
+    ...mustBeArrayOfObjectKeysErrors,
     ...filterUnpermittedElementsErrors,
     ...providersErrors,
     ...extentErrors,
