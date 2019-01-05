@@ -847,18 +847,49 @@ describe('collection STAC Verification for V0.6.0', () => {
       })
     })
     describe('each element within', () => {
-      describe('must contain an "href" element', () => {})
-      describe('must contain a "rel" element', () => {})
-      describe('should contain no other element aside the above, or "type" and "title"', () => {})
-      describe('must contain no less than one rel element with value "self"', () => {})
+      describe('must contain an "href" element', () => {
+        it('passes when href is present', async () => {})
+        it('fails when href is missing', async () => {})
+      })
+
+      describe('must contain a "rel" element', () => {
+        it('passes when rel is present', async () => {})
+        it('fails when rel is missing', async () => {})
+      })
+
+      describe('should contain no other element aside the above, or "type" and "title"', () => {
+        it('passes when only containing the required assets', async () => {})
+        it('fails when it contains an extra element', async () => {})
+      })
+
+      describe('must contain no less than one rel element with value "self"', () => {
+        it('passes when it has one object with rel value self', async () => {})
+        it('fails when blank', async () => {})
+        it('fails when it has one valid ref value that is other than self', async () => {})
+      })
 
       describe('The HREF element', () => {
-        describe('must be a string', () => {})
-        describe('must connect to an existing url', () => {})
+        describe('must be a string', () => {
+          it('passes when it is a string', async () => {})
+          it('fails when it is a number', async () => {})
+        })
+        describe('must connect to an existing url', () => {
+          it('passes if url is valid', async () => {})
+          it('fails if url is invalid', async () => {})
+        })
       })
       describe('the REL element', () => {
         describe('must be a string', () => {})
-        describe('should only be a "self", "root", "parent", "child", "item", "license", "derived_from"', () => {})
+        describe('should only be a "self", "root", "parent", "child", "item", "license", "derived_from"', () => {
+          it('passes if it is self', async () => {})
+          it('passes if it is root', async () => {})
+          it('passes if it is parent', async () => {})
+          it('passes if it is child', async () => {})
+          it('passes if it is item', async () => {})
+          it('passes if it is license', async () => {})
+          it('passes if it is derived_from', async () => {})
+          it('fails if it is something else', async () => {})
+        })
       })
     })
   })

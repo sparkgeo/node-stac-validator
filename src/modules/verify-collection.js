@@ -15,6 +15,40 @@ const {
   // verifyLinksArray,
 } = require('./common-objects')
 
+// const verifyLinksElement = ({ asset, location }) => {
+//   const requiredKeys = ['href', 'rel']
+
+//   const requiredKeyErrors = ensureContainsMandatoryKeys({
+//     asset,
+//     location,
+//     keys: requiredKeys,
+//   })
+
+//   const allowedKeys = ['href', 'rel', 'type', 'title']
+
+//   const permittedKeyErrors = ensureContainsNoExtraKeys({
+//     asset,
+//     location,
+//     allowedKeys,
+//   })
+
+//   return [...requiredKeyErrors, ...permittedKeyErrors]
+// }
+
+// const verifyLinksArray = ({ asset, location, parent } = {}) => {
+//   // Must contain href and rel elements
+
+//   // Contains no other elements than 'href', 'rel', 'type', or 'title'
+
+//   // The href element must be a valid url
+
+//   const { rel } = asset
+//   if (rel) {
+//     // must contain a self element
+//     // must not have any element but "self", "root", "parent", "child", "item", "license", "derived_from"
+//   }
+// }
+
 const verifyCollection = async ({
   asset,
   location,
@@ -41,7 +75,7 @@ const verifyCollection = async ({
   ]
 
   requiredKeyErrors = ensureContainsMandatoryKeys({
-    asset: asset,
+    asset,
     keys: requiredKeys,
     location,
   })
