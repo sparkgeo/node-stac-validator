@@ -848,47 +848,448 @@ describe('collection STAC Verification for V0.6.0', () => {
     })
     describe('each element within', () => {
       describe('must contain an "href" element', () => {
-        it('passes when href is present', async () => {})
-        it('fails when href is missing', async () => {})
+        it('passes when href is present', async () => {
+          const asset = collection()
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+        it('fails when href is missing', async () => {
+          const asset = collection({
+            links: [
+              {
+                rel: 'self',
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
       })
 
       describe('must contain a "rel" element', () => {
-        it('passes when rel is present', async () => {})
-        it('fails when rel is missing', async () => {})
+        it('passes when rel is present', async () => {
+          const asset = collection()
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+        it('fails when rel is missing', async () => {
+          const asset = collection({
+            links: [
+              {
+                href: 'http://pastebin.org',
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
       })
 
       describe('should contain no other element aside the above, or "type" and "title"', () => {
-        it('passes when only containing the required assets', async () => {})
-        it('fails when it contains an extra element', async () => {})
+        it('passes when only containing the allowed assets', async () => {
+          const asset = collection({
+            links: [
+              {
+                href: 'http://pastebin.org',
+                rel: 'self',
+                type: lorem.word(),
+                title: lorem.word(),
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+        it('fails when it contains an extra element', async () => {
+          const asset = collection({
+            links: [
+              {
+                href: 'http://pastebin.org',
+                rel: 'self',
+                type: lorem.word(),
+                title: lorem.word(),
+                failingElement: lorem.word(),
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
       })
 
       describe('must contain no less than one rel element with value "self"', () => {
-        it('passes when it has one object with rel value self', async () => {})
-        it('fails when blank', async () => {})
-        it('fails when it has one valid ref value that is other than self', async () => {})
+        it('passes when it has one object with rel value self', async () => {
+          const asset = collection()
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(true)
+        })
+
+        it('fails when it has one valid ref value that is other than self', async () => {
+          const asset = collection({
+            links: [
+              {
+                href: 'http://pastebin.org',
+                rel: 'root',
+                type: lorem.word(),
+                title: lorem.word(),
+              },
+            ],
+          })
+
+          const { success } = await verifyCollection({
+            asset,
+            location,
+            useVersion,
+          })
+
+          expect(success).toEqual(false)
+        })
       })
 
       describe('The HREF element', () => {
         describe('must be a string', () => {
-          it('passes when it is a string', async () => {})
-          it('fails when it is a number', async () => {})
+          it('passes when it is a string', async () => {
+            const asset = collection()
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+
+          it('fails when it is a number', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: '123',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
         })
+
         describe('must connect to an existing url', () => {
-          it('passes if url is valid', async () => {})
-          it('fails if url is invalid', async () => {})
+          it('passes if url is valid', async () => {
+            const asset = collection()
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+
+          it('fails if url is invalid', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://bob.bob',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
         })
       })
+
       describe('the REL element', () => {
-        describe('must be a string', () => {})
+        describe('must be a string', () => {
+          it('passes when a string is used', async () => {
+            const asset = collection()
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('fails when a number is used', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 1233,
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
+        })
         describe('should only be a "self", "root", "parent", "child", "item", "license", "derived_from"', () => {
-          it('passes if it is self', async () => {})
-          it('passes if it is root', async () => {})
-          it('passes if it is parent', async () => {})
-          it('passes if it is child', async () => {})
-          it('passes if it is item', async () => {})
-          it('passes if it is license', async () => {})
-          it('passes if it is derived_from', async () => {})
-          it('fails if it is something else', async () => {})
+          it('passes if it is self', async () => {
+            const asset = collection()
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+
+          it('passes if a second is root', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'root',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+
+          it('passes if a second is parent', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'parent',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('passes if a second is child', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'child',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('passes if a second is item', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'item',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('passes if a second is license', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'license',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('passes if a second is derived_from', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'derived_from',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(true)
+          })
+          it('fails if a second is something else', async () => {
+            const asset = collection({
+              links: [
+                {
+                  href: 'http://pastebin.org',
+                  rel: 'self',
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+                {
+                  href: 'http://pastebin.org',
+                  rel: lorem.word(),
+                  type: lorem.word(),
+                  title: lorem.word(),
+                },
+              ],
+            })
+
+            const { success } = await verifyCollection({
+              asset,
+              location,
+              useVersion,
+            })
+
+            expect(success).toEqual(false)
+          })
         })
       })
     })
