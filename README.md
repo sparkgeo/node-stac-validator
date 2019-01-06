@@ -37,7 +37,6 @@ This will be subject to change until this is released on NPM
     const responseFromJsonCatalog = validateFromJson({catalog, dig: false})
 ```
 
-
 ## Verification Responses
 
 At this point, there needs to be consistent responses that contain the following:
@@ -89,16 +88,18 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Initial Building
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
-- [ ] Build verification function for "catalog" assets
-- [ ] Build verification function for "collection" assets
-- [ ] Build verification function for "item" assets
-- [ ] Pull common functions of three into helpers
-- [ ] Refactor common error messages into helpers
+- [ ] Build verification function for "catalog" assets for V0.6.0
+- [ ] Build acceptance tests for catalog assets for V0.6.0
+- [x] Build verification function for "collection" assets for V0.6.0
+- [x] Build acceptance tests for collection assets for V0.6.0
+- [ ] Build verification function for "item" assets for V0.6.0
+- [ ] Build acceptance tests for "item" assets for V0.6.0
+- [ ] Integrate [JSONSchema](https://www.npmjs.com/package/jsonschema)
+- [ ] Integrate existing tests into JSON Schema for V0.6.0
 - [ ] Build unit tests for helpers
 - [ ] Integrate with CircleCI
 - [ ] Publish into NPM on release
-- [ ] Enforce Git Flow for versioning
-- [ ] Build command for webpack
+- [ ] Integrate webpack to minimzie production build
 - [ ] Use Circle CI for CD into NPM
 - [ ] Build support for previous and newer versions either than 0.6.0
 
