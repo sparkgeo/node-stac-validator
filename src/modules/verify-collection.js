@@ -6,48 +6,14 @@ const {
   ensureObject,
   ensureArrayOfObjects,
   ensureContainsMandatoryKeys,
-  ensureContainsNoExtraKeys,
+  ensureContainsAllowedKeys,
 } = require('../helpers')
 
 const {
   verifyProvidersObject,
   verifyExtentObject,
-  // verifyLinksArray,
+  verifyLinksArray,
 } = require('./common-objects')
-
-// const verifyLinksElement = ({ asset, location }) => {
-//   const requiredKeys = ['href', 'rel']
-
-//   const requiredKeyErrors = ensureContainsMandatoryKeys({
-//     asset,
-//     location,
-//     keys: requiredKeys,
-//   })
-
-//   const allowedKeys = ['href', 'rel', 'type', 'title']
-
-//   const permittedKeyErrors = ensureContainsNoExtraKeys({
-//     asset,
-//     location,
-//     allowedKeys,
-//   })
-
-//   return [...requiredKeyErrors, ...permittedKeyErrors]
-// }
-
-// const verifyLinksArray = ({ asset, location, parent } = {}) => {
-//   // Must contain href and rel elements
-
-//   // Contains no other elements than 'href', 'rel', 'type', or 'title'
-
-//   // The href element must be a valid url
-
-//   const { rel } = asset
-//   if (rel) {
-//     // must contain a self element
-//     // must not have any element but "self", "root", "parent", "child", "item", "license", "derived_from"
-//   }
-// }
 
 const verifyCollection = async ({
   asset,
@@ -63,6 +29,7 @@ const verifyCollection = async ({
   let filterUnpermittedElementsErrors = []
   let providersErrors = []
   let extentErrors = []
+  let linkErrors = []
 
   // Ensure required keys are present
   const requiredKeys = [
@@ -127,7 +94,7 @@ const verifyCollection = async ({
   })
 
   // Enforce only allowed keys
-  filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
+  filterUnpermittedElementsErrors = ensureContainsAllowedKeys({
     asset,
     location,
     allowedKeys,
@@ -158,7 +125,11 @@ const verifyCollection = async ({
 
   // Inspect the Links element
   const { links } = asset
-  if (links) {
+  if (links && Array.isArray(links)) {
+    linkErrors = await verifyLinksArray({
+      asset: links,
+      location,
+    })
   }
 
   // Clean outputs of undefined or nulls
@@ -171,6 +142,7 @@ const verifyCollection = async ({
     ...filterUnpermittedElementsErrors,
     ...providersErrors,
     ...extentErrors,
+    ...linkErrors,
   ].filter(i => i)
 
   return errors.length > 0

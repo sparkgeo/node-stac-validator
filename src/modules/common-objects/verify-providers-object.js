@@ -4,7 +4,7 @@ const {
   ensureObject,
   ensureArrayOfStrings,
   ensureContainsMandatoryKeys,
-  ensureContainsNoExtraKeys,
+  ensureContainsAllowedKeys,
   ensureWorkingLink,
 } = require('../../helpers')
 
@@ -43,7 +43,7 @@ const verifyProvidersObject = async ({ asset, location } = {}) => {
   // Filter for allowed keys in provider
   const providerAllowedKeys = ['name', 'description', 'roles', 'url']
 
-  const filterUnpermittedElementsErrors = ensureContainsNoExtraKeys({
+  const filterUnpermittedElementsErrors = ensureContainsAllowedKeys({
     asset,
     location,
     allowedKeys: providerAllowedKeys,

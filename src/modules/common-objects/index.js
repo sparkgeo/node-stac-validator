@@ -1,5 +1,5 @@
 module.exports = {
   verifyExtentObject: require('./verify-extent-object'),
-  verifyLinksObject: require('./verify-links-object'),
+  verifyLinksArray: require('./verify-links-array'),
   verifyProvidersObject: require('./verify-providers-object'),
 }

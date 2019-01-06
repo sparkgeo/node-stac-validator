@@ -36,8 +36,7 @@ const collection = ({
     asset.links = links || [
       {
         rel: 'self',
-        href:
-          'https://storage.cloud.google.com/earthengine-test/catalog/COPERNICUS_S2.json',
+        href: 'valid-test',
       },
     ]
   }

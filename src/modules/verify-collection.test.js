@@ -193,7 +193,6 @@ describe('collection STAC Verification for V0.6.0', () => {
 
     it('must have no other elements either than the above, or "keywords", "version", "providers"', async () => {
       const asset = collection({
-        links: true,
         extraElement: true,
       })
 
@@ -894,7 +893,7 @@ describe('collection STAC Verification for V0.6.0', () => {
           const asset = collection({
             links: [
               {
-                href: 'http://pastebin.org',
+                href: 'valid-test',
               },
             ],
           })
@@ -914,7 +913,7 @@ describe('collection STAC Verification for V0.6.0', () => {
           const asset = collection({
             links: [
               {
-                href: 'http://pastebin.org',
+                href: 'valid-test',
                 rel: 'self',
                 type: lorem.word(),
                 title: lorem.word(),
@@ -934,7 +933,7 @@ describe('collection STAC Verification for V0.6.0', () => {
           const asset = collection({
             links: [
               {
-                href: 'http://pastebin.org',
+                href: 'valid-test',
                 rel: 'self',
                 type: lorem.word(),
                 title: lorem.word(),
@@ -970,7 +969,7 @@ describe('collection STAC Verification for V0.6.0', () => {
           const asset = collection({
             links: [
               {
-                href: 'http://pastebin.org',
+                href: 'valid-test',
                 rel: 'root',
                 type: lorem.word(),
                 title: lorem.word(),
@@ -1006,7 +1005,7 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: '123',
+                  href: 123,
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1077,7 +1076,7 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 1233,
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1111,13 +1110,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'root',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1138,13 +1137,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'parent',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1164,13 +1163,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'child',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1190,13 +1189,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'item',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1216,13 +1215,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'license',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1242,13 +1241,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'derived_from',
                   type: lorem.word(),
                   title: lorem.word(),
@@ -1268,13 +1267,13 @@ describe('collection STAC Verification for V0.6.0', () => {
             const asset = collection({
               links: [
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: 'self',
                   type: lorem.word(),
                   title: lorem.word(),
                 },
                 {
-                  href: 'http://pastebin.org',
+                  href: 'valid-test',
                   rel: lorem.word(),
                   type: lorem.word(),
                   title: lorem.word(),
