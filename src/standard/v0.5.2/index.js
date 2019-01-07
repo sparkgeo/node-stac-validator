@@ -1,7 +1,7 @@
 module.exports = {
   geojson: require('./geojson'),
-  item: require('./stac-item'),
-  'stac-item': require('./geojson'),
+  'stac-item': require('./stac-item'),
+  item: false,
   catalog: false,
   collection: false,
 }

@@ -18,6 +18,11 @@ const verifyAsset = async ({
 
   const schema = schemaVersions[version][type]
   console.log('Selected schema: ', schema)
+  console.log('Selected type: ', type)
+
+  if (type === 'item' || type === 'stac-item') {
+    ajv.addSchema(schemaVersions[version]['geojson'])
+  }
 
   const validate = ajv.compile(schema)
   const valid = validate(asset)

@@ -3,5 +3,5 @@ module.exports = {
   item: require('./stac-item'),
   catalog: require('./catalog'),
   collection: require('./collection'),
-  'stac-item': require('./geojson'),
+  'stac-item': false,
 }

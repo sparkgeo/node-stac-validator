@@ -9,34 +9,59 @@ const baseContext = {
   indicateComplete: () => console.log('process finished'),
 }
 
-const validateFromJson = ({ asset, type, version, dig, context } = {}) => {
+const validateFromJson = async ({
+  asset,
+  type,
+  version,
+  dig,
+  context,
+} = {}) => {
   version = version || 'v0.6.0'
   context = context || baseContext
   // eslint-disable-next-line
   const useRecursion = dig || false
   const location = 'json'
+  let response = []
 
   // Ensure basic parameters are valid before linting
   if (!asset) return errorResponses.missingAsset
   if (!type) return errorResponses.missingTypeAttribute
   if (!versions[version]) return errorResponses.unknownVersion(version)
+  if (
+    !(
+      type === 'item' ||
+      type === 'stac-item' ||
+      type === 'catalog' ||
+      type === 'collection' ||
+      type === 'geojson'
+    )
+  ) {
+    return [errorResponses.incorrectType]
+  }
 
-  return verifyAsset({
+  if (versions[version][type] === false) {
+    return errorResponses.typeVersionMisMatch({ version, type })
+  }
+
+  response = await verifyAsset({
     asset,
     location,
     useRecursion,
     version,
     context,
     type,
-  }).then(response => response)
+  }).catch(e => console.log('Error in validateFromJson -> ', e))
+
+  return response
 }
 
-const validateFromUrl = ({ url, type, version, dig, context } = {}) => {
+const validateFromUrl = async ({ url, type, version, dig, context } = {}) => {
   version = version || 'v0.6.0'
   context = context || baseContext
   // eslint-disable-next-line
   const useRecursion = dig || false
   const location = url
+  let response = []
 
   // Ensure basic parameters are valid before linting
   if (!url) return [errorResponses.missingUrl]
@@ -53,23 +78,26 @@ const validateFromUrl = ({ url, type, version, dig, context } = {}) => {
   ) {
     return [errorResponses.incorrectType]
   }
+  if (versions[version][type] === false) {
+    return errorResponses.typeVersionMisMatch({ version, type })
+  }
 
-  get(url)
-    .then(response => {
-      const asset = response.data
-
-      verifyAsset({
-        asset,
-        location,
-        useRecursion,
-        version,
-        context,
-        type,
-      }).then(response => response)
-    })
+  const asset = get(url)
+    .then(r => r.data)
     .catch(e => {
       return [errorResponses.cannotConnectToEntryAsset(url)]
     })
+
+  response = await verifyAsset({
+    asset,
+    location,
+    useRecursion,
+    version,
+    context,
+    type,
+  }).catch(e => console.log('Error in validateFromJson -> ', e))
+
+  return response
 }
 
 module.exports = {

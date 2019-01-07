@@ -17,6 +17,10 @@ const errorResponses = {
     description:
       'Must use "collection", "catalog", "item", "geojson", or "stac-item" or parameter "type"',
   },
+  typeVersionMisMatch: ({ type, version }) => ({
+    title: 'Mismatch between STAC type and version',
+    description: `The type "${type} is not used in STAC version "${version}".`,
+  }),
 }
 
 module.exports = errorResponses
