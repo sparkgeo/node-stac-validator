@@ -82,11 +82,9 @@ const validateFromUrl = async ({ url, type, version, dig, context } = {}) => {
     return errorResponses.typeVersionMisMatch({ version, type })
   }
 
-  const asset = get(url)
-    .then(r => r.data)
-    .catch(e => {
-      return [errorResponses.cannotConnectToEntryAsset(url)]
-    })
+  const { data: asset } = await get(url).catch(e => {
+    return [errorResponses.cannotConnectToEntryAsset(url)]
+  })
 
   response = await verifyAsset({
     asset,

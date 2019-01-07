@@ -14,20 +14,19 @@ const verifyAsset = async ({
   context,
   type,
 } = {}) => {
-  let response = [{ message: 'This is fine' }]
-
-  const schema = schemaVersions[version][type]
-  console.log('Selected schema: ', schema)
-  console.log('Selected type: ', type)
-
-  if (type === 'item' || type === 'stac-item') {
-    ajv.addSchema(schemaVersions[version]['geojson'])
+  let response = {
+    success: true,
+    errors: [],
   }
 
-  const validate = ajv.compile(schema)
-  const valid = validate(asset)
+  const schema = schemaVersions[version][type]
 
-  if (!valid) response = validate.errors
+  const valid = ajv
+    .addSchema(schema, type)
+    .addSchema(schemaVersions[version]['geojson'], 'geojson')
+    .validate(type, asset)
+
+  if (!valid) response = ajv.errors
 
   if (useRecursion) {
     // Get the URL into a promise object
