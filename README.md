@@ -88,7 +88,6 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Initial Building
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
-- [ ] Allow parralel tests using multiple standards (item, geojson) within same lint
 - [ ] Recursion
 - [ ] Parralel recursion
 - [ ] Context during parallel recursion

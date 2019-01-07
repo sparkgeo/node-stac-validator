@@ -13,13 +13,12 @@ const validateFromJson = async ({
   asset,
   type,
   version,
-  dig,
+  useRecursion,
   context,
 } = {}) => {
   version = version || 'v0.6.0'
   context = context || baseContext
   // eslint-disable-next-line
-  const useRecursion = dig || false
   const location = 'json'
   let response = []
 
@@ -55,11 +54,16 @@ const validateFromJson = async ({
   return response
 }
 
-const validateFromUrl = async ({ url, type, version, dig, context } = {}) => {
+const validateFromUrl = async ({
+  url,
+  type,
+  version,
+  useRecursion,
+  context,
+} = {}) => {
   version = version || 'v0.6.0'
   context = context || baseContext
   // eslint-disable-next-line
-  const useRecursion = dig || false
   const location = url
   let response = []
 
