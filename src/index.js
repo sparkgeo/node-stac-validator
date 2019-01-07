@@ -1,4 +1,4 @@
-const { head, get } = require('axios')
+const { get } = require('axios')
 const { verifyAsset } = require('./modules')
 const { errorResponses } = require('./helpers')
 const versions = require('./standard')
@@ -21,10 +21,17 @@ const validateFromJson = ({ asset, type, version, dig, context } = {}) => {
   if (!type) return errorResponses.missingTypeAttribute
   if (!versions[version]) return errorResponses.unknownVersion(version)
 
-  return verifyAsset({ asset, location, useRecursion, version, context, type })
+  return verifyAsset({
+    asset,
+    location,
+    useRecursion,
+    version,
+    context,
+    type,
+  }).then(response => response)
 }
 
-const validateFromUrl = async ({ url, type, version, dig, context } = {}) => {
+const validateFromUrl = ({ url, type, version, dig, context } = {}) => {
   version = version || 'v0.6.0'
   context = context || baseContext
   // eslint-disable-next-line
@@ -47,26 +54,22 @@ const validateFromUrl = async ({ url, type, version, dig, context } = {}) => {
     return [errorResponses.incorrectType]
   }
 
-  await head(url).catch(e => {
-    return [errorResponses.cannotConnectToEntryAsset(url)]
-  })
+  get(url)
+    .then(response => {
+      const asset = response.data
 
-  const { data: asset } = await get(url).catch(e => {
-    return {
-      success: false,
-      message: 'unknown error',
-      content: e,
-    }
-  })
-
-  return verifyAsset({
-    asset,
-    location,
-    useRecursion,
-    version,
-    context,
-    type,
-  })
+      verifyAsset({
+        asset,
+        location,
+        useRecursion,
+        version,
+        context,
+        type,
+      }).then(response => response)
+    })
+    .catch(e => {
+      return [errorResponses.cannotConnectToEntryAsset(url)]
+    })
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ var ajv = new Ajv({ allErrors: true })
 ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
 // ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'))
 
-const verifyAsset = ({
+const verifyAsset = async ({
   asset,
   location,
   useRecursion,
@@ -14,14 +14,6 @@ const verifyAsset = ({
   context,
   type,
 } = {}) => {
-  // console.log('File has been triggered...')
-  // console.log('asset -> ', asset)
-  // console.log('location -> ', location)
-  // console.log('useRecursion -> ', useRecursion)
-  // console.log('version -> ', version)
-  // console.log('context', context)
-  // console.log('type -> ', type)
-
   let response = [{ message: 'This is fine' }]
 
   const schema = schemaVersions[version][type]
