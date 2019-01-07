@@ -1,62 +1,22 @@
-// TODO: Refactor like mad
-
-exports.missingUrl = {
-  success: false,
-  errors: [
-    {
-      location: 'unknown',
-      message: 'missing url',
-    },
-  ],
+const errorResponses = {
+  missingAsset: {
+    title: 'Missing asset',
+    description: 'Requires asset to verify against',
+  },
+  missingTypeAttribute: {
+    title: 'Missing type attribute',
+    description:
+      'Must explain what you are trying to verify. Is it an item/collection/catalog?',
+  },
+  unknownVersion: version => ({
+    title: 'Unknown version',
+    description: `Version ${version} is not an accepted version.`,
+  }),
+  incorrectType: {
+    title: 'Unknown type selected',
+    description:
+      'Must use "collection", "catalog", "item", "geojson", or "stac-item" or parameter "type"',
+  },
 }
 
-exports.cannotConnectToEntryAsset = url => ({
-  success: false,
-  errors: [
-    {
-      location: url,
-      message: 'cannot connect to url',
-    },
-  ],
-})
-
-exports.missingAsset = {
-  success: false,
-  errors: [
-    {
-      location: 'unknown',
-      message: 'missing the main asset',
-    },
-  ],
-}
-
-exports.missingTypeAttribute = {
-  success: false,
-  errors: [
-    {
-      location: 'unknown',
-      message: 'missing one of "item", "catalog", or "collection" attributes',
-    },
-  ],
-}
-
-// eslint-disable-next-line
-exports.unclearTypeAttribute = ({} = {}) => ({
-  success: false,
-  errors: [
-    {
-      location: 'unknown',
-      message: 'type must be one of "item", "catalog", or "collection"',
-    },
-  ],
-})
-
-exports.extraTypeAttribute = {
-  success: false,
-  errors: [
-    {
-      location: 'unknown',
-      message: 'Can only have one of "item", "catalog", or "collection"',
-    },
-  ],
-}
+module.exports = errorResponses

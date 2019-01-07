@@ -88,14 +88,10 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Initial Building
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
-- [ ] Build verification function for "catalog" assets for V0.6.0
-- [ ] Build acceptance tests for catalog assets for V0.6.0
-- [x] Build verification function for "collection" assets for V0.6.0
-- [x] Build acceptance tests for collection assets for V0.6.0
-- [ ] Build verification function for "item" assets for V0.6.0
-- [ ] Build acceptance tests for "item" assets for V0.6.0
-- [ ] Integrate [JSONSchema](https://www.npmjs.com/package/jsonschema)
-- [ ] Integrate existing tests into JSON Schema for V0.6.0
+- [ ] Allow parralel tests using multiple standards (item, geojson) within same lint
+- [ ] Recursion
+- [ ] Parralel recursion
+- [ ] Context during parallel recursion
 - [ ] Build unit tests for helpers
 - [ ] Integrate with CircleCI
 - [ ] Publish into NPM on release
@@ -103,3 +99,12 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [ ] Use Circle CI for CD into NPM
 - [ ] Build support for previous and newer versions either than 0.6.0
 
+## The Context Object
+
+The context object allows for real-time operations such as streaming.
+
+| Key name | Intended use | type |
+| --------- | ----- | ---- |
+| errorList | a list of errors | object |
+| indicateError | a function for updating that accepts an error object | function |
+| indicateComplete | a function that indicates the linting is complete | function |

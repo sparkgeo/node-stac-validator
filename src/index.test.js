@@ -30,9 +30,6 @@ describe('The entry point', () => {
       expect(success).toEqual(false)
     })
 
-    it('accepts a "dig" parameter', () => {})
-    it('accepts a "version" parameter', () => {})
-
     it('must have a "type" parameter', async () => {
       const { success } = await validateFromUrl({ url: '...' })
       expect(success).toEqual(false)
@@ -47,37 +44,38 @@ describe('The entry point', () => {
         expect(success).toEqual(true)
       })
 
-      it('gracefully fails if the url does not point to a valid asset', () => {})
-      it('determines the version and asset type from the file', () => {})
-      it('gracefully fails if the version does not match up', () => {})
+      describe('gracefully fails if the url does not point to a valid asset', () => {})
+      describe('determines the version and asset type from the file', () => {})
+      describe('gracefully fails if the version does not match up', () => {})
     })
     describe('The DIG parameter', () => {
-      it('defaults to false if not provided', () => {})
-      it('validates nested catalogs, collections or items if true', () => {})
-      it('ignores nested catalogs, collections, or items if set to false', () => {})
+      describe('defaults to false if not provided', () => {})
+      describe('validates nested catalogs, collections or items if true', () => {})
+      describe('ignores nested catalogs, collections, or items if set to false', () => {})
     })
     describe('The TYPE parameter', () => {
-      it('is a string', () => {})
-      it('provides an error if it is not one of "collection", "item", "catalog"', () => {})
+      describe('is a string', () => {})
+      describe('provides an error if it is not one of "collection", "item", "catalog"', () => {})
     })
 
     describe('the version parameter', () => {
-      it('defaults to the latest version when blank', () => {})
+      describe('it must use an accepted version number', () => {})
+      describe('it selects version v0.6.0 if no parameter is selected', () => {})
     })
   })
   describe('the VALIDATE FROM JSON method', () => {
-    it('accepts a "item" parameter', () => {})
-    it('accepts a "collection", parameter', () => {})
-    it('accepts a "catalog" parameter', () => {})
-    it('accepts a "dig" parameter', () => {})
-    it('accepts a "version" parameter', () => {})
+    describe('accepts a "item" parameter', () => {})
+    describe('accepts a "collection", parameter', () => {})
+    describe('accepts a "catalog" parameter', () => {})
+    describe('accepts a "dig" parameter', () => {})
+    describe('accepts a "version" parameter', () => {})
 
-    it('gracefully fails if one of "item", "collection", or "catalog" not present', () => {})
-    it('gracefully failes when more of one of "item", "collection", or "catalog" is present', () => {})
+    describe('gracefully fails if one of "item", "collection", or "catalog" not present', () => {})
+    describe('gracefully failes when more of one of "item", "collection", or "catalog" is present', () => {})
 
     describe('the version parameter', () => {
-      it('defaults to the latest version when blank', () => {})
-      it('responds with an error if it fails to match a known version', () => {})
+      describe('defaults to the latest version when blank', () => {})
+      describe('responds with an error if it fails to match a known version', () => {})
     })
 
     describe('when using the ITEM attribute', () => {
