@@ -1,0 +1,8 @@
+Sample file for 0.6.0:
+
+https://raw.githubusercontent.com/radiantearth/stac-spec/v0.6.0/item-spec/examples/planet-sample.json
+
+
+Catalog - https://raw.githubusercontent.com/radiantearth/stac-spec/v0.6.0/collection-spec/examples/sentinel2.json
+
+https://cbers-stac.s3.amazonaws.com/CBERS4/MUX/057/catalog.json

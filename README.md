@@ -13,6 +13,33 @@ Validates a spatial temporal catalog asset based on the specs laid out by [Radia
 
 In order to denote compatability with the Stac specification, the first stable version will be 0.6.0, which is the latest version for STAC.
 
+## Usage
+
+### validateFromURl
+
+Validate from URL validates STAC from a remote source.
+
+| Parameter | Type | Description | Required |
+| --------- | ---- | ----------- | -------- |
+| url | string | the source of the STAC to be validated | **yes** |
+| type | string | The type of stac being validated. Can be "item", "stac-item", "catalog", "collection" or "geojson" | **yes** |
+| version | string | The version. Defaults to 'v0.6.0' | _Optional_ |
+| useRecursion | boolean | set to true if you want to traverse deeper than the initial file | no |
+| context | object | Not implemented. Intended for streaming results | _No_ |
+
+### validateFromJson
+
+Validates a STAC asset from user-provided JSON
+
+| Parameter | Type | Description | Required |
+| --------- | ---- | ----------- | -------- |
+| asset | string | the stringified JSON asset | **yes** |
+| type | string | The type of stac being validated. Can be "item", "stac-item", "catalog", "collection" or "geojson" | **yes** |
+| version | string | The version. Defaults to 'v0.6.0' | _Optional_ |
+| useRecursion | boolean | set to true if you want to traverse deeper than the initial file | no |
+| context | object | Not implemented. Intended for streaming results | _No_ |
+
+
 ## Intended Usage
 
 This will be subject to change until this is released on NPM
