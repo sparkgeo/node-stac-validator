@@ -18,14 +18,15 @@ const verifyAsset = async ({
     errors: [],
   }
 
-  const ajv = new Ajv({ allErrors: true })
+  // const ajv = new Ajv({ allErrors: true })
+  const ajv = new Ajv({ logger: false })
   ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
   let childAssets = []
   const schema = schemaVersions[version][type]
 
   const valid = ajv
     .addSchema(schema, type)
-    .addSchema(schemaVersions[version]['geojson'], 'geojson')
+    .addSchema(schemaVersions[version]['geojson'], 'geojson.json')
     .validate(type, asset)
 
   if (!valid) {

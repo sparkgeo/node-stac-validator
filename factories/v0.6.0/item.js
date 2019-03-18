@@ -15,7 +15,7 @@ const item = ({ id, type, geometry, bbox, properties, links, assets } = {}) => {
 
   if (properties !== false) {
     asset.properties = properties || {
-      datetime: '-04:00 of 2008-03-19T00:00:00.0000000-04:00',
+      datetime: new Date().toISOString(),
       title: lorem.word(),
     }
   }
