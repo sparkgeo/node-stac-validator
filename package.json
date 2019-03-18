@@ -13,7 +13,9 @@
     "prettier": "prettier -- --write -l --loglevel error 'src/**/*.js'",
     "lint": "node_modules/.bin/eslint src/ --fix --ext .js",
     "test": "jest src",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage src"
+    "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
+    "transpile": "webpack",
+    "prepublishOnly": "npm run transpile"
   },
   "license": "ISC",
   "dependencies": {
@@ -24,6 +26,11 @@
     "ramda": "^0.26.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-regenerator": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "babel-polyfill": "^6.26.0",
     "eslint": "^5.10.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.1.2",
@@ -31,8 +38,10 @@
     "eslint-plugin-standard": "^4.0.0",
     "faker": "^4.1.0",
     "husky": "^1.2.1",
-    "jest": "^23.6.0",
-    "prettier": "^1.15.3"
+    "jest": "^24.5.0",
+    "prettier": "^1.15.3",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "husky": {
     "hooks": {

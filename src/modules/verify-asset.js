@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 const Ajv = require('ajv')
 // const { flatten } = require('lodash')
 const schemaVersions = require('../standard')
@@ -21,7 +23,6 @@ const verifyAsset = async ({
     errors: [],
   }
   let childAssets = []
-  console.log('=========== MEEEP MORP =============')
 
   const schema = schemaVersions[version][type]
 
