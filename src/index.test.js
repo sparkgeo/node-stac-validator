@@ -8,6 +8,19 @@ describe('Validate from URL', () => {
 
 describe('Validate from JSON', () => {
   describe('Single-item Acceptance Testing', () => {
+    // TODO
+    /*
+      the following versons require to be done:
+      0.4.0
+      0.4.1
+      0.5.0
+      0.5.1
+      0.5.2
+      0.6.0
+      0.6.1
+      0.6.2
+    */
+
     describe('Version 0.6.0', () => {
       describe('STAC Items', () => {
         describe('With a valid item', () => {
