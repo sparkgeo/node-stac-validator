@@ -1,12 +1,13 @@
 {
-  "name": "stac-validator",
-  "author": "Sparkgeo",
+  "name": "@sparkgeo/stac-validator",
+  "author": "Sparkgeo <hi@sparkgeo.com>",
   "repository": {
     "type": "github",
     "url": "https://github.com/sparkgeo/node-stacvalidator"
   },
-  "version": "0.0.1",
-  "description": "a node implementation of stac-validator",
+  "version": "0.1.0",
+  "description": "A node implementation of stac-validator",
+  "keywords": ["stac-spec", "stac", "remote sensing", "earth observation", "geospatial"],
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -17,7 +18,7 @@
     "transpile": "webpack",
     "prepublishOnly": "npm run transpile"
   },
-  "license": "ISC",
+  "license": "Apache License 2.0",
   "dependencies": {
     "ajv": "^6.6.2",
     "axios": "^0.18.0",

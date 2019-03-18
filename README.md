@@ -27,7 +27,7 @@ Validate from URL validates STAC from a remote source.
 | useRecursion | boolean | set to true if you want to traverse deeper than the initial file | no |
 | context | object | Not implemented. Intended for streaming results | _No_ |
 
-### validateFromJson
+### validateFromObject
 
 Validates a STAC asset from user-provided JSON
 
@@ -45,7 +45,7 @@ Validates a STAC asset from user-provided JSON
 This will be subject to change until this is released on NPM
 
 ```js
-    const { validateFromUrl, validateFromJson } = require('@sparkgeo/stac-validator')
+    const { validateFromUrl, validateFromObject } = require('@sparkgeo/stac-validator')
 
 
     const type = 'catalog' // or 'item' or 'collection'
@@ -59,9 +59,9 @@ This will be subject to change until this is released on NPM
     const collection = { ... } // stac collection
     const item = { ... } // stac item
 
-    const responseFromJsonItem = validateFromJson({item, dig: false})
-    const responseFromJsonCollection = validateFromJson({collection, dig: false})
-    const responseFromJsonCatalog = validateFromJson({catalog, dig: false})
+    const responseFromJsonItem = validateFromObject({item, dig: false})
+    const responseFromJsonCollection = validateFromObject({collection, dig: false})
+    const responseFromJsonCatalog = validateFromObject({catalog, dig: false})
 ```
 
 ## Verification Responses
@@ -116,9 +116,6 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
 - [ ] Recursion
-- [ ] Parralel recursion
-- [ ] Context during parallel recursion
-- [ ] Build unit tests for helpers
 - [ ] Integrate with CircleCI
 - [ ] Publish into NPM on release
 - [ ] Integrate webpack to minimzie production build
