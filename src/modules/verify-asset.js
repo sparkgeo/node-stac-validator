@@ -4,11 +4,6 @@ const Ajv = require('ajv')
 // const { flatten } = require('lodash')
 const schemaVersions = require('../standard')
 const { get } = require('axios')
-// const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
-var ajv = new Ajv({ allErrors: true })
-
-ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
-// ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'))
 
 const verifyAsset = async ({
   asset,
@@ -22,8 +17,10 @@ const verifyAsset = async ({
     success: true,
     errors: [],
   }
-  let childAssets = []
 
+  const ajv = new Ajv({ allErrors: true })
+  ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
+  let childAssets = []
   const schema = schemaVersions[version][type]
 
   const valid = ajv
