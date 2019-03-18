@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-const { validateFromUrl, validateFromJson } = require('./index')
+const { validateFromUrl, validateFromObject } = require('./index')
 const { catalog, collection, item } = require('../factories/v0.6.0')
 
 describe('Validate from URL', () => {
@@ -25,7 +25,7 @@ describe('Validate from JSON', () => {
       describe('STAC Items', () => {
         describe('With a valid item', () => {
           it('Contains a success property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: item(),
               type: 'item',
               version: 'v0.6.0',
@@ -37,7 +37,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Is successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: item(),
               type: 'item',
               version: 'v0.6.0',
@@ -49,7 +49,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: item(),
               type: 'item',
               version: 'v0.6.0',
@@ -62,7 +62,7 @@ describe('Validate from JSON', () => {
 
           describe('The errors property', () => {
             it('must be empty', async () => {
-              let response = await validateFromJson({
+              let response = await validateFromObject({
                 asset: item(),
                 type: 'item',
                 version: 'v0.6.0',
@@ -76,7 +76,7 @@ describe('Validate from JSON', () => {
         })
         describe('With an invalid item', () => {
           it('is not successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: item({
                 type: false,
               }),
@@ -90,7 +90,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: item({
                 type: false,
               }),
@@ -106,7 +106,7 @@ describe('Validate from JSON', () => {
           // Fails. Unknown why at this time.
           describe('The errors property', () => {
             // it('must not be empty', async () => {
-            //   let response = await validateFromJson({
+            //   let response = await validateFromObject({
             //     asset: item({
             //       bbox: false,
             //     }),
@@ -124,7 +124,7 @@ describe('Validate from JSON', () => {
       describe('STAC Collections', () => {
         describe('With a valid collection', () => {
           it('Contains a success property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: collection(),
               type: 'collection',
               version: 'v0.6.0',
@@ -136,7 +136,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Is successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: collection(),
               type: 'collection',
               version: 'v0.6.0',
@@ -148,7 +148,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: collection(),
               type: 'collection',
               version: 'v0.6.0',
@@ -161,7 +161,7 @@ describe('Validate from JSON', () => {
 
           describe('The errors property', () => {
             it('must be empty', async () => {
-              let response = await validateFromJson({
+              let response = await validateFromObject({
                 asset: collection(),
                 type: 'collection',
                 version: 'v0.6.0',
@@ -175,7 +175,7 @@ describe('Validate from JSON', () => {
         })
         describe('With an invalid item', () => {
           it('is not successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: collection({
                 description: false,
               }),
@@ -189,7 +189,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: collection({
                 description: false,
               }),
@@ -204,7 +204,7 @@ describe('Validate from JSON', () => {
 
           describe('The errors property', () => {
             it('must be empty', async () => {
-              let response = await validateFromJson({
+              let response = await validateFromObject({
                 asset: collection({
                   description: false,
                 }),
@@ -223,7 +223,7 @@ describe('Validate from JSON', () => {
       describe('STAC Catalog', () => {
         describe('With a valid catalog', () => {
           it('Contains a success property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: catalog(),
               type: 'catalog',
               version: 'v0.6.0',
@@ -235,7 +235,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Is successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: catalog(),
               type: 'catalog',
               version: 'v0.6.0',
@@ -247,7 +247,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: catalog(),
               type: 'catalog',
               version: 'v0.6.0',
@@ -260,7 +260,7 @@ describe('Validate from JSON', () => {
 
           describe('The errors property', () => {
             it('must be empty', async () => {
-              let response = await validateFromJson({
+              let response = await validateFromObject({
                 asset: catalog(),
                 type: 'catalog',
                 version: 'v0.6.0',
@@ -274,7 +274,7 @@ describe('Validate from JSON', () => {
         })
         describe('With an invalid item', () => {
           it('is not successful', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: catalog({
                 description: false,
               }),
@@ -288,7 +288,7 @@ describe('Validate from JSON', () => {
           })
 
           it('Contains a errors property', async () => {
-            let response = await validateFromJson({
+            let response = await validateFromObject({
               asset: catalog({
                 description: false,
               }),
@@ -303,7 +303,7 @@ describe('Validate from JSON', () => {
 
           describe('The errors property', () => {
             it('must be empty', async () => {
-              let response = await validateFromJson({
+              let response = await validateFromObject({
                 asset: catalog({
                   description: false,
                 }),

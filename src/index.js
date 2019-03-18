@@ -9,7 +9,7 @@ const baseContext = {
   indicateComplete: () => console.log('process finished'),
 }
 
-const validateFromJson = async ({
+const validateFromObject = async ({
   asset,
   type,
   version,
@@ -49,7 +49,7 @@ const validateFromJson = async ({
     version,
     context,
     type,
-  }).catch(e => console.log('Error in validateFromJson -> ', e))
+  }).catch(e => console.log('Error in validateFromObject -> ', e))
 
   return response
 }
@@ -97,12 +97,12 @@ const validateFromUrl = async ({
     version,
     context,
     type,
-  }).catch(e => console.log('Error in validateFromJson -> ', e))
+  }).catch(e => console.log('Error in validateFromObject -> ', e))
 
   return response
 }
 
 module.exports = {
-  validateFromJson,
+  validateFromObject,
   validateFromUrl,
 }
