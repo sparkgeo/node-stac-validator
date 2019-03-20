@@ -1,7 +1,7 @@
 {
   "name": "stac-validator",
   "author": "Sparkgeo <hi@sparkgeo.com>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "github",
     "url": "https://github.com/sparkgeo/node-stacvalidator"
@@ -37,6 +37,7 @@
     "ramda": "^0.26.1"
   },
   "devDependencies": {
+
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-regenerator": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
