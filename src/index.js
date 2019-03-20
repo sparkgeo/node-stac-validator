@@ -1,105 +1,59 @@
-const { get } = require('axios')
-const { verifyAsset } = require('./modules')
-const { errorResponses } = require('./helpers')
-const versions = require('./standard')
+// const chalk = require('chalk')
 
-const baseContext = {
-  errorList: [],
-  indicateError: error => console.log(error),
-  indicateComplete: () => console.log('process finished'),
+const { validateFromObject, validateFromUrl } = require('./modules')
+
+const log = console.log
+const args = process.argv
+
+// usage represents the help guide
+const usage = function() {
+  const usageText = `
+  Validates a stac asset. 2019, Sparkgeo.
+
+  usage:
+
+    node-stacvalidator <url> <type> <version>
+
+  Arguments:
+
+    url:      Location of the STAC to be validated
+    type:     Type of asset being verified. Valid entries are "item", "catalog" and "collection"
+    version:  Version of the asset. Valid format: "v0.6.2"
+  `
+
+  console.log(usageText)
 }
 
-const validateFromObject = async ({
-  asset,
-  type,
-  version,
-  useRecursion,
-  context,
-} = {}) => {
-  version = version || 'v0.6.0'
-  context = context || baseContext
-  // eslint-disable-next-line
-  const location = 'json'
-  let response = []
+// // used to log errors to the console in red color
+// function errorLog(error) {
+//   const eLog = chalk.red(error)
+//   console.log(eLog)
+// }
 
-  // Ensure basic parameters are valid before linting
-  if (!asset) return errorResponses.missingAsset
-  if (!type) return errorResponses.missingTypeAttribute
-  if (!versions[version]) return errorResponses.unknownVersion(version)
-  if (
-    !(
-      type === 'item' ||
-      type === 'stac-item' ||
-      type === 'catalog' ||
-      type === 'collection' ||
-      type === 'geojson'
-    )
-  ) {
-    return [errorResponses.incorrectType]
-  }
+log('Number of args -> ', args.length)
+// we make sure the length of the arguments is exactly three
+if (args.length === 5) {
+  const url = args[2]
+  const type = args[3]
+  const version = args[4]
 
-  if (versions[version][type] === false) {
-    return errorResponses.typeVersionMisMatch({ version, type })
-  }
+  log('url -> ', url)
+  log('type -> ', type)
+  log('version -> ', version)
 
-  response = await verifyAsset({
-    asset,
-    location,
-    useRecursion,
-    version,
-    context,
+  validateFromUrl({
+    url,
     type,
-  }).catch(e => console.log('Error in validateFromObject -> ', e))
-
-  return response
-}
-
-const validateFromUrl = async ({
-  url,
-  type,
-  version,
-  useRecursion,
-  context,
-} = {}) => {
-  version = version || 'v0.6.0'
-  context = context || baseContext
-  // eslint-disable-next-line
-  const location = url
-  let response = []
-
-  // Ensure basic parameters are valid before linting
-  if (!url) return [errorResponses.missingUrl]
-  if (!type) return [errorResponses.missingTypeAttribute]
-  if (!versions[version]) return [errorResponses.unknownVersion(version)]
-  if (
-    !(
-      type === 'item' ||
-      type === 'stac-item' ||
-      type === 'catalog' ||
-      type === 'collection' ||
-      type === 'geojson'
-    )
-  ) {
-    return [errorResponses.incorrectType]
-  }
-  if (versions[version][type] === false) {
-    return errorResponses.typeVersionMisMatch({ version, type })
-  }
-
-  const { data: asset } = await get(url).catch(e => {
-    return [errorResponses.cannotConnectToEntryAsset(url)]
+    version,
   })
-
-  response = await verifyAsset({
-    asset,
-    location,
-    useRecursion,
-    version,
-    context,
-    type,
-  }).catch(e => console.log('Error in validateFromObject -> ', e))
-
-  return response
+    .then(response => {
+      console.log('response -> ', response)
+      console.log(response.success)
+      console.log(response.errors)
+    })
+    .catch(log)
+} else {
+  usage()
 }
 
 module.exports = {

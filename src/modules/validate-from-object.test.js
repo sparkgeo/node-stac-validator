@@ -1,26 +1,9 @@
 // eslint-disable-next-line
-const { validateFromUrl, validateFromObject } = require('./index')
-const { catalog, collection, item } = require('../factories/v0.6.0')
+const { validateFromObject } = require('./index')
+const { catalog, collection, item } = require('../../factories/v0.6.0')
 
-describe('Validate from URL', () => {
-  it('needs to be implemented', () => {})
-})
-
-describe('Validate from JSON', () => {
+describe('Validate from Object', () => {
   describe('Single-item Acceptance Testing', () => {
-    // TODO
-    /*
-      the following versons require to be done:
-      0.4.0
-      0.4.1
-      0.5.0
-      0.5.1
-      0.5.2
-      0.6.0
-      0.6.1
-      0.6.2
-    */
-
     describe('Version 0.6.0', () => {
       describe('STAC Items', () => {
         describe('With a valid item', () => {

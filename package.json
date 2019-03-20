@@ -7,7 +7,13 @@
   },
   "version": "0.1.0",
   "description": "A node implementation of stac-validator",
-  "keywords": ["stac-spec", "stac", "remote sensing", "earth observation", "geospatial"],
+  "keywords": [
+    "stac-spec",
+    "stac",
+    "remote sensing",
+    "earth observation",
+    "geospatial"
+  ],
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -22,6 +28,7 @@
   "dependencies": {
     "ajv": "^6.6.2",
     "axios": "^0.18.0",
+    "chalk": "^2.4.2",
     "lodash": "^4.17.11",
     "luxon": "^1.9.0",
     "ramda": "^0.26.1"

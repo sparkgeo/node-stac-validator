@@ -42,6 +42,21 @@ Validates a STAC asset from user-provided parsed object.
 
 ## Intended Usage
 
+### CLI
+
+`node-stacvalidator <url> <type> <version>`
+
+```sh
+node-stacvalidator https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  catalog v0.6.2
+```
+
+Until this is published, and if you're troubleshooting locally, use the following:
+
+```sh
+node ./src/index.js https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json catalog v0.6.2
+```
+
+### Modules
 This will be subject to change until this is released on NPM
 
 ```js
