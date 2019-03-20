@@ -1,11 +1,11 @@
 {
-  "name": "@sparkgeo/stac-validator",
+  "name": "stac-validator",
   "author": "Sparkgeo <hi@sparkgeo.com>",
+  "version": "0.0.1",
   "repository": {
     "type": "github",
     "url": "https://github.com/sparkgeo/node-stacvalidator"
   },
-  "version": "0.1.0",
   "description": "A node implementation of stac-validator",
   "keywords": [
     "stac-spec",
