@@ -1,4 +1,4 @@
-// const chalk = require('chalk')
+const chalk = require('chalk')
 
 const { validateFromObject, validateFromUrl } = require('./modules')
 
@@ -47,9 +47,21 @@ if (args.length === 5) {
     version,
   })
     .then(response => {
-      console.log('response -> ', response)
-      console.log(response.success)
-      console.log(response.errors)
+      if (response.success) {
+        log(`${chalk.green('Success')} -> The STAC asset is valid`)
+      } else {
+        log(
+          `${chalk.red(
+            'Sorry ->'
+          )} The asset is not valid. Here are the listed errors:`
+        )
+        log('=======================================================')
+        response.errors.forEach(item => {
+          log(chalk.red(item.keyword))
+          log(item.message)
+        })
+        log('=======================================================')
+      }
     })
     .catch(log)
 } else {
