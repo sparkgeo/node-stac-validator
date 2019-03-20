@@ -1,7 +1,6 @@
 var fs = require('fs')
 const chalk = require('chalk')
 const { validateFromObject, validateFromUrl } = require('./modules')
-const { args } = require('./helpers')
 const {
   // unknownFileLocation,
   malformedUrl,
@@ -26,6 +25,25 @@ const failMessage = errors => {
 
 const logMessage = response =>
   response.success ? successMessage : failMessage(response.errors)
+
+const args = require('optimist')
+  .usage('Validates a STAC asset.\nUsage: $0')
+  .demand('l')
+  .alias('l', 'location')
+  .describe('l', 'The location of the asset')
+  .demand('s')
+  .alias('s', 'source')
+  .describe('s', 'Source. Either "url" or "file"')
+  .alias('t', 'type')
+  .describe(
+    't',
+    'Asset type. Used for v0.6.0 onwards. Can be "catalog" (default), "item", of "collection"'
+  )
+  .demand('v')
+  .alias('v', 'version')
+  .describe('v', 'Version. Prepend with v: "v0.5.2"')
+  .alias('t', 'traverse')
+  .describe('t', 'Traverse all files referenced by asset. Set to "true"').argv
 
 switch (args.s) {
   case 'url':
