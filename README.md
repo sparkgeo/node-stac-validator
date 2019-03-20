@@ -29,7 +29,7 @@ Validate from URL validates STAC from a remote source.
 
 ### validateFromObject
 
-Validates a STAC asset from user-provided JSON
+Validates a STAC asset from user-provided parsed object.
 
 | Parameter | Type | Description | Required |
 | --------- | ---- | ----------- | -------- |
@@ -115,6 +115,7 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Initial Building
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
+- [ ] Build CLI for files and urls
 - [ ] Recursion
 - [ ] Integrate with CircleCI
 - [ ] Publish into NPM on release
@@ -131,3 +132,8 @@ The context object allows for real-time operations such as streaming.
 | errorList | a list of errors | object |
 | indicateError | a function for updating that accepts an error object | function |
 | indicateComplete | a function that indicates the linting is complete | function |
+
+
+## Sample Catalog
+
+https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json
