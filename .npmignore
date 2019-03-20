@@ -4,3 +4,9 @@ examples
 .gitignore
 webpack.config.js
 factories
+.vscode
+scratch.txt
+.nvmrc
+sample
+factories
+coverage
