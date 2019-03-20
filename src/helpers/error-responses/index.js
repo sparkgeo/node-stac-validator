@@ -23,7 +23,7 @@ const errorResponses = {
     errors: [
       {
         keyword: 'Unknown version',
-        message: `Version ${version} is not an accepted version.`,
+        message: `Version ${version} is not a version this validator is aware of.`,
       },
     ],
   }),
@@ -43,6 +43,24 @@ const errorResponses = {
       {
         keyword: 'Mismatch between STAC type and version',
         message: `The type "${type} is not used in STAC version "${version}".`,
+      },
+    ],
+  }),
+  malformedUrl: url => ({
+    success: false,
+    errors: [
+      {
+        keyword: 'Malformed URL',
+        message: `The url ${url} is invalid`,
+      },
+    ],
+  }),
+  unknownFileLocation: location => ({
+    success: false,
+    errors: [
+      {
+        keyword: 'file not found',
+        message: `The location ${location} is invalid`,
       },
     ],
   }),

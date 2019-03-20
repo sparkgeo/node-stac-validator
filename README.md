@@ -39,24 +39,29 @@ Validates a STAC asset from user-provided parsed object.
 | useRecursion | boolean | set to true if you want to traverse deeper than the initial file | no |
 | context | object | Not implemented. Intended for streaming results | _No_ |
 
-
 ## Intended Usage
 
 ### CLI
 
-`node-stacvalidator <url> <type> <version>`
+`stac-validator -l <location> -s <source> -v <version> -t <type>`
 
 ```sh
-stac-validator https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  catalog v0.6.0
+stac-validator -l https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  -s url -t catalog -v v0.6.0
 ```
 
-Until this is published, and if you're troubleshooting locally, use the following:
+If you're trying this locally, use the following:
 
 ```sh
-node ./src/index.js https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json catalog v0.6.2
+node ./src/index.js -l https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  -s url -t catalog -v v0.6.0
+```
+
+Similarly, if you're trying to get a file, use the following:
+```sh
+node ./src/index.js -l ./sample/test.json  -s file -t catalog -v v0.6.0
 ```
 
 ### Modules
+
 This will be subject to change until this is released on NPM
 
 ```js
@@ -109,7 +114,6 @@ A failure response shares the `success` and `verified_files` attributes. In addi
 
 The errors object is subject to change until the first stable release.
 
-
 ```js
   {
     success: false,
@@ -130,7 +134,7 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Initial Building
 - [x] Mock integration tests from requirements
 - [x] Set up and document entry point
-- [ ] Build CLI for files and urls
+- [x] Build CLI for files and urls
 - [ ] Recursion
 - [ ] Integrate with CircleCI
 - [ ] Publish into NPM on release
