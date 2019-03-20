@@ -47,7 +47,7 @@ Validates a STAC asset from user-provided parsed object.
 `node-stacvalidator <url> <type> <version>`
 
 ```sh
-node-stacvalidator https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  catalog v0.6.2
+stac-validator https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  catalog v0.6.0
 ```
 
 Until this is published, and if you're troubleshooting locally, use the following:
