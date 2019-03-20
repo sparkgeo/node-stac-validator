@@ -25,7 +25,7 @@
     "test": "jest src",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
     "transpile": "webpack",
-    "prepublishOnly": "npm run transpile"
+    "prepublishOnly": "npm run transpile && printf '%s\n%s\n' '#!/usr/bin/env node' '' \"$(cat dist/index.js)\" > dist/index.js"
   },
   "license": "Apache License 2.0",
   "dependencies": {
