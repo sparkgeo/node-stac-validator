@@ -20,18 +20,14 @@ const validateFromObject = async ({
     type,
   })
 
-  if (preflightErrors) {
-    return preflightErrors
-  } else {
-    return verifyAsset({
-      asset,
-      location,
-      useRecursion,
-      version,
-      context,
-      type,
-    }).catch(e => console.log('Error in validateFromObject -> ', e))
-  }
+  return preflightErrors || verifyAsset({
+    asset,
+    location,
+    useRecursion,
+    version,
+    context,
+    type,
+  }).catch(e => console.log('Error in validateFromObject -> ', e))
 }
 
 module.exports = validateFromObject
