@@ -140,6 +140,7 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Set up and document entry point
 - [x] Build CLI for files and urls
 - [ ] Recursion
+- [ ] Enforce rigidity of the context object.
 - [ ] Integrate with CircleCI
 - [ ] Use Circle CI for CD into NPM
 - [ ] Build support for previous and newer versions either than 0.6.0

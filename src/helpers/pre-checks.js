@@ -7,6 +7,7 @@ const {
   missingAsset,
 } = require('./error-responses')
 
+// Do not remove "url" or "asset". They are both used in the !eval statement
 const preChecks = async ({ type, version, url, asset, typeCheck } = {}) => {
   if (!type) return missingTypeAttribute
   if (!versions[version]) return unknownVersion(version)

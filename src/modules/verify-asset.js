@@ -2,15 +2,22 @@ require('babel-polyfill')
 
 const Ajv = require('ajv')
 const schemaVersions = require('../standard')
-const { get } = require('axios')
+const verifyNestedAssets = require('./verify-nested-assets')
 
-const verifyAsset = async ({
+/*
+ * verifyAsset
+ * Verifies STAC asset against a standard using AJV.
+ *
+ * returns { success: <Boolean>, responses: [ <Response Object> ] }
+ */
+
+const verifyAsset = async function({
   asset,
   location,
   version,
   context,
   type,
-} = {}) => {
+} = {}) {
   var response = {
     success: true,
     errors: [],
@@ -20,7 +27,6 @@ const verifyAsset = async ({
   // const ajv = new Ajv({ allErrors: true })
   const ajv = new Ajv({ logger: false })
   ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
-  let childAssets = []
   const schema = schemaVersions[version][type]
 
   const valid = ajv
@@ -36,51 +42,13 @@ const verifyAsset = async ({
   context.responses.push(response)
 
   if (context.checkNested && (type === 'collection' || type === 'catalog')) {
-    for (let link of asset.links) {
-      let canPursue = true
-      if (link.rel === 'item') {
-        const ajaxResponse = await get(link.href).catch(e => {
-          canPursue = false
-          response.errors.push({
-            keyword: 'Bad link',
-            message: `Unable to connect to ${link.href}`,
-          })
-        })
-
-        if (canPursue && ajaxResponse && ajaxResponse.data) {
-          childAssets.push(
-            verifyAsset({
-              type: 'item',
-              context,
-              version,
-              asset: ajaxResponse.data,
-            })
-          )
-        }
-      } else if (link.rel === 'child') {
-        let childType = link.type || type
-        const ajaxResponse = await get(link.href).catch(e => {
-          canPursue = false
-          response.errors.push({
-            keyword: 'Bad link',
-            message: `Unable to connect to ${link.href}`,
-          })
-        })
-
-        if (canPursue && ajaxResponse && ajaxResponse.data) {
-          childAssets.push(
-            verifyAsset({
-              type: childType,
-              context,
-              version,
-              asset: ajaxResponse.data,
-            })
-          )
-        }
-      }
-    }
-
-    response.errors.push(await Promise.all(childAssets))
+    return verifyNestedAssets({
+      asset,
+      location,
+      version,
+      context,
+      type,
+    })
   } else {
     return {
       success: context.success,
