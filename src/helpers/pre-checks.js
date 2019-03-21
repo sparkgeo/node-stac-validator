@@ -5,7 +5,6 @@ const {
   typeVersionMisMatch,
   incorrectType,
   missingAsset,
-  missingUrl,
 } = require('./error-responses')
 
 const preChecks = async ({ type, version, url, asset, typeCheck } = {}) => {
@@ -26,8 +25,8 @@ const preChecks = async ({ type, version, url, asset, typeCheck } = {}) => {
   ) {
     return incorrectType
   }
-  if (typeCheck === 'asset' && !asset) return missingAsset
-  if (typeCheck === 'url' && !url) return missingUrl
+  // eslint-disable-next-line
+  if (!eval(typeCheck)) return missingAsset({ type: typeCheck })
 
   return false
 }

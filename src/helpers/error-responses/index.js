@@ -1,8 +1,9 @@
 const errorResponses = {
-  missingAsset: {
+  missingAsset: ({ typeCheck } = {}) => ({
     keyword: 'Missing asset',
-    message: 'Requires asset to verify against',
-  },
+    message: `Requires ${() =>
+      typeCheck === 'url' ? 'url' : 'STAC asset'} to verify against`,
+  }),
   missingTypeAttribute: {
     keyword: 'Missing type attribute',
     message:
