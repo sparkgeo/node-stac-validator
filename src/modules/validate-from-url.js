@@ -5,12 +5,12 @@ const verifyAsset = require('./verify-asset.js')
 const validateFromUrl = async ({
   url,
   type,
-  version,
-  useRecursion,
+  version = 'v0.6.0',
+  useRecursion = false,
   context,
 } = {}) => {
-  version = version || 'v0.6.0'
-  context = context || baseContext
+  context =
+    { ...context, ...baseContext(useRecursion) } || baseContext(useRecursion)
 
   const preflightErrors = await preChecks({
     typeCheck: 'url',
@@ -26,7 +26,6 @@ const validateFromUrl = async ({
         return errorResponses.cannotConnectToEntryAsset(url)
       }),
       location: url,
-      useRecursion,
       version,
       context,
       type,

@@ -1,14 +1,12 @@
 require('babel-polyfill')
 
 const Ajv = require('ajv')
-// const { flatten } = require('lodash')
 const schemaVersions = require('../standard')
 const { get } = require('axios')
 
 const verifyAsset = async ({
   asset,
   location,
-  useRecursion,
   version,
   context,
   type,
@@ -16,6 +14,7 @@ const verifyAsset = async ({
   var response = {
     success: true,
     errors: [],
+    location,
   }
 
   // const ajv = new Ajv({ allErrors: true })
@@ -32,9 +31,11 @@ const verifyAsset = async ({
   if (!valid) {
     response.errors = ajv.errors
     response.success = false
+    context.success = false
   }
+  context.responses.push(response)
 
-  if (useRecursion && (type === 'collection' || type === 'catalog')) {
+  if (context.checkNested && (type === 'collection' || type === 'catalog')) {
     for (let link of asset.links) {
       let canPursue = true
       if (link.rel === 'item') {
@@ -52,7 +53,6 @@ const verifyAsset = async ({
               type: 'item',
               context,
               version,
-              useRecursion,
               asset: ajaxResponse.data,
             })
           )
@@ -73,7 +73,6 @@ const verifyAsset = async ({
               type: childType,
               context,
               version,
-              useRecursion,
               asset: ajaxResponse.data,
             })
           )
@@ -83,7 +82,10 @@ const verifyAsset = async ({
 
     response.errors.push(await Promise.all(childAssets))
   } else {
-    return response
+    return {
+      success: context.success,
+      responses: context.responses,
+    }
   }
 }
 

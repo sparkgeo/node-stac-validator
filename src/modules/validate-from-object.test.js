@@ -13,7 +13,6 @@ describe('Validate from Object', () => {
               type: 'item',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(Object.keys(response)).toContain('success')
@@ -25,7 +24,6 @@ describe('Validate from Object', () => {
               type: 'item',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(response.success).toBe(true)
@@ -37,10 +35,9 @@ describe('Validate from Object', () => {
               type: 'item',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
-            expect(Object.keys(response)).toContain('errors')
+            expect(Object.keys(response.responses[0])).toContain('errors')
           })
 
           describe('The errors property', () => {
@@ -50,10 +47,9 @@ describe('Validate from Object', () => {
                 type: 'item',
                 version: 'v0.6.0',
                 useRecursion: false,
-                context: {},
               })
 
-              expect(response.errors.length).toBe(0)
+              expect(response.responses[0].errors.length).toBe(0)
             })
           })
         })
@@ -66,7 +62,6 @@ describe('Validate from Object', () => {
               type: 'item',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(response.success).not.toBe(true)
@@ -80,10 +75,9 @@ describe('Validate from Object', () => {
               type: 'item',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
-            expect(Object.keys(response)).toContain('errors')
+            expect(Object.keys(response.responses[0])).toContain('errors')
           })
 
           // Fails. Unknown why at this time.
@@ -96,7 +90,7 @@ describe('Validate from Object', () => {
             //     type: 'item',
             //     version: 'v0.6.0',
             //     useRecursion: false,
-            //     context: {},
+            //
             //   })
             //   expect(response.errors.length).not.toBe(0)
             // })
@@ -112,7 +106,6 @@ describe('Validate from Object', () => {
               type: 'collection',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(Object.keys(response)).toContain('success')
@@ -124,7 +117,6 @@ describe('Validate from Object', () => {
               type: 'collection',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(response.success).toBe(true)
@@ -136,10 +128,9 @@ describe('Validate from Object', () => {
               type: 'collection',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
-            expect(Object.keys(response)).toContain('errors')
+            expect(Object.keys(response.responses[0])).toContain('errors')
           })
 
           describe('The errors property', () => {
@@ -149,10 +140,9 @@ describe('Validate from Object', () => {
                 type: 'collection',
                 version: 'v0.6.0',
                 useRecursion: false,
-                context: {},
               })
 
-              expect(response.errors.length).toBe(0)
+              expect(response.responses[0].errors.length).toBe(0)
             })
           })
         })
@@ -165,7 +155,6 @@ describe('Validate from Object', () => {
               type: 'collection',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(response.success).not.toBe(true)
@@ -179,10 +168,9 @@ describe('Validate from Object', () => {
               type: 'collection',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
-            expect(Object.keys(response)).toContain('errors')
+            expect(Object.keys(response.responses[0])).toContain('errors')
           })
 
           describe('The errors property', () => {
@@ -194,10 +182,9 @@ describe('Validate from Object', () => {
                 type: 'collection',
                 version: 'v0.6.0',
                 useRecursion: false,
-                context: {},
               })
 
-              expect(response.errors.length).not.toBe(0)
+              expect(response.responses[0].errors.length).not.toBe(0)
             })
           })
         })
@@ -211,7 +198,6 @@ describe('Validate from Object', () => {
               type: 'catalog',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(Object.keys(response)).toContain('success')
@@ -223,69 +209,50 @@ describe('Validate from Object', () => {
               type: 'catalog',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
             expect(response.success).toBe(true)
           })
 
-          it('Contains a errors property', async () => {
+          it('Contains a responses property', async () => {
             let response = await validateFromObject({
               asset: catalog(),
               type: 'catalog',
               version: 'v0.6.0',
               useRecursion: false,
-              context: {},
             })
 
-            expect(Object.keys(response)).toContain('errors')
+            expect(Object.keys(response)).toContain('responses')
           })
 
-          describe('The errors property', () => {
-            it('must be empty', async () => {
+          describe('The responses property', () => {
+            it('Contains a errors property', async () => {
               let response = await validateFromObject({
                 asset: catalog(),
                 type: 'catalog',
                 version: 'v0.6.0',
                 useRecursion: false,
-                context: {},
               })
 
-              expect(response.errors.length).toBe(0)
-            })
-          })
-        })
-        describe('With an invalid item', () => {
-          it('is not successful', async () => {
-            let response = await validateFromObject({
-              asset: catalog({
-                description: false,
-              }),
-              type: 'catalog',
-              version: 'v0.6.0',
-              useRecursion: false,
-              context: {},
+              expect(Object.keys(response.responses[0])).toContain('errors')
             })
 
-            expect(response.success).not.toBe(true)
-          })
+            describe('The errors property', () => {
+              it('must be empty', async () => {
+                let response = await validateFromObject({
+                  asset: catalog(),
+                  type: 'catalog',
+                  version: 'v0.6.0',
+                  useRecursion: false,
+                })
 
-          it('Contains a errors property', async () => {
-            let response = await validateFromObject({
-              asset: catalog({
-                description: false,
-              }),
-              type: 'catalog',
-              version: 'v0.6.0',
-              useRecursion: false,
-              context: {},
+                expect(response.responses[0].errors.length).toBe(0)
+              })
             })
-
-            expect(Object.keys(response)).toContain('errors')
           })
 
-          describe('The errors property', () => {
-            it('must be empty', async () => {
+          describe('With an invalid item', () => {
+            it('is not successful', async () => {
               let response = await validateFromObject({
                 asset: catalog({
                   description: false,
@@ -293,10 +260,37 @@ describe('Validate from Object', () => {
                 type: 'catalog',
                 version: 'v0.6.0',
                 useRecursion: false,
-                context: {},
               })
 
-              expect(response.errors.length).not.toBe(0)
+              expect(response.success).not.toBe(true)
+            })
+
+            it('Contains a errors property', async () => {
+              let response = await validateFromObject({
+                asset: catalog({
+                  description: false,
+                }),
+                type: 'catalog',
+                version: 'v0.6.0',
+                useRecursion: false,
+              })
+
+              expect(Object.keys(response.responses[0])).toContain('errors')
+            })
+
+            describe('The errors property', () => {
+              it('must not be empty', async () => {
+                let response = await validateFromObject({
+                  asset: catalog({
+                    description: false,
+                  }),
+                  type: 'catalog',
+                  version: 'v0.6.0',
+                  useRecursion: false,
+                })
+
+                expect(response.responses[0].errors.length).not.toBe(0)
+              })
             })
           })
         })

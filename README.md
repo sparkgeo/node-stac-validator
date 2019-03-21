@@ -11,7 +11,7 @@ Validates a spatial temporal catalog asset based on the specs laid out by [Radia
 
 ## Versions
 
-In order to denote compatability with the Stac specification, the first stable version will be 0.6.0, which is the latest version for STAC.
+In order to denote compatability with the Stac specification, the first stable version will match the first stable version of STAC
 
 ## Usage
 
@@ -71,7 +71,7 @@ This will be subject to change until this is released on NPM
     const type = 'catalog' // or 'item' or 'collection'
     const url = 'https//...'
 
-    const responseFromUrl = validateStacFromUrl({url, type, dig: true})
+    const responseFromUrl = validateStacFromUrl({url, type})
 
     (...)
 
@@ -79,24 +79,16 @@ This will be subject to change until this is released on NPM
     const collection = { ... } // stac collection
     const item = { ... } // stac item
 
-    const responseFromJsonItem = validateFromObject({item, dig: false})
-    const responseFromJsonCollection = validateFromObject({collection, dig: false})
-    const responseFromJsonCatalog = validateFromObject({catalog, dig: false})
+    const responseFromJsonItem = validateFromObject({asset: item, type: 'item'})
+    const responseFromJsonCollection = validateFromObject({asset: collection, type: 'collection'})
+    const responseFromJsonCatalog = validateFromObject({asset: catalog, type: 'catalog'})
 ```
 
-## Verification Responses
+There will be deep nested searching, to be released at a later date.
 
-At this point, there needs to be consistent responses that contain the following:
 
-- response consistency across catalog, collection, item
-- response contains type
-- response contains url source of stac catalog/collection/item
-- response contains line (future scope)
-- response contains message
-- top level element is an array of objects
-- response is flat regardless if content is nested
 
-## Examples
+## Example Responses
 
 ### Success
 
@@ -105,6 +97,13 @@ A successful response returns an object with a `success` boolean, as well as a `
 ```js
   {
     success: true,
+    responses: [
+      {
+        valid: true,
+        location: '<location of file>',
+        errors: []
+      }
+    ]
   }
 ```
 
@@ -112,16 +111,21 @@ A successful response returns an object with a `success` boolean, as well as a `
 
 A failure response shares the `success` and `verified_files` attributes. In addition, it adds a new attribute called `errors`. The errors object is flat, meaning that there should be no nester arrays of objects present.
 
-The errors object is subject to change until the first stable release.
+The errors object is subject to change until the first stable release, v0.7.0.
 
 ```js
   {
     success: false,
-    errors: [
+    responses: [
       {
-        type: '',
-        message: '',
-        url: '',
+        valid: false,
+        location: '<location of file>',
+        errors: [
+          {
+            keyword: '',
+            message: '',
+          }
+        ]
       }
     ]
   }
@@ -137,10 +141,11 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [x] Build CLI for files and urls
 - [ ] Recursion
 - [ ] Integrate with CircleCI
-- [ ] Publish into NPM on release
-- [ ] Integrate webpack to minimzie production build
 - [ ] Use Circle CI for CD into NPM
 - [ ] Build support for previous and newer versions either than 0.6.0
+- [ ] Example of push-polling
+- [x] Integrate webpack to minimzie production build
+- [x] Publish into NPM on release
 
 ## The Context Object
 

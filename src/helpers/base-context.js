@@ -1,7 +1,8 @@
-const baseContext = {
-  errorList: [],
-  indicateError: error => console.log(error),
-  indicateComplete: () => console.log('process finished'),
-}
+const baseContext = checkNested => ({
+  checkNested,
+  onFinish: null,
+  success: true,
+  responses: [],
+})
 
 module.exports = baseContext

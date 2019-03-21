@@ -12,19 +12,26 @@ const checkUrlGroup = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3}
 const checkValidUrl = url => checkUrlGroup.test(url)
 
 const successMessage = () => {
-  log(`${chalk.green('Success')} -> The STAC asset is valid`)
+  log(`${chalk.green('Success')} -> The STAC assets is valid`)
 }
 
-const failMessage = errors => {
-  errors.forEach(({ keyword, message }) => {
-    log(chalk.red(keyword))
-    log(message)
+const errorMessages = responses => {
+  log(`${chalk.red('Sorry')} -> The STAC assets are not all valid`)
+  log('=======================================================')
+  responses.forEach(({ valid, source, errors }) => {
+    log('Location -> ', source)
+    valid
+      ? log(chalk.green('This source is valid'))
+      : errors.forEach(({ keyword, message } = {}) => {
+        log(chalk.red(keyword))
+        log(message)
+      })
   })
   log('=======================================================')
 }
 
 const logMessage = response =>
-  response.success ? successMessage : failMessage(response.errors)
+  response.success ? successMessage : errorMessages(response.responses)
 
 const args = require('optimist')
   .usage('Validates a STAC asset.\nUsage: $0')
@@ -58,7 +65,16 @@ switch (args.s) {
         .then(logMessage)
         .catch(log)
     } else {
-      logMessage(malformedUrl(args.l))
+      logMessage({
+        success: false,
+        responses: [
+          {
+            source: args.l,
+            valid: false,
+            errors: [malformedUrl(args.l)],
+          },
+        ],
+      })
     }
     break
   case 'file':

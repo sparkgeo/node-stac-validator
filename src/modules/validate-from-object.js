@@ -4,14 +4,13 @@ const verifyAsset = require('./verify-asset.js')
 const validateFromObject = async ({
   asset,
   type,
-  version,
+  version = 'v0.6.0',
   useRecursion,
   context,
 } = {}) => {
-  version = version || 'v0.6.0'
-  context = context || baseContext
-  // eslint-disable-next-line
-  const location = 'json'
+  context =
+    { ...context, ...baseContext(useRecursion) } || baseContext(useRecursion)
+  const location = 'Local data'
 
   const preflightErrors = await preChecks({
     typeCheck: 'asset',
@@ -20,14 +19,17 @@ const validateFromObject = async ({
     type,
   })
 
-  return preflightErrors || verifyAsset({
-    asset,
-    location,
-    useRecursion,
-    version,
-    context,
-    type,
-  }).catch(e => console.log('Error in validateFromObject -> ', e))
+  return (
+    preflightErrors ||
+    verifyAsset({
+      asset,
+      location,
+      useRecursion,
+      version,
+      context,
+      type,
+    }).catch(e => console.log('Error in validateFromObject -> ', e))
+  )
 }
 
 module.exports = validateFromObject
