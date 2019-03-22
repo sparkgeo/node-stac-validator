@@ -10,3 +10,5 @@ scratch.txt
 sample
 factories
 coverage
+.eslintrc
+.prettierrc
