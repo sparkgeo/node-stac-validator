@@ -19,7 +19,7 @@ const verifyAsset = async function({
   type,
 } = {}) {
   var response = {
-    success: true,
+    valid: true,
     errors: [],
     location,
   }
@@ -36,7 +36,7 @@ const verifyAsset = async function({
 
   if (!valid) {
     response.errors = ajv.errors
-    response.success = false
+    response.valid = false
     context.success = false
   }
   context.responses.push(response)
