@@ -71,7 +71,7 @@ This will be subject to change until this is released on NPM
     const type = 'catalog' // or 'item' or 'collection'
     const url = 'https//...'
 
-    const responseFromUrl = validateStacFromUrl({url, type})
+    const responseFromUrl = validateFromUrl({url, type})
 
     (...)
 

@@ -14,7 +14,7 @@
     "earth observation",
     "geospatial"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
     "stac-validator": "./dist/index.js"
   },
