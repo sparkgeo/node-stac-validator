@@ -1,123 +1,123 @@
 module.exports = {
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "$id": "item.json#",
-  "title": "STAC Item",
-  "type": "object",
-  "description": "This object represents the metadata for an item in a SpatioTemporal Asset Catalog.",
-  "additionalProperties": true,
-  "allOf": [
+  '$schema': 'http://json-schema.org/draft-06/schema#',
+  '$id': 'item.json#',
+  'title': 'STAC Item',
+  'type': 'object',
+  'description': 'This object represents the metadata for an item in a SpatioTemporal Asset Catalog.',
+  'additionalProperties': true,
+  'allOf': [
     {
-      "$ref": "#/definitions/core"
-    }
+      '$ref': '#/definitions/core',
+    },
   ],
-  "definitions": {
-    "core": {
-      "allOf": [
+  'definitions': {
+    'core': {
+      'allOf': [
         {
-          "oneOf": [
+          'oneOf': [
             {
-              "$ref": "geojson.json#/definitions/feature"
-            }
-          ]
+              '$ref': 'geojson.json#/definitions/feature',
+            },
+          ],
         },
         {
-          "type": "object",
-          "required": [
-            "id",
-            "type",
-            "geometry",
-            "links",
-            "assets",
-            "bbox",
-            "properties"
+          'type': 'object',
+          'required': [
+            'id',
+            'type',
+            'geometry',
+            'links',
+            'assets',
+            'bbox',
+            'properties',
           ],
-          "properties": {
-            "id": {
-              "title": "Provider ID",
-              "description": "Provider item ID",
-              "type": "string"
+          'properties': {
+            'id': {
+              'title': 'Provider ID',
+              'description': 'Provider item ID',
+              'type': 'string',
             },
-            "links": {
-              "title": "Item links",
-              "description": "Links to item relations",
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/link"
-              }
-            },
-            "assets": {
-              "title": "Asset links",
-              "description": "Links to assets",
-              "type": "object",
-              "patternProperties": {
-                ".+": {
-                  "$ref": "#/definitions/asset"
-                }
+            'links': {
+              'title': 'Item links',
+              'description': 'Links to item relations',
+              'type': 'array',
+              'items': {
+                '$ref': '#/definitions/link',
               },
-              "additionalProperties": false
             },
-            "properties": {
-              "type": "object",
-              "required": [
-                "datetime"
+            'assets': {
+              'title': 'Asset links',
+              'description': 'Links to assets',
+              'type': 'object',
+              'patternProperties': {
+                '.+': {
+                  '$ref': '#/definitions/asset',
+                },
+              },
+              'additionalProperties': false,
+            },
+            'properties': {
+              'type': 'object',
+              'required': [
+                'datetime',
               ],
-              "properties": {
-                "datetime": {
-                  "title": "Date and Time",
-                  "description": "The searchable date/time of the assets, in UTC (Formatted in RFC 3339) ",
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    "link": {
-      "type": "object",
-      "required": [
-        "rel",
-        "href"
+              'properties': {
+                'datetime': {
+                  'title': 'Date and Time',
+                  'description': 'The searchable date/time of the assets, in UTC (Formatted in RFC 3339) ',
+                  'type': 'string',
+                  'format': 'date-time',
+                },
+              },
+            },
+          },
+        },
       ],
-      "properties": {
-        "href": {
-          "title": "Link reference",
-          "type": "string"
-        },
-        "rel": {
-          "title": "Link relation type",
-          "type": "string"
-        },
-        "type": {
-          "title": "Link type",
-          "type": "string"
-        },
-        "title": {
-          "title": "Link title",
-          "type": "string"
-        }
-      }
     },
-    "asset": {
-      "type": "object",
-      "required": [
-        "href"
+    'link': {
+      'type': 'object',
+      'required': [
+        'rel',
+        'href',
       ],
-      "properties": {
-        "href": {
-          "title": "Asset reference",
-          "type": "string"
+      'properties': {
+        'href': {
+          'title': 'Link reference',
+          'type': 'string',
         },
-        "title": {
-          "title": "Asset title",
-          "type": "string"
+        'rel': {
+          'title': 'Link relation type',
+          'type': 'string',
         },
-        "type": {
-          "title": "Asset type",
-          "type": "string"
-        }
-      }
-    }
-  }
+        'type': {
+          'title': 'Link type',
+          'type': 'string',
+        },
+        'title': {
+          'title': 'Link title',
+          'type': 'string',
+        },
+      },
+    },
+    'asset': {
+      'type': 'object',
+      'required': [
+        'href',
+      ],
+      'properties': {
+        'href': {
+          'title': 'Asset reference',
+          'type': 'string',
+        },
+        'title': {
+          'title': 'Asset title',
+          'type': 'string',
+        },
+        'type': {
+          'title': 'Asset type',
+          'type': 'string',
+        },
+      },
+    },
+  },
 }
