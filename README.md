@@ -145,8 +145,9 @@ the following is the progress of this progress. Because, at this point, it is a 
 - [ ] Use Circle CI for CD into NPM
 - [ ] Build support for previous and newer versions either than 0.6.0
 - [ ] Example of push-polling
-- [x] Integrate webpack to minimzie production build
-- [x] Publish into NPM on release
+- [x] Remove webpack for production build
+- [ ] Remove CLI
+- [ ] Publish into NPM on release
 
 ## The Context Object
 
