@@ -1,7 +1,7 @@
 {
   "name": "stac-validator",
   "author": "Sparkgeo <hi@sparkgeo.com>",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "github",
     "url": "https://github.com/sparkgeo/node-stacvalidator"
@@ -23,9 +23,9 @@
     "prettier": "prettier -- --write -l --loglevel error 'src/**/*.js'",
     "lint": "node_modules/.bin/eslint src/ --fix --ext .js",
     "test": "jest src",
+    "build": "babel src --out-dir dist",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
-    "transpile": "webpack",
-    "prepublishOnly": "npm run transpile && printf '%s\n%s\n' '#!/usr/bin/env node' '' \"$(cat dist/index.js)\" > dist/index.js"
+    "prepublishOnly": "npm run build && printf '%s\n%s\n' '#!/usr/bin/env node' '' \"$(cat dist/index.js)\" > dist/index.js"
   },
   "license": "Apache License 2.0",
   "dependencies": {
@@ -38,6 +38,7 @@
     "ramda": "^0.26.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.3",
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-regenerator": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
@@ -51,9 +52,7 @@
     "faker": "^4.1.0",
     "husky": "^1.2.1",
     "jest": "^24.5.0",
-    "prettier": "^1.15.3",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "prettier": "^1.15.3"
   },
   "husky": {
     "hooks": {
