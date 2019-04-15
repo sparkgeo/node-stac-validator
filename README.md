@@ -41,25 +41,6 @@ Validates a STAC asset from user-provided parsed object.
 
 ## Intended Usage
 
-### CLI
-
-`stac-validator -l <location> -s <source> -v <version> -t <type>`
-
-```sh
-stac-validator -l https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  -s url -t catalog -v v0.6.0
-```
-
-If you're trying this locally, use the following:
-
-```sh
-node ./src/index.js -l https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json  -s url -t catalog -v v0.6.0
-```
-
-Similarly, if you're trying to get a file, use the following:
-```sh
-node ./src/index.js -l ./sample/test.json  -s file -t catalog -v v0.6.0
-```
-
 ### Modules
 
 This will be subject to change until this is released on NPM
@@ -85,8 +66,6 @@ This will be subject to change until this is released on NPM
 ```
 
 There will be deep nested searching, to be released at a later date.
-
-
 
 ## Example Responses
 
