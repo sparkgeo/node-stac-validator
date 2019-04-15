@@ -2,7 +2,6 @@ src
 examples
 .babelrc
 .gitignore
-webpack.config.js
 factories
 .vscode
 scratch.txt
@@ -11,4 +10,6 @@ sample
 factories
 coverage
 .eslintrc
+.eslintignore
+CONTIBUTING.md
 .prettierrc

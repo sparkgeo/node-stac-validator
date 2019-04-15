@@ -1,7 +1,7 @@
 {
   "name": "stac-validator",
   "author": "Sparkgeo <hi@sparkgeo.com>",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "repository": {
     "type": "github",
     "url": "https://github.com/sparkgeo/node-stacvalidator"
@@ -29,6 +29,7 @@
   },
   "license": "Apache License 2.0",
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
     "ajv": "^6.6.2",
     "axios": "^0.18.0",
     "chalk": "^2.4.2",
@@ -43,7 +44,6 @@
     "@babel/plugin-transform-regenerator": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
-    "babel-polyfill": "^6.26.0",
     "eslint": "^5.10.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.1.2",

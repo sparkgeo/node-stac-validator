@@ -1,5 +1,3 @@
-require('babel-polyfill')
-
 const { get } = require('axios')
 const verifyAsset = require('./verify-asset')
 

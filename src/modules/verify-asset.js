@@ -1,5 +1,3 @@
-require('babel-polyfill')
-
 const Ajv = require('ajv')
 const schemaVersions = require('../standard')
 const verifyNestedAssets = require('./verify-nested-assets')
