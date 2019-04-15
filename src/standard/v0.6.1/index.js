@@ -3,5 +3,5 @@ module.exports = {
   item: require('./stac-item'),
   catalog: require('./catalog'),
   collection: require('./collection'),
-  'stac-item': false,
+  'stac-item': require('./stac-item'),
 }

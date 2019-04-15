@@ -19,18 +19,25 @@ const validateFromUrl = async ({
     type,
   })
 
-  return (
-    preflightErrors ||
-    verifyAsset({
-      asset: await get(url).catch(e => {
-        return errorResponses.cannotConnectToEntryAsset(url)
-      }),
-      location: url,
-      version,
-      context,
-      type,
-    }).catch(e => console.log('Error in validateFromObject -> ', e))
-  )
+  if (preflightErrors) {
+    return {
+      valid: false,
+      responses: [preflightErrors],
+    }
+  }
+
+  const response = await get(url).catch(e => {
+    return errorResponses.cannotConnectToEntryAsset(url)
+  })
+  const { data: asset } = response
+
+  return verifyAsset({
+    asset,
+    location: url,
+    version,
+    context,
+    type,
+  }).catch(e => console.log('Error in validateFromObject -> ', e))
 }
 
 module.exports = validateFromUrl
