@@ -5,7 +5,7 @@ const verifyAsset = require('./verify-asset.js')
 const validateFromUrl = async ({
   url,
   type,
-  version = 'v0.6.0',
+  version = 'v0.7.0',
   useRecursion = false,
   context,
 } = {}) => {
