@@ -8,6 +8,11 @@ const verifyNestedAssets = require('./verify-nested-assets')
  *
  * returns { success: <Boolean>, responses: [ <Response Object> ] }
  */
+const baseResponseObject = location => ({
+  valid: true,
+  errors: [],
+  location,
+})
 
 const verifyAsset = async function({
   asset,
@@ -16,15 +21,13 @@ const verifyAsset = async function({
   context,
   type,
 } = {}) {
-  var response = {
-    valid: true,
-    errors: [],
-    location,
-  }
+  const response = baseResponseObject(location)
 
   // const ajv = new Ajv({ allErrors: true })
   const ajv = new Ajv({ logger: false })
   ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'))
+
+  // Pulls the appropriate schema from the "standard" directory
   const schema = schemaVersions[version][type]
 
   const valid = ajv

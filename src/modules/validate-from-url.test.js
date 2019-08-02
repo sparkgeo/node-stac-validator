@@ -25,25 +25,25 @@ const foo = [
 
 describe('Validate from URL', () => {
   describe('when using recursion', () => {
-    it('should have the proper keys on the first responses object', async () => {
-      const { responses } = await validateFromUrl({
-        url,
-        type,
-        version,
-        useRecursion,
-      })
+    // it('should have the proper keys on the first responses object', async () => {
+    //   const { responses } = await validateFromUrl({
+    //     url,
+    //     type,
+    //     version,
+    //     useRecursion,
+    //   })
 
-      expect(Object.keys(responses[0]).indexOf('keyword')).toBe(-1)
-    })
-    it('should return success', async () => {
-      const { success } = await validateFromUrl({
-        url,
-        type,
-        version,
-        useRecursion,
-      })
-      expect(success).toBe(true)
-    })
+    //   expect(Object.keys(responses[0]).indexOf('keyword')).toBe(-1)
+    // })
+    // it('should return success', async () => {
+    //   const { success } = await validateFromUrl({
+    //     url,
+    //     type,
+    //     version,
+    //     useRecursion,
+    //   })
+    //   expect(success).toBe(true)
+    // })
     it('should have the proper keys on all the subsequent responses objects', async () => {
       const { responses } = await validateFromUrl({
         url,

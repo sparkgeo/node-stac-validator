@@ -1,6 +1,5 @@
 const { get } = require('axios')
 const verifyAsset = require('./verify-asset')
-
 /*
  * checkNestedAssets
  * Sets up multiple instances of the `verifyAsset` function.
@@ -16,11 +15,17 @@ const verifyNestedAssets = async function({
   context,
   type,
 } = {}) {
+  const baseLocGp = /(https?:\/\/.*\/).*\.json$/
+  const baseLocation = location.match(baseLocGp)[1]
+
   let childAssets = []
   for (let link of asset.links) {
     let canPursue = true
+    location = link.href.match(/https?:\/\//)
+      ? link.href
+      : `${baseLocation}${link.href}`
     if (link.rel === 'item') {
-      const ajaxResponse = await get(link.href).catch(e => {
+      const ajaxResponse = await get(location).catch(e => {
         canPursue = false
         context.success = false
         context.responses.push({
@@ -28,7 +33,7 @@ const verifyNestedAssets = async function({
           errors: [
             {
               keyword: 'Bad link',
-              message: `Unable to connect to ${link.href}`,
+              message: `Unable to connect to ${location}`,
             },
           ],
         })
@@ -40,13 +45,15 @@ const verifyNestedAssets = async function({
             type: 'item',
             context,
             version,
+            location,
             asset: ajaxResponse.data,
           })
         )
       }
     } else if (link.rel === 'child') {
       let childType = link.type || type
-      const ajaxResponse = await get(link.href).catch(e => {
+      console.log('Attempting location - ', location)
+      const { data: asset } = await get(location).catch(e => {
         canPursue = false
         context.success = false
         context.responses.push({
@@ -55,13 +62,14 @@ const verifyNestedAssets = async function({
         })
       })
 
-      if (canPursue && ajaxResponse && ajaxResponse.data) {
+      if (canPursue && asset) {
         childAssets.push(
           verifyAsset({
             type: childType,
+            location,
             context,
             version,
-            asset: ajaxResponse.data,
+            asset,
           })
         )
       }

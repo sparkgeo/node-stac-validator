@@ -126,3 +126,33 @@ The context object allows for real-time operations such as streaming. _This is i
 ## Sample Catalog
 
 https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json
+
+## Internal Testing
+
+To test this library internally, open the node REPL from the base directory of this repository
+
+```sh
+ $ node
+ ```
+
+ From within, you will be able to access the library with the following commands:
+
+ ```js
+      const { validateFromUrl, validateFromObject } = require('./src/index.js')
+      let url = 'https://cbers-stac.s3.amazonaws.com/CBERS4/catalog.json'
+      let type = 'catalog'
+      let version = '0.5.2'
+      let useRecursion = true
+
+
+      validateFromUrl({url, type, version, useRecursion})
+        .then(result => {
+          console.log('Response -> ', response)
+          })
+        .catch(e => {
+          console.log('Error -> ', e)
+        })
+
+      // Check the response after
+
+ ```

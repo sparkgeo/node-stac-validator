@@ -23,6 +23,7 @@
     "prettier": "prettier -- --write -l --loglevel error 'src/**/*.js'",
     "lint": "node_modules/.bin/eslint src/ --fix --ext .js",
     "test": "jest src",
+    "test:example": "node ./example",
     "build": "babel src --out-dir dist",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
     "prepublishOnly": "npm run build && printf '%s\n%s\n' '#!/usr/bin/env node' '' \"$(cat dist/index.js)\" > dist/index.js"
