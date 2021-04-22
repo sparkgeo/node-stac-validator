@@ -1,3 +1,8 @@
+# Abandoned
+
+Please use https://github.com/stac-utils/stac-node-validator to validate STAC using Node
+
+
 # NodeJS Stac Validator
 
 Validates a spatial temporal catalog asset based on the specs laid out by [Radiant Earth](https://github.com/radiantearth/stac-spec/tree/v0.6.0).
